@@ -9,17 +9,17 @@ public class MainMenuController : MonoBehaviour
     public GameObject difficulties;
     public GameObject audioMenu;
     public GameObject videoMenu;
-    public Slider musicSlider, sfxSlider;
+    //public Slider musicSlider, sfxSlider;
 
-    public Dropdown resolutionDropdown;
-    Resolution[] resolutions;
+    //public Dropdown resolutionDropdown;
+    //Resolution[] resolutions;
 
     void Start()
     {
         //musicSlider.value = PlayerPrefs.GetFloat("music", 0.75f);
         //sfxSlider.value = PlayerPrefs.GetFloat("sfx", 0.75f);
 
-        resolutions = Screen.resolutions;
+       /* resolutions = Screen.resolutions;
         resolutionDropdown.ClearOptions();
         List<string> choices = new List<string>();
         int currentResolutionIndex = 0;
@@ -37,7 +37,7 @@ public class MainMenuController : MonoBehaviour
 
         resolutionDropdown.AddOptions(choices);
         resolutionDropdown.value = currentResolutionIndex;
-        resolutionDropdown.RefreshShownValue();
+        resolutionDropdown.RefreshShownValue();*/
     }
 
     public void startButton()
@@ -66,7 +66,7 @@ public class MainMenuController : MonoBehaviour
         mainMenu.SetActive(false);
     }
 
-    public void setFullscreen(bool isFullscreen)
+    /*public void setFullscreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
     }
@@ -75,7 +75,7 @@ public class MainMenuController : MonoBehaviour
     {
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
-    }
+    }*/
 
     public void MenuBackButton()
     {
