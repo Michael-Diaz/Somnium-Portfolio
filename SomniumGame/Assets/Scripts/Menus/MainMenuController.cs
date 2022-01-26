@@ -1,25 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
-    public GameObject mainMenu;
-    public GameObject optionsMenu;
-    public GameObject difficulties;
-    public GameObject audioMenu;
-    public GameObject videoMenu;
     //public Slider musicSlider, sfxSlider;
 
-    //public Dropdown resolutionDropdown;
-    //Resolution[] resolutions;
+    [Header("Graphics Settings")]
+    [SerializeField] private Dropdown resolutionDropdown;
+    [SerializeField] private Resolution[] resolutions;
+    [SerializeField] private Dropdown qualityDropdown;
+    [SerializeField] private Slider brightnessSlider;
+
+    //private int _brightnessLevel;
+
 
     void Start()
     {
         //musicSlider.value = PlayerPrefs.GetFloat("music", 0.75f);
         //sfxSlider.value = PlayerPrefs.GetFloat("sfx", 0.75f);
 
-       /* resolutions = Screen.resolutions;
+        resolutions = Screen.resolutions;
         resolutionDropdown.ClearOptions();
         List<string> choices = new List<string>();
         int currentResolutionIndex = 0;
@@ -28,70 +31,39 @@ public class MainMenuController : MonoBehaviour
             string choice = resolutions[i].width + "x" + resolutions[i].height;
             choices.Add(choice);
 
-            if ((resolutions[i].width == Screen.currentResolution.width) && (resolutions[i].height == Screen.currentResolution.height))
+            if ((resolutions[i].width == Screen.width) && (resolutions[i].height == Screen.height))
             {
                 currentResolutionIndex = i;
             }
         }
 
-
         resolutionDropdown.AddOptions(choices);
         resolutionDropdown.value = currentResolutionIndex;
-        resolutionDropdown.RefreshShownValue();*/
+        resolutionDropdown.RefreshShownValue();
     }
 
-    public void startButton()
+    public void SetResolution(int resolutionIndex)
     {
-        mainMenu.SetActive(false);
-        difficulties.SetActive(true);
+        Resolution resolution = resolutions[resolutionIndex];
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
-
-    public void optionsButton()
+    
+    public void SetBrightness(int brightness)
     {
-        mainMenu.SetActive(false);
-        optionsMenu.SetActive(true);
+        PlayerPrefs.SetInt("brightnessLevel", brightness);
     }
 
-    public void videoButton()
+    public void SetQuality(int quality)
     {
-        videoMenu.SetActive(true);
-        optionsMenu.SetActive(false);
-        mainMenu.SetActive(false);
+        PlayerPrefs.SetInt("qualityLevel", quality);
     }
 
-    public void audioButton()
-    {
-        audioMenu.SetActive(true);
-        optionsMenu.SetActive(false);
-        mainMenu.SetActive(false);
-    }
-
-    /*public void setFullscreen(bool isFullscreen)
+    public void SetFullscreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
     }
 
-    public void setResolution(int resolutionIndex)
-    {
-        Resolution resolution = resolutions[resolutionIndex];
-        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
-    }*/
-
-    public void MenuBackButton()
-    {
-        mainMenu.SetActive(true);
-        difficulties.SetActive(false);
-        optionsMenu.SetActive(false);
-    }
-
-    public void optionsBackButton()
-    {
-        videoMenu.SetActive(false);
-        audioMenu.SetActive(false);
-        mainMenu.SetActive(false);
-        optionsMenu.SetActive(true);
-    }
-    public void ExitGameButton()
+    public void ExitGame()
     {
         Application.Quit();
     }
