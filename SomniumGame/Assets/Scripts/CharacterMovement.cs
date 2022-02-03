@@ -2,49 +2,42 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    public float moveSpeed;
-    public float jumpForce;
+    public float moveSpeed = 1.5f;
+    public float jumpForce = 3.0f;
     private float moveInput;
 
-    private Rigidbody2D rb;
+    private Rigidbody rb;
     
     private bool rightOriented = true;
 
-    private bool isGrounded;
+    private bool isGrounded = true;
+
     private bool isStealthed = false;
-    public Transform groundCheck;
-    public float checkRadius;
-    public LayerMask whatIsGround;
-    private int numJumps;
-    public int extraJumps;
+    private bool isSprinting = false;
+    private float speedMult = 1.0f;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        numJumps = extraJumps;
-        rb = GetComponent<Rigidbody2D>();    
+        rb = GetComponent<Rigidbody>();    
     }
 
     void FixedUpdate()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
+        isGrounded = Physics.Raycast(transform.position, -Vector3.up, 1.1f);
+        moveInput = Input.GetAxisRaw("Horizontal");
 
-        moveInput = Input.GetAxis("Horizontal");
         if (isStealthed)
-        {
-            rb.velocity = new Vector2(moveInput * moveSpeed * 0.5F, rb.velocity.y);
-        }
+            speedMult = 0.5f;
+        else if (isSprinting)
+            speedMult = 1.75f;
         else
-        {
-            rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
-        }
+            speedMult = 1.0f;
 
-        if (!rightOriented && moveInput > 0)
-        {
-            Flip();
-        }
-        else if (rightOriented && moveInput < 0)
+        rb.velocity = new Vector2(moveInput * moveSpeed * speedMult, rb.velocity.y);
+
+        if ((!rightOriented && moveInput > 0) || (rightOriented && moveInput < 0))
         {
             Flip();
         }
@@ -55,24 +48,17 @@ public class CharacterMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             isStealthed = !isStealthed;
+            isSprinting = false;
+        }
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            isSprinting = !isSprinting;
+            isStealthed = false;
         }
 
-        if(isGrounded)
+        if(Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            numJumps = extraJumps;
-        }
-
-        if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            if (numJumps > 0)
-            {
-                rb.velocity = Vector2.up * jumpForce;
-                numJumps--;
-            }
-            else if (numJumps == 0 && isGrounded)
-            {
-                rb.velocity = Vector2.up * jumpForce;
-            }
+            rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
         }
         
     }
@@ -80,10 +66,7 @@ public class CharacterMovement : MonoBehaviour
     void Flip()
     {
         rightOriented = !rightOriented;
-        Vector3 Scales = transform.localScale;
-
-        Scales.x *= -1;
-        transform.localScale = Scales;
+        transform.localScale = new Vector3(transform.localScale.x * -1, 1.5f, 1.0f);
     }
 
 }
