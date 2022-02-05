@@ -271,11 +271,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 610917877}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de1b4b4b3414f7b47818fc7becb39ee2, type: 3}
+  m_Script: {fileID: 11500000, guid: 92797915e6b29734784b59db122bd668, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  footageImage: {fileID: 610917880}
-  footageDimensions: {fileID: 610917882}
+  rawImage: {fileID: 610917880}
+  dummyModel: {fileID: 5022602860645237092, guid: bcdfa58053f423640ba44b5cf6e26140, type: 3}
 --- !u!114 &610917880
 MonoBehaviour:
   m_ObjectHideFlags: 0
