@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Stalker : MonoBehaviour
 {
-
     public float stalkerSpeed;
     public float stalkerStoppingRadius;
 
