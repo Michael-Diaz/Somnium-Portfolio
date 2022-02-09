@@ -16,7 +16,8 @@ using Unity.Barracuda;
 public class EmotionModel : MonoBehaviour
 {
     public RawImage rawImage;
-    public NNModel dummyModel;
+    public NNModel model;
+    public int predIndex; // output
 
     private WebCamTexture camTexture;
 
@@ -38,46 +39,57 @@ public class EmotionModel : MonoBehaviour
             camTexture.Play();
     }
 
-    Texture2D Reshape(Texture2D texture2D, int targetX, int targetY)
-    {
-        RenderTexture rt=new RenderTexture(targetX, targetY,24);
-        RenderTexture.active = rt;
-        Graphics.Blit(texture2D,rt);
-        Texture2D result=new Texture2D(targetX,targetY);
-        result.ReadPixels(new Rect(0,0,targetX,targetY),0,0);
-        result.Apply();
-        return result;
-    }
-
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("");
-        Debug.Log("");
-        Debug.Log("");
-        Debug.Log("EmotionModel Update Called");
+        Debug.Log(" EmotionModel Update Called ====================================");
 
         // Create worker for the model
-        IWorker worker = dummyModel.CreateWorker();
+        IWorker worker = model.CreateWorker();
 
-        // Crop the image to 224
-        Color[] c = camTexture.GetPixels(0, 0, 224, 224);
-        Texture2D inputImage = new Texture2D(224, 224);
+        /*
+        // Convert camera input directly into a texture
+        Texture2D tx2d  = new Texture2D(camTexture.width, camTexture.height);
+        tx2d.SetPixels(camTexture.GetPixels());
+        tx2d.Apply();
+        */
+        
+        // Crop image to fit input
+        Color[] pixels = camTexture.GetPixels();
+        int size = 64;
+        Texture2D tx2d  = new Texture2D(size, size);
+        tx2d.SetPixels(pixels);
+        tx2d.Apply();
 
-        // Fill the input image with the pixels
-        inputImage.SetPixels(c);
-        inputImage.Apply();
-
-        // Get the input tensor
-        Tensor inputTensor = new Tensor(inputImage, 3);
+        // Create input tensor from tx2d
+        int channelCount = 1; // you can treat input pixels as 1 (grayscale), 3 (color) or 4 (color with alpha) channels
+        Tensor inputTensor = new Tensor(tx2d, channelCount);
 
         // Input the tensor and get the output
         Tensor outputPreds = worker.Execute(inputTensor).PeekOutput();
 
         // Access values of the output tensor causing the main thread to block until neural network execution is done
-        int predIndex = outputPreds.ArgMax()[0];
+        predIndex = outputPreds.ArgMax()[0];
+
+        // neutral=0, happiness=1, surprise=2, sadness=3, anger=4, disgust=5, fear=6, contempt=7
         
-        Debug.Log($"Predicted Index: {predIndex}");
+        if (predIndex==0)
+            Debug.Log($"Predicted Index: {predIndex} (neutral)");
+        else if (predIndex==1)
+            Debug.Log($"Predicted Index: {predIndex} (happiness)");
+        else if (predIndex==2)
+            Debug.Log($"Predicted Index: {predIndex} (surprise)");
+        else if (predIndex==3)
+            Debug.Log($"Predicted Index: {predIndex} (sadness)");
+        else if (predIndex==4)
+            Debug.Log($"Predicted Index: {predIndex} (anger)");
+        else if (predIndex==5)
+            Debug.Log($"Predicted Index: {predIndex} (disgust)");
+        else if (predIndex==6)
+            Debug.Log($"Predicted Index: {predIndex} (fear)");
+        else if (predIndex==7)
+            Debug.Log($"Predicted Index: {predIndex} (contempt)");
+
         Debug.Log($"Prediction Confidence: {outputPreds[predIndex]}");
 
         // Disposes
@@ -87,9 +99,9 @@ public class EmotionModel : MonoBehaviour
             Debug.Log("Failed to dispose of worker IWorker (does worker exist?).");
         }
         try {
-            Destroy(inputImage);
+            Destroy(tx2d);
         } catch (NullReferenceException e) {
-            Debug.Log("Failed to dispose of inputImage Texture2D (does inputImage exist?).");
+            Debug.Log("Failed to dispose of tx2d Texture2D (does tx2d exist?).");
         }
         try {
             inputTensor.Dispose();
