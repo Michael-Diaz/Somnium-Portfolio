@@ -234,8 +234,8 @@ GameObject:
   - component: {fileID: 610917878}
   - component: {fileID: 610917881}
   - component: {fileID: 610917880}
-  - component: {fileID: 610917882}
   - component: {fileID: 610917879}
+  - component: {fileID: 610917882}
   m_Layer: 5
   m_Name: RawImage
   m_TagString: Untagged
@@ -275,8 +275,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rawImage: {fileID: 610917880}
-  model: {fileID: 5022602860645237092, guid: b1ef2b3c2a980054596ae9f17e42fcb0, type: 3}
-  predIndex: 0
+  modelAsset: {fileID: 5022602860645237092, guid: b1ef2b3c2a980054596ae9f17e42fcb0, type: 3}
+  prediction: 0
+  preds: []
 --- !u!114 &610917880
 MonoBehaviour:
   m_ObjectHideFlags: 0
