@@ -23,6 +23,8 @@ public class EmotionDetection : MonoBehaviour
     private WebCamTexture _camTexture;
     private Model _runtimeModel;
     private IWorker _engine;
+    
+    public AspectRatioFitter footageDimensions;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +42,9 @@ public class EmotionDetection : MonoBehaviour
         if (_camTexture != null)
             Debug.Log($"Streaming [{cam_devices[0].name}]");
             _camTexture.Play();
+        
+        float videoRatio = (float)_camTexture.width / (float)_camTexture.height;
+        footageDimensions.aspectRatio = videoRatio;
         
         // Set up the model
         _runtimeModel = ModelLoader.Load(modelAsset);

@@ -11,6 +11,7 @@ public class Player_Movement : MonoBehaviour
     private bool rightOriented = true;
 
     private bool isGrounded = true;
+    public bool byStairs = false;
 
     private bool isStealthed = false;
     private bool isSprinting = false;
