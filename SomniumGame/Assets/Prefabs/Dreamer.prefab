@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8214181622328272645}
   m_Layer: 0
   m_Name: Dreamer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -139,12 +139,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 8214181622328272640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d3b87bab816c4e408df3067130e821c, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e25094626719ae469623a0ab108ae53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1.75
+  health: 0
+  moveSpeed: 1.5
   jumpForce: 3
+  sightRange: 0
+  hearingRange: 0
+  soundRadius: 0
+  visibilityRadius: 0
   byStairs: 0
+  currentFloor: 0
+  isStealthed: 0
+  isSprinting: 0
+  isGrounded: 1
+  isInDanger: 0
 --- !u!1 &8214181623310667708
 GameObject:
   m_ObjectHideFlags: 0
