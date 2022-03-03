@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyRandomSpawner : MonoBehaviour
 {
-    public string spawnPointTag = "sometag";
+    public string spawnPointTag = "SpawnPoint";
 	public bool alwaysSpawn = true;
 	
 	public List<GameObject> prefabsToSpawn;

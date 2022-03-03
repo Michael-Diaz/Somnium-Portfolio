@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,12 +20,14 @@ public class Patrol : MonoBehaviour
     private Rigidbody rb;
     private Transform lowerBound;
     private Transform upperBound;
+    private bool rightOriented = true;
 
     
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();    
+        rb = GetComponent<Rigidbody>(); 
+        rb.velocity = new Vector2(moveSpeed, 0.0f);   
         lowerBound = GameObject.FindGameObjectWithTag("lowerBound").GetComponent<Transform>();
         upperBound = GameObject.FindGameObjectWithTag("upperBound").GetComponent<Transform>();
         
@@ -33,8 +36,8 @@ public class Patrol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(transform.position.x);
-        Debug.Log(upperBound.transform.position.x);
+        Debug.Log("Patrol:" + transform.position);
+        Debug.Log("Bound:" + upperBound.transform.position);
         // while (transform.position.x < upperBound.transform.position.x)
             // transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
         //     rb.velocity = new Vector2(moveSpeed, 0.0f);
@@ -60,11 +63,17 @@ public class Patrol : MonoBehaviour
         
 
             // if (transform.position.x < upperBound.transform.position.x)
-            if (transform.position.x < upperBound.transform.position.x)
-                 transform.position = Vector2.MoveTowards(transform.position, upperBound.position, moveSpeed * Time.deltaTime);   
-                // rb.velocity = new Vector2(moveSpeed, 0.0f);
+            if (transform.position.x == upperBound.position.x || transform.position.x == lowerBound.position.x)
+            {
+                rb.velocity = rb.velocity * -1.0f;
+                rightOriented = !rightOriented;
+            }
 
-            // this.transform.position = this.transform.position + new Vector3(0.01f, 0.0f, 0.0f);
+            if (Math.Abs(rb.velocity.x) != moveSpeed)
+                if (rightOriented)
+                    rb.velocity = new Vector2(moveSpeed, 0.0f);
+                else
+                    rb.velocity = new Vector2(-1.0f * moveSpeed, 0.0f);
     }
 
     public void moveRight()

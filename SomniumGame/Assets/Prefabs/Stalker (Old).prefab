@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 898498407291755159}
   - component: {fileID: 898498407291755158}
   - component: {fileID: 898498407291755157}
+  - component: {fileID: 3144382487140003800}
   m_Layer: 0
   m_Name: Stalker (Old)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,3 +115,25 @@ CapsuleCollider:
   m_Height: 1.307368
   m_Direction: 0
   m_Center: {x: -0.0136841, y: 0.002457947, z: 0}
+--- !u!114 &3144382487140003800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898498407291755156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d21b28d9e5e0c6547b085645e011e50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0.5
+  sightRange: 0
+  hearingRange: 0
+  visibilityRadius: 0
+  soundRadius: 0
+  canDetectInBlankey: 0
+  currentFloor: 0
+  isInPursuit: 0
+  damage: 0
+  attackRange: 0
