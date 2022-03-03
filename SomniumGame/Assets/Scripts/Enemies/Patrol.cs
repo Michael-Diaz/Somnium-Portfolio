@@ -41,6 +41,13 @@ public class Patrol : MonoBehaviour
         // while (transform.position.x < upperBound.transform.position.x)
             // transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
         //     rb.velocity = new Vector2(moveSpeed, 0.0f);
+
+        if (Math.Abs(rb.velocity.x) != moveSpeed)
+            if (rightOriented)
+                rb.velocity = new Vector2(moveSpeed, 0.0f);
+            else
+                rb.velocity = new Vector2(-1.0f * moveSpeed, 0.0f);
+
         path();
     }
 
@@ -60,20 +67,12 @@ public class Patrol : MonoBehaviour
 
     public void path()
     {
-        
-
             // if (transform.position.x < upperBound.transform.position.x)
-            if (transform.position.x == upperBound.position.x || transform.position.x == lowerBound.position.x)
+            if (transform.position.x >= upperBound.position.x || transform.position.x <= lowerBound.position.x)
             {
                 rb.velocity = rb.velocity * -1.0f;
                 rightOriented = !rightOriented;
             }
-
-            if (Math.Abs(rb.velocity.x) != moveSpeed)
-                if (rightOriented)
-                    rb.velocity = new Vector2(moveSpeed, 0.0f);
-                else
-                    rb.velocity = new Vector2(-1.0f * moveSpeed, 0.0f);
     }
 
     public void moveRight()

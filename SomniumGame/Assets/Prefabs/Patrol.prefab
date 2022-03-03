@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 1911873485386327693}
   - component: {fileID: 5401551386477615100}
   - component: {fileID: 1004905014982517604}
+  - component: {fileID: 7541253453073296901}
   - component: {fileID: 8822099912371602626}
   - component: {fileID: -7332036520454599486}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Patrol
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -29,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 8463623334611154609}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -1.1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.88, y: 1.78, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2acb556981f73e14680b42ae742f93cf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d5f2b47dad372334294dd5893b5e4ab1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,8 +100,21 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 124
+  m_Constraints: 120
   m_CollisionDetection: 0
+--- !u!65 &7541253453073296901
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8463623334611154609}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.28, y: 1.19, z: 0.17}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &8822099912371602626
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -111,10 +125,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.2
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.06
+  m_Height: 1.39
+  m_Direction: 0
+  m_Center: {x: 0, y: -0.6, z: 0}
 --- !u!114 &-7332036520454599486
 MonoBehaviour:
   m_ObjectHideFlags: 0
