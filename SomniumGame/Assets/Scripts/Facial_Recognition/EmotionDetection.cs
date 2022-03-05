@@ -16,22 +16,17 @@ using System.Runtime.InteropServices;
 using UnityEngine.UI;
 using Unity.Barracuda;
 
-using OpenCVForUnity.CoreModule;
-using OpenCVForUnity.ImgprocModule;
-using OpenCVForUnity.UnityUtils;
+using OpenCvSharp;
 
 
 public class EmotionDetection : MonoBehaviour
 {
-    public RawImage rawImage;
+    //public RawImage rawImage;
     public NNModel modelAsset;
     public int prediction; // output index
     public float[] preds; // output array
 
     private CascadeClassifier cascade;
-    private MatOfRect faces;
-    private WebCamTextureToMatHelper webCamTextureToMatHelper;
-
     private WebCamTexture _webcamTexture;
     private Model _runtimeModel;
     private IWorker _engine;
@@ -47,8 +42,8 @@ public class EmotionDetection : MonoBehaviour
 
         // Assuming the first available WebCam is desired
         _webcamTexture = new WebCamTexture(cam_devices[0].name);
-        rawImage.texture = _webcamTexture;
-        rawImage.material.mainTexture = _webcamTexture;
+        //rawImage.texture = _webcamTexture;
+        //rawImage.material.mainTexture = _webcamTexture;
 
         if (_webcamTexture != null) {
             UnityEngine.Debug.Log($"Streaming [{cam_devices[0].name}]");
@@ -57,12 +52,8 @@ public class EmotionDetection : MonoBehaviour
 
         // Haar cascade set-up
         string path = Application.dataPath + @"/Resources/Haar_Cascades/haarcascade_frontalface_default.xml";
-        cascade = new CascadeClassifier();
-        cascade.load(path);
-
-        // Avoids the front camera low light issue that occurs in only some Android devices (e.g. Google Pixel, Pixel2).
-        webCamTextureToMatHelper.avoidAndroidFrontCameraLowLightIssue = true;
-        webCamTextureToMatHelper.Initialize();
+        cascade = new CascadeClassifier(path);
+        UnityEngine.Debug.Log(cascade);
         
         // Emotion detection model set-up
         _runtimeModel = ModelLoader.Load(modelAsset);
@@ -74,6 +65,14 @@ public class EmotionDetection : MonoBehaviour
     {
         UnityEngine.Debug.Log(" EmotionModel Update Called ====================================");
 
+        // Tutorial stuff
+        GetComponent<Renderer>().material.mainTexture = _webcamTexture;
+        Mat frame = OpenCvSharp.Unity.TextureToMat(_webcamTexture);
+
+        FindNewFace(frame);
+
+
+        /*
         // Get the Mat from the current webcam frame
         Mat rgbaMat = new Mat(_webcamTexture.height, _webcamTexture.width, CvType.CV_8UC5); // empty 0-255, rgba mat
         Mat grayMat = new Mat(_webcamTexture.height, _webcamTexture.width, CvType.CV_8UC1); // empty 0-255, grayscale mat
@@ -153,15 +152,16 @@ public class EmotionDetection : MonoBehaviour
         ClearCur_Faces();
         foreach (Texture2D face in faces)
             Texture2D.DestroyImmediate(face, true);
+        */
     }
 
-    private static void RunFile()
+    private void FindNewFace(Mat frame)
     {
-        Process Proc = new Process();
-        string path = Application.dataPath + @"/Resources/Emotion_Detector/dist/";
-        Proc.StartInfo.FileName = path + "imgproc.exe";
-        Proc.StartInfo.WorkingDirectory = path;
-        Proc.Start();
+        var faces = cascade.DetectMultiScale(frame, 1.1, 2, HaarDetectionType.ScaleImage);
+        if (faces.Length > 0)
+        {
+            UnityEngine.Debug.Log(faces[0].Location);
+        }
     }
 
     public Texture2D GetTexture2DFromWebcamTexture(WebCamTexture webCamTexture)
