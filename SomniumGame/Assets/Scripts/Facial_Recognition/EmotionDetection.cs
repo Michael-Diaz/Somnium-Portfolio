@@ -21,7 +21,7 @@ using OpenCvSharp;
 
 public class EmotionDetection : MonoBehaviour
 {
-    //public RawImage rawImage;
+    public RawImage rawImage;
     public NNModel modelAsset;
     public int prediction; // output index
     public float[] preds; // output array
@@ -30,6 +30,8 @@ public class EmotionDetection : MonoBehaviour
     private WebCamTexture _webcamTexture;
     private Model _runtimeModel;
     private IWorker _engine;
+
+    private OpenCvSharp.Rect rect;
 
     // Start is called before the first frame update
     void Start()
@@ -42,8 +44,7 @@ public class EmotionDetection : MonoBehaviour
 
         // Assuming the first available WebCam is desired
         _webcamTexture = new WebCamTexture(cam_devices[0].name);
-        //rawImage.texture = _webcamTexture;
-        //rawImage.material.mainTexture = _webcamTexture;
+        rawImage.texture = _webcamTexture;
 
         if (_webcamTexture != null) {
             UnityEngine.Debug.Log($"Streaming [{cam_devices[0].name}]");
@@ -53,7 +54,6 @@ public class EmotionDetection : MonoBehaviour
         // Haar cascade set-up
         string path = Application.dataPath + @"/Resources/Haar_Cascades/haarcascade_frontalface_default.xml";
         cascade = new CascadeClassifier(path);
-        UnityEngine.Debug.Log(cascade);
         
         // Emotion detection model set-up
         _runtimeModel = ModelLoader.Load(modelAsset);
@@ -66,7 +66,7 @@ public class EmotionDetection : MonoBehaviour
         UnityEngine.Debug.Log(" EmotionModel Update Called ====================================");
 
         // Tutorial stuff
-        GetComponent<Renderer>().material.mainTexture = _webcamTexture;
+        rawImage.material.mainTexture = _webcamTexture;
         Mat frame = OpenCvSharp.Unity.TextureToMat(_webcamTexture);
 
         FindNewFace(frame);
@@ -161,7 +161,18 @@ public class EmotionDetection : MonoBehaviour
         if (faces.Length > 0)
         {
             UnityEngine.Debug.Log(faces[0].Location);
+            rect = faces[0];
         }
+    }
+
+
+    private void DisplayBoundingBox(Mat frame)
+    {
+        if (rect != null)
+            frame.Rectangle(rect, new Scalar(250, 0, 0), 2);
+
+        Texture tex = OpenCvSharp.Unity.MatToTexture(frame);
+        rawImage.material.mainTexture = tex;
     }
 
     public Texture2D GetTexture2DFromWebcamTexture(WebCamTexture webCamTexture)
