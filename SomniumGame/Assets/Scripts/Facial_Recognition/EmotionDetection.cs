@@ -124,6 +124,7 @@ public class EmotionDetection : MonoBehaviour
     private Texture2D[] FindFaces()
     {
         // Get the face coords
+        // scaleFactor = 1.15, minNeighbors = 5
         var rects = _cascade.DetectMultiScale(_frame, 1.15, 5, HaarDetectionType.ScaleImage);
 
         // Create the Texture2D[]
