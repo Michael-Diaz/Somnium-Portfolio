@@ -12,11 +12,14 @@ using UnityEngine;
 using System;
 using System.IO;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+
 using UnityEngine.UI;
 using Unity.Barracuda;
 
 using OpenCvSharp;
+using AmazingAssets.ResizePro;
 
 
 public class EmotionDetection : MonoBehaviour
@@ -26,12 +29,12 @@ public class EmotionDetection : MonoBehaviour
     public int prediction; // output index
     public float[] preds; // output array
 
-    private CascadeClassifier cascade;
+    private CascadeClassifier _cascade;
     private WebCamTexture _webcamTexture;
     private Model _runtimeModel;
     private IWorker _engine;
 
-    private OpenCvSharp.Rect rect;
+    private Mat _frame;
 
     // Start is called before the first frame update
     void Start()
@@ -53,7 +56,7 @@ public class EmotionDetection : MonoBehaviour
 
         // Haar cascade set-up
         string path = Application.dataPath + @"/Resources/Haar_Cascades/haarcascade_frontalface_default.xml";
-        cascade = new CascadeClassifier(path);
+        _cascade = new CascadeClassifier(path);
         
         // Emotion detection model set-up
         _runtimeModel = ModelLoader.Load(modelAsset);
@@ -66,48 +69,14 @@ public class EmotionDetection : MonoBehaviour
         UnityEngine.Debug.Log(" EmotionModel Update Called ====================================");
 
         // Tutorial stuff
-        rawImage.material.mainTexture = _webcamTexture;
-        Mat frame = OpenCvSharp.Unity.TextureToMat(_webcamTexture);
-
-        FindNewFace(frame);
-
-
-        /*
-        // Get the Mat from the current webcam frame
-        Mat rgbaMat = new Mat(_webcamTexture.height, _webcamTexture.width, CvType.CV_8UC5); // empty 0-255, rgba mat
-        Mat grayMat = new Mat(_webcamTexture.height, _webcamTexture.width, CvType.CV_8UC1); // empty 0-255, grayscale mat
-        Utils.webCamTextureToMat(_webcamTexture, grayMat);
-
-        // Fill faces. Also, resize grayMat for superior performance.
-        cascade.detectMultiScale(grayMat, faces, 1.1, 2, 2, new Size(grayMat.cols() * 0.2, grayMat.rows() * 0.2), new Size());
-
-        OpenCVForUnity.CoreModule.Rect[] rects = faces.toArray();
-        for (int i = 0; i < rects.Length; i++)
-            Imgproc.rectangle(rgbaMat, new Point(rects[i].x, rects[i].y), new Point(rects[i].x + rects[i].width, rects[i].y + rects[i].height), new Scalar(255, 0, 0, 255), 2);
-        
-        Texture2D texture = new Texture2D(_webcamTexture.height, _webcamTexture.width);
-        Utils.matToTexture2D(rgbaMat, texture);
-
-
-
-
-
-
-
-
-
-        // Save the current camera frame as a .png
-        string path = Application.dataPath + @"/Resources/Model_Images/Cur_Frame/frame.jpg";
-        SaveImage(path);
-        UnityEngine.Debug.Log("Saved Frame");
-
-        // Find faces in the frame
-        RunFile();
+        rawImage.texture = _webcamTexture;
+        _frame = OpenCvSharp.Unity.TextureToMat(_webcamTexture);
 
         // Load faces
-        Texture2D[] faces = Resources.LoadAll<Texture2D>("Model_Images/Cur_Faces/");
-        UnityEngine.Debug.Log($"Loaded {faces.Length} Faces");
+        Texture2D[] faces = FindFaces();
+        UnityEngine.Debug.Log($"Found {faces.Length} Faces");
 
+        // Check to see if any faces were detected
         if (faces.Length == 0)
             prediction = -1;
         else
@@ -115,8 +84,7 @@ public class EmotionDetection : MonoBehaviour
             // Loop for detection emotions on detected faces
             for (int i = 0; i < faces.Length; i++) {
                 // Create input tensor from tx2d
-                int channelCount = 1; // you can treat input pixels as 1 (grayscale), 3 (color) or 4 (color with alpha) channels
-                Tensor inputX = new Tensor(faces[i], channelCount);
+                Tensor inputX = MakeInputTensor(faces[i]);
 
                 // Input the tensor and get the output
                 Tensor outPreds = _engine.Execute(inputX).PeekOutput();
@@ -148,75 +116,105 @@ public class EmotionDetection : MonoBehaviour
             }
         }
 
-        // Clear the face(s) in the Cur_Faces folder
-        ClearCur_Faces();
+        // Clear clear faces
         foreach (Texture2D face in faces)
             Texture2D.DestroyImmediate(face, true);
-        */
     }
 
-    private void FindNewFace(Mat frame)
+    private Texture2D[] FindFaces()
     {
-        var faces = cascade.DetectMultiScale(frame, 1.1, 2, HaarDetectionType.ScaleImage);
-        if (faces.Length > 0)
+        // Get the face coords
+        var rects = _cascade.DetectMultiScale(_frame, 1.15, 5, HaarDetectionType.ScaleImage);
+
+        // Create the Texture2D[]
+        Texture2D[] all_faces = new Texture2D[rects.Length];
+        
+        // Print the faces and show the rectangles
+        for (int i = 0; i < rects.Length; i++)
         {
-            UnityEngine.Debug.Log(faces[0].Location);
-            rect = faces[0];
+            DrawBoundingBoxes(rects[i]);
+            all_faces[i] = CropFaces(rects[i]);
         }
+
+        return all_faces;
     }
 
 
-    private void DisplayBoundingBox(Mat frame)
+    private void DrawBoundingBoxes(OpenCvSharp.Rect rect)
     {
-        if (rect != null)
-            frame.Rectangle(rect, new Scalar(250, 0, 0), 2);
+        // Draw the box on the Mat frame
+        _frame.Rectangle(rect, new Scalar(250, 0, 0), 2);
 
-        Texture tex = OpenCvSharp.Unity.MatToTexture(frame);
-        rawImage.material.mainTexture = tex;
+        // Convert the Mat frame to a texture and show that texture on the rawImage
+        Texture tex = OpenCvSharp.Unity.MatToTexture(_frame);
+        rawImage.texture = tex;
     }
 
-    public Texture2D GetTexture2DFromWebcamTexture(WebCamTexture webCamTexture)
+
+    private Texture2D CropFaces(OpenCvSharp.Rect rect)
     {
-        // Create new texture2d
-        Texture2D tx2d = new Texture2D(_webcamTexture.width, _webcamTexture.height);
-        // Gets all color data from web cam texture and then Sets that color data in texture2d
-        tx2d.SetPixels(webCamTexture.GetPixels());
-        // Applying new changes to texture2d
-        tx2d.Apply();
-        return tx2d;
+        // Get the face
+        Mat mat_face = new Mat (_frame, rect);
+        Texture tex_face = OpenCvSharp.Unity.MatToTexture(mat_face);
+        Texture2D face = TextureToTexture2D(tex_face);
+
+        // Resize texture
+        face.ResizePro(64, 64, false, false, false);
+        return face;
+    }
+
+    private Texture2D TextureToTexture2D(Texture tex) 
+    {
+        // Create empty texture2D
+        Texture2D tex2D = new Texture2D(tex.width, tex.height, TextureFormat.RGBA32, false);
+
+        // Create and fill render texture to use as a converter
+        RenderTexture rendTex = new RenderTexture(tex.width, tex.height, 32);
+        Graphics.Blit(tex, rendTex);
+
+        // Convert render texture into texture2D
+        tex2D.ReadPixels(new UnityEngine.Rect(0, 0, rendTex.width, rendTex.height), 0, 0);
+        tex2D.Apply();
+        
+        return tex2D;
     }
 
 
-    public Tensor MakeInputTensor(Texture2D frame)
+    public Tensor MakeInputTensor(Texture2D face)
     {
         // (0, 255) pixel values
-        Color32[] pixels = frame.GetPixels32();
+        //Color32[] pixels = face.GetPixels32();
 
         // (0, 1) pixel values
-        //Color[] pix = frame.GetPixels();
+        Color[] pixels = face.GetPixels();
 
         // Create empty float array of the needed length
-        int inputHeight = 640;
-        int inputWidth = 640;
-        int numChannels = 3;
+        int inputHeight = 64;
+        int inputWidth = 64;
+        int numChannels = 1;
         float[] floats = new float[inputHeight * inputWidth * numChannels];
 
         // Fill the empty float array with properly scaled pixel values
         for (int i = 0; i < pixels.Length; ++i)
         {
-            var color = pixels[i];
+            // Get the color variable (using var for flexibility between Color32 and Color)
+            var color = pixels[i].grayscale * 255;
+            // var color = pixels[i];
 
             // Value range: (0, 255)
-            floats[i * numChannels + 0] = color.r;
-            floats[i * numChannels + 1] = color.g;
-            floats[i * numChannels + 2] = color.b;
+            floats[i] = color; // grayscale
+            //floats[i * numChannels + 0] = color.r;
+            //floats[i * numChannels + 1] = color.g;
+            //floats[i * numChannels + 2] = color.b;
 
             // Value range: (0, 1)
+            //floats[i] = (color / 255f); // grayscale
             //floats[i * numChannels + 0] = (color.r / 255f);
             //floats[i * numChannels + 1] = (color.g / 255f);
             //floats[i * numChannels + 2] = (color.b / 255f);
 
             // Value range: (-1, 1)
+            //floats[i] = (color - 127) / 127.5f; // grayscale
             //floats[i * numChannels + 0] = (color.r - 127) / 127.5f;
             //floats[i * numChannels + 1] = (color.g - 127) / 127.5f;
             //floats[i * numChannels + 2] = (color.b - 127) / 127.5f;
@@ -228,6 +226,7 @@ public class EmotionDetection : MonoBehaviour
         Tensor inputTensor = new Tensor(1, inputHeight, inputWidth, numChannels, floats);
         return inputTensor;
     }
+
 
     private void OnDestroy()
     {
