@@ -58,20 +58,20 @@ public class LobbyScript: MonoBehaviour {
 	}
 
 	public void OnBackButton() {
-		UnloadScene ();
+		UnloadSceneAsync ();
 		mainMenu.SetActive (true);
 		backMenu.SetActive (false);
 	}
 
-	private void UnloadScene() {
+	private void UnloadSceneAsync() {
 		if (currentScene != null) {
-			SceneManager.UnloadScene (currentScene);
+			SceneManager.UnloadSceneAsync (currentScene);
 			currentScene = null;
 		}
 	}
 
 	private void NavigateTo(string sceneName) {
-		UnloadScene ();
+		UnloadSceneAsync ();
 		currentScene = sceneName;
 		mainMenu.SetActive (false);
 		backMenu.SetActive (true);
