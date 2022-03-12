@@ -76,15 +76,15 @@ public class Builder : MonoBehaviour
                     int roomType = Random.Range(0, 2);
                     if (target == 1 || roomType == 0)
                     {
-                        int roomStyle = Random.Range(1, 4);
-                        Instantiate(rooms[1], instPos, Quaternion.Euler(-90, 0, 180));
+                        int roomStyle = Random.Range(1, 3);
+                        Instantiate(rooms[roomStyle], instPos, Quaternion.Euler(-90, 0, 180));
                         target--;
                         index++;
                     }
                     else
                     {
-                        int roomStyle = Random.Range(4, 7);
-                        Instantiate(rooms[4], instPos, Quaternion.Euler(-90, 0, 180));
+                        int roomStyle = Random.Range(4, 6);
+                        Instantiate(rooms[roomStyle], instPos, Quaternion.Euler(-90, 0, 180));
                         target -= 2;
                         index += 2;
                     }
@@ -95,10 +95,5 @@ public class Builder : MonoBehaviour
 
             instPos.y = instPos.y + 3.447346f;
         }
-
-        // split arrays accordingly
-        // tile individual arrays
-
-
     }
 }
