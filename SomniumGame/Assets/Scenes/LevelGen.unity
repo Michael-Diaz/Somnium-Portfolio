@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.007416633, g: 0.020667696, b: 0.047169805, a: 1}
+  m_AmbientSkyColor: {r: 0.00204699, g: 0.00992346, b: 0.028301895, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -839,10 +839,10 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.7987421, g: 0.8456249, b: 1, a: 1}
-  m_Intensity: 4
+  m_Intensity: 16.03
   m_Range: 12
-  m_SpotAngle: 42
-  m_InnerSpotAngle: 4
+  m_SpotAngle: 47.5931
+  m_InnerSpotAngle: 13.593103
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
@@ -1281,6 +1281,7 @@ GameObject:
   - component: {fileID: 1924153454}
   - component: {fileID: 1924153453}
   - component: {fileID: 1924153456}
+  - component: {fileID: 1924153457}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1366,6 +1367,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06eaf455b1b7a0a499e4bb6f3a63a7c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1924153457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924153452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &1974156744
 GameObject:
   m_ObjectHideFlags: 0
