@@ -57,7 +57,7 @@ public class StartGame : MonoBehaviour
         Scene cur_scene = SceneManager.GetActiveScene();
         Debug.Log($"Current Active Scene: {cur_scene.name}");
 
-        // Set the loading of the level as an async operation
+        // Set the unloading of the level as an async operation
         AsyncOperation operation = SceneManager.UnloadSceneAsync(old_scene);
 
         while(!operation.isDone)
