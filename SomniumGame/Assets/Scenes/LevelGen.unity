@@ -7883,14 +7883,6 @@ PrefabInstance:
       propertyPath: m_LocalRotation.w
       value: -0.00038081556
       objectReference: {fileID: 0}
-    - target: {fileID: 6212027946839766531, guid: 0a6ca5f992ae35b40a3bc0a84b580e9f, type: 3}
-      propertyPath: looping
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6212027946839766531, guid: 0a6ca5f992ae35b40a3bc0a84b580e9f, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.a
-      value: 0.1764706
-      objectReference: {fileID: 0}
     - target: {fileID: 7807608154573199890, guid: 0a6ca5f992ae35b40a3bc0a84b580e9f, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.00031610203
