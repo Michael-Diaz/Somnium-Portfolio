@@ -36,8 +36,8 @@ public class Patrol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Patrol:" + transform.position);
-        Debug.Log("Bound:" + upperBound.transform.position);
+        //Debug.Log("Patrol:" + transform.position);
+        //Debug.Log("Bound:" + upperBound.transform.position);
         // while (transform.position.x < upperBound.transform.position.x)
             // transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
         //     rb.velocity = new Vector2(moveSpeed, 0.0f);
