@@ -5,11 +5,19 @@ using UnityEngine;
 public class Builder : MonoBehaviour
 {
     public GameObject[] rooms = new GameObject[7];
+    // 2D Array in C#
     private int[,] map;
+    
+    // GameObjects w/ transforms for the bounds of the map 
+    public GameObject lowerBound;
+    public GameObject upperBound;
 
     // Start is called before the first frame update
     void Start()
     {
+        lowerBound  = GameObject.FindGameObjectWithTag("lowerBound");
+        upperBound  = GameObject.FindGameObjectWithTag("upperBound");
+
         Vector3 instPos = new Vector3(0.0f, 0.0f, 0.0f);
 
         int height = Random.Range(3, 7);
@@ -95,5 +103,8 @@ public class Builder : MonoBehaviour
 
             instPos.y = instPos.y + 3.447346f;
         }
+
+        lowerBound.transform.position = new Vector3(-2.0f, 1.0f, -1.1f);
+        upperBound.transform.position = new Vector3( (-2.0f + (width * 4.0f) ), 1.0f, -1.1f);
     }
 }

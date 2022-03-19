@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public Animator playerAnim;
+
     [Header("Player Initializers")]
     [SerializeField] private int health;
     [SerializeField] private float moveSpeed = 1.5f, 
@@ -24,7 +26,8 @@ public class Player : MonoBehaviour
     [Header("Player State Changes")]
     public bool byStairs = false;
     [SerializeField] private int currentFloor;
-    [SerializeField] public bool isStealthed = false, 
+    [SerializeField] public bool isMoving = false,
+                                isStealthed = false, 
                                 isSprinting = false,
                                 isGrounded = true, 
                                 isInDanger = false;
@@ -33,16 +36,22 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerAnim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();    
         lowerBound = GameObject.FindGameObjectWithTag("lowerBound").GetComponent<Transform>();
         upperBound = GameObject.FindGameObjectWithTag("upperBound").GetComponent<Transform>();
-
     }
 
     void FixedUpdate()
     {
         isGrounded = Physics.Raycast(transform.position, -Vector3.up, 1.1f);
         moveInput = Input.GetAxisRaw("Horizontal");
+
+        if (moveInput != 0)
+            isMoving = true;
+        else
+            isMoving = false;
+        playerAnim.SetBool("Moving", isMoving);
 
         if (isStealthed)
             speedMult = 0.5f;
@@ -71,6 +80,9 @@ public class Player : MonoBehaviour
             isSprinting = !isSprinting;
             isStealthed = false;
         }
+
+        playerAnim.SetBool("Sprinting", isSprinting);
+        playerAnim.SetBool("Crouching", isStealthed);
 
         if(Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
