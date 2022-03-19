@@ -14,9 +14,10 @@ public class SettingsManipulation : MonoBehaviour
     public GameObject Spawn;
     public GameObject Bounds;
 
-    public GameObject SettingsMenuCanvasCollection;
+    public GameObject PauseMenuCanvasCollection;
     public GameObject BackgroundCanvas;
-    public GameObject MainSettingsCanvas;
+    public GameObject PauseMenuCanvas;
+    public GameObject SettingsCanvas;
     public GameObject GraphicsCanvas;
     public GameObject AudioCanvas;
 
@@ -28,17 +29,21 @@ public class SettingsManipulation : MonoBehaviour
         {
             // Check to see if the settings menu collection canvas is currently active
             // If it is, then close the settings.
-            if (SettingsMenuCanvasCollection.activeSelf)
+            if (PauseMenuCanvasCollection.activeSelf)
             {
+                // Switch cameras
                 MainCamera.SetActive(true);
                 SettingsCamera.SetActive(false);
 
-                SettingsMenuCanvasCollection.SetActive(false);
+                // Deactivate canvas objects
+                PauseMenuCanvasCollection.SetActive(false);
                 BackgroundCanvas.SetActive(false);
-                MainSettingsCanvas.SetActive(false);
+                PauseMenuCanvas.SetActive(false);
+                SettingsCanvas.SetActive(false);
                 GraphicsCanvas.SetActive(false);
                 AudioCanvas.SetActive(false);
 
+                // Activate level objects
                 Level.SetActive(true);
                 Dreamer.SetActive(true);
                 Spawn.SetActive(true);
@@ -47,15 +52,19 @@ public class SettingsManipulation : MonoBehaviour
             // If it isn't, open the settings
             else
             {
+                // Switch cameras
                 MainCamera.SetActive(false);
                 SettingsCamera.SetActive(true);
 
-                SettingsMenuCanvasCollection.SetActive(true);
+                // Activate canvas objects
+                PauseMenuCanvasCollection.SetActive(true);
                 BackgroundCanvas.SetActive(true);
-                MainSettingsCanvas.SetActive(true);
+                PauseMenuCanvas.SetActive(true);
+                SettingsCanvas.SetActive(false);
                 GraphicsCanvas.SetActive(false);
                 AudioCanvas.SetActive(false);
 
+                // Deactivate level objects
                 Level.SetActive(false);
                 Dreamer.SetActive(false);
                 Spawn.SetActive(false);
@@ -68,17 +77,21 @@ public class SettingsManipulation : MonoBehaviour
     {
         // Check to see if the settings menu collection canvas is currently active
         // If it is, then close the settings.
-        if (SettingsMenuCanvasCollection.activeSelf)
+        if (PauseMenuCanvasCollection.activeSelf)
         {
+            // Switch cameras
             MainCamera.SetActive(true);
             SettingsCamera.SetActive(false);
-            
-            SettingsMenuCanvasCollection.SetActive(false);
+
+            // Deactivate canvas objects
+            PauseMenuCanvasCollection.SetActive(false);
             BackgroundCanvas.SetActive(false);
-            MainSettingsCanvas.SetActive(false);
+            PauseMenuCanvas.SetActive(false);
+            SettingsCanvas.SetActive(false);
             GraphicsCanvas.SetActive(false);
             AudioCanvas.SetActive(false);
 
+            // Activate level objects
             Level.SetActive(true);
             Dreamer.SetActive(true);
             Spawn.SetActive(true);
@@ -87,15 +100,19 @@ public class SettingsManipulation : MonoBehaviour
         // If it isn't, open the settings
         else
         {
+            // Switch cameras
             MainCamera.SetActive(false);
             SettingsCamera.SetActive(true);
 
-            SettingsMenuCanvasCollection.SetActive(true);
+            // Activate canvas objects
+            PauseMenuCanvasCollection.SetActive(true);
             BackgroundCanvas.SetActive(true);
-            MainSettingsCanvas.SetActive(true);
+            PauseMenuCanvas.SetActive(true);
+            SettingsCanvas.SetActive(false);
             GraphicsCanvas.SetActive(false);
             AudioCanvas.SetActive(false);
 
+            // Deactivate level objects
             Level.SetActive(false);
             Dreamer.SetActive(false);
             Spawn.SetActive(false);
