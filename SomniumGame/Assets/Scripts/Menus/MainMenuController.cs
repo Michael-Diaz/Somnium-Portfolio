@@ -61,9 +61,4 @@ public class MainMenuController : MonoBehaviour
     {
         Screen.fullScreen = isFullscreen;
     }
-
-    public void ExitGame()
-    {
-        Application.Quit();
-    }
 }
