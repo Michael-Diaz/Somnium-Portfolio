@@ -728,6 +728,12 @@ MonoBehaviour:
   - {fileID: 0}
   lowerBound: {fileID: 0}
   upperBound: {fileID: 0}
+  prefabsToSpawn:
+  - {fileID: 8463623334611154609, guid: dcea9e70b399cc749a5be1ef86518f91, type: 3}
+  - {fileID: 6916367875973282904, guid: 0eed3c93b9af825488c1643c8512d40a, type: 3}
+  - {fileID: 898498407291755156, guid: bfa9e2b744bcd5347a931b3b1648e852, type: 3}
+  _height: 0
+  _width: 0
 --- !u!4 &1615053937
 Transform:
   m_ObjectHideFlags: 0

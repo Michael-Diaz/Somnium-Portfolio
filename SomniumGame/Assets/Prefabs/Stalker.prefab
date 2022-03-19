@@ -140,9 +140,9 @@ GameObject:
   - component: {fileID: 898498407291755158}
   - component: {fileID: 4917065303549035004}
   - component: {fileID: 898498407291755157}
-  - component: {fileID: 3144382487140003800}
   - component: {fileID: 3812851522110916045}
   - component: {fileID: 1771019874391454414}
+  - component: {fileID: 5171656555034754941}
   m_Layer: 6
   m_Name: Stalker
   m_TagString: Enemy
@@ -209,28 +209,6 @@ CapsuleCollider:
   m_Height: 1.5
   m_Direction: 0
   m_Center: {x: 0.1, y: -0.57, z: 0}
---- !u!114 &3144382487140003800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 898498407291755156}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d21b28d9e5e0c6547b085645e011e50a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 0.5
-  sightRange: 0
-  hearingRange: 0
-  visibilityRadius: 0
-  soundRadius: 0
-  canDetectInBlankey: 0
-  currentFloor: 0
-  isInPursuit: 0
-  damage: 0
-  attackRange: 0
 --- !u!114 &3812851522110916045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +255,31 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5171656555034754941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898498407291755156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 185aacc0a5b8169459d2800799dc2752, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1
+  sightRange: 0
+  hearingRange: 0
+  visibilityRadius: 0
+  soundRadius: 0
+  canDetectInBlankey: 0
+  currentFloor: 0
+  isInPursuit: 0
+  damage: 0
+  attackRange: 0
+  stalkerStoppingRadius: 0
+  mapHeight: 0
+  byStairs: 0
 --- !u!1 &1714575212380677138
 GameObject:
   m_ObjectHideFlags: 0

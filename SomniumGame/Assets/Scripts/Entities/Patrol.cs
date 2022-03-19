@@ -67,7 +67,6 @@ public class Patrol : MonoBehaviour
 
     public void path()
     {
-            // if (transform.position.x < upperBound.transform.position.x)
             if (transform.position.x >= upperBound.position.x)
             {
                 rb.velocity = new Vector2(Math.Abs(rb.velocity.x) * -1.0f, 0.0f);
