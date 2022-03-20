@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
                                 isStealthed = false, 
                                 isSprinting = false,
                                 isGrounded = true, 
-                                isInDanger = false;
+                                hidden = false;
 
 
     // Start is called before the first frame update

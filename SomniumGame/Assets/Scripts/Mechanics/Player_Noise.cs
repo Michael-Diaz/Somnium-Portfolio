@@ -10,6 +10,7 @@ public class Player_Noise : MonoBehaviour
 
     private LayerMask allEnemies;
     private ParticleSystem soundWave;
+    private ParticleSystem.MainModule soundWaveSettings;
     public Player dreamer;
 
     // Start is called before the first frame update
@@ -17,6 +18,7 @@ public class Player_Noise : MonoBehaviour
     {
         allEnemies = LayerMask.GetMask("Sounds");
         soundWave = transform.parent.Find("Ripples").GetComponent<ParticleSystem>();
+        soundWaveSettings = soundWave.main;
     }
 
     // Update is called once per frame
@@ -28,30 +30,33 @@ public class Player_Noise : MonoBehaviour
             {
                 soundRadius = 4.5f;
                 sonarSpacing = 0.5f;
-                soundWave.startSize = 10;
+                soundWave.gameObject.transform.localScale = new Vector3(-2, -2, 1);
             }
             else if (dreamer.isStealthed)
             {
                 soundRadius = 1.5f;
                 sonarSpacing = 1.175f;
-                soundWave.startSize = 3;
+                soundWave.gameObject.transform.localScale = new Vector3(-0.5f, -0.5f, 1);
             }
             else
             {
                 soundRadius = 2.25f;
                 sonarSpacing = 0.95f;
-                soundWave.startSize = 5;
+                soundWave.gameObject.transform.localScale = new Vector3(-1, -1, 1);
             }
 
-
-            soundWave.Play();
-
             Collider[] alerted = Physics.OverlapSphere(transform.position, soundRadius, allEnemies);
-            Debug.Log(alerted.Length);
             foreach(Collider enemy in alerted)
 		    {
-			    Debug.Log("!! Heard by " + enemy.name + " !!");
+			    enemy.transform.parent.GetComponent<Stalker>().updatePos(transform.position.x, transform.position.y);
 		    }
+
+            if (alerted.Length > 0)
+                soundWaveSettings.startColor = new Color(1, 0, 0, 0.1f);
+            else
+                soundWaveSettings.startColor = new Color(1, 1, 1, 0.03f);
+
+            soundWave.Play();
 
             nextSonarTime = Time.time + sonarSpacing;
         }

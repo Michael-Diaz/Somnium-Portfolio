@@ -11,7 +11,10 @@ public class Stalker : MonoBehaviour
    
     [Header("Enemy State Changes")]
     public int currentFloor;
-    [SerializeField] private bool isInPursuit;
+    [SerializeField] private bool isInPursuit = false;
+    private bool isSuspicious = false;
+    private float suspicionTime = 10.0f;
+    private float suspicionTimer = 0.0f;
 
     [Header("Enemy Attack")]
     [SerializeField] private int damage;
@@ -37,6 +40,7 @@ public class Stalker : MonoBehaviour
     public bool reachedRight = false;
 
     public int playerFloor = 0;
+    public float playerRoom = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -66,11 +70,6 @@ public class Stalker : MonoBehaviour
                 rb.velocity = new Vector2(-1.0f * moveSpeed, 0.0f);
 
         path();
-        // if (Vector2.Distance(transform.position, target.position) > stalkerStoppingRadius)
-        // {
-        //     transform.position = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
-
-        // }
     }
 
     public void init()
@@ -82,6 +81,7 @@ public class Stalker : MonoBehaviour
     {
         if (playerFloor == 0 || (playerFloor != 0 && currentFloor != playerFloor))
         {
+            Debug.Log("HEADING TO FLOOR: " + playerFloor);
             if (playerFloor == 0)
                 playerFloor = UnityEngine.Random.Range(1, mapHeight + 1);
 
@@ -98,14 +98,64 @@ public class Stalker : MonoBehaviour
         }
         else
         {
+            Debug.Log("ON DESTINATION- FLOOR: " + playerFloor);
             needStairsUp = false;
             needStairsDown = false;
+
+            if (isInPursuit)
+            {
+                Debug.Log("PERSUING");
+                if (transform.position.x <= playerRoom - 0.1f)
+                {
+                    rb.velocity = new Vector2(Math.Abs(rb.velocity.x), 0.0f);
+                    sprite.localScale = new Vector3(Math.Abs(sprite.localScale.x) * -1, sprite.localScale.y, sprite.localScale.z);
+                    rightOriented = true;
+                }
+                else if (transform.position.x >= playerRoom + 0.1f)
+                {
+                    rb.velocity = new Vector2(Math.Abs(rb.velocity.x) * -1.0f, 0.0f);
+                    sprite.localScale = new Vector3(Math.Abs(sprite.localScale.x), sprite.localScale.y, sprite.localScale.z);
+                    rightOriented = false;
+                }
+                else
+                {
+                    Debug.Log("SWITCHING, SUSPICIOUS");
+                    isInPursuit = false;
+                    isSuspicious = true;
+                    suspicionTimer = Time.time + suspicionTime;
+                }
+            }
+            if (isSuspicious)
+            {
+                Debug.Log("SUSPICIOUS, TIME REMAINING: " + (suspicionTimer - Time.time));
+                moveSpeed = 2.0f;
+
+                if (transform.position.x <= playerRoom - 2.0f)
+                {
+                    rb.velocity = new Vector2(Math.Abs(rb.velocity.x), 0.0f);
+                    sprite.localScale = new Vector3(Math.Abs(sprite.localScale.x) * -1, sprite.localScale.y, sprite.localScale.z);
+                    rightOriented = true;
+                }
+                else if (transform.position.x >= playerRoom + 2.0f)
+                {
+                    rb.velocity = new Vector2(Math.Abs(rb.velocity.x) * -1.0f, 0.0f);
+                    sprite.localScale = new Vector3(Math.Abs(sprite.localScale.x), sprite.localScale.y, sprite.localScale.z);
+                    rightOriented = false;
+                }
+
+                if (Time.time > suspicionTimer)
+                {
+                    Debug.Log("SWITCHING, WANDERING");
+                    isSuspicious = false;
+                    moveSpeed = 1.0f;
+                }
+            }
         }
 
         if (transform.position.x >= upperBound.position.x)
         {
             rb.velocity = new Vector2(Math.Abs(rb.velocity.x) * -1.0f, 0.0f);
-            sprite.localScale = new Vector3(sprite.localScale.x * -1, sprite.localScale.y, sprite.localScale.z);
+            sprite.localScale = new Vector3(Math.Abs(sprite.localScale.x), sprite.localScale.y, sprite.localScale.z);
             rightOriented = false;
             reachedRight = true;
             if (reachedLeft)
@@ -118,7 +168,7 @@ public class Stalker : MonoBehaviour
         if (transform.position.x <= lowerBound.position.x)
         {
             rb.velocity = new Vector2(Math.Abs(rb.velocity.x), 0.0f);
-            sprite.localScale = new Vector3(sprite.localScale.x * -1, sprite.localScale.y, sprite.localScale.z);
+            sprite.localScale = new Vector3(Math.Abs(sprite.localScale.x) * -1, sprite.localScale.y, sprite.localScale.z);
             rightOriented = true;
             reachedLeft = true;
             if (reachedRight)
@@ -133,5 +183,18 @@ public class Stalker : MonoBehaviour
     public void attack()
     {
         
+    }
+
+    public void updatePos(float playerXPos, float playerYPos)
+    {
+        playerFloor = (int) Math.Floor(playerYPos / 3.447346f) + 1;
+        playerRoom = playerXPos;
+        moveSpeed = 3.0f;
+
+        isInPursuit = true;
+        isSuspicious = false;
+
+        reachedRight = false;
+        reachedLeft = false;
     }
 }

@@ -310,7 +310,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -5538,7 +5538,7 @@ MonoBehaviour:
   isStealthed: 0
   isSprinting: 0
   isGrounded: 1
-  isInDanger: 0
+  hidden: 0
 --- !u!114 &7727422187893032515
 MonoBehaviour:
   m_ObjectHideFlags: 0
