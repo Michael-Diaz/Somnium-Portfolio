@@ -25,9 +25,14 @@ public class Staircase_Usage : MonoBehaviour
         if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && playerBools.byStairs && thisStaircase)
             playerPos.transform.position = targetPos.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
 
-        if (stalkerVars.byStairs)
+        if (stalkerVars.byStairs && (stalkerVars.needStairsUp || stalkerVars.needStairsDown) && thisStaircase)
         {
-            stalkerPos.transform.position = targetPos.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
+            if ((gameObject.name == "RailBottom" && stalkerVars.needStairsUp) || (gameObject.name == "RailTop" && stalkerVars.needStairsDown))
+            {
+                stalkerPos.transform.position = targetPos.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
+                stalkerVars.reachedLeft = false;
+                stalkerVars.reachedRight = false;
+            }
         }
 
     }
@@ -37,13 +42,13 @@ public class Staircase_Usage : MonoBehaviour
         if (entry.gameObject.name == "Dreamer") 
         {
             playerBools.byStairs = true;
-            thisStaircase = true;
         }
         else if (entry.gameObject.name == "Stalker(Clone)")
         {
             stalkerVars.byStairs = true;
         }
-        // Debug.Log(entry);
+
+        thisStaircase = true;
     }
 
     void OnTriggerExit(Collider egress)
@@ -51,11 +56,12 @@ public class Staircase_Usage : MonoBehaviour
         if (egress.gameObject.name == "Dreamer") 
         {
             playerBools.byStairs = false;
-            thisStaircase = false;
         }
         else if (egress.gameObject.name == "Stalker(Clone)")
         {
             stalkerVars.byStairs = false;
         } 
+
+        thisStaircase = false;
     }
 }

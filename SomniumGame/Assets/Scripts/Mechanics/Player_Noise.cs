@@ -24,6 +24,26 @@ public class Player_Noise : MonoBehaviour
     {
         if (dreamer.isMoving && Time.time > nextSonarTime)
         {
+            if (dreamer.isSprinting)
+            {
+                soundRadius = 4.5f;
+                sonarSpacing = 0.5f;
+                soundWave.startSize = 10;
+            }
+            else if (dreamer.isStealthed)
+            {
+                soundRadius = 1.5f;
+                sonarSpacing = 1.175f;
+                soundWave.startSize = 3;
+            }
+            else
+            {
+                soundRadius = 2.25f;
+                sonarSpacing = 0.95f;
+                soundWave.startSize = 5;
+            }
+
+
             soundWave.Play();
 
             Collider[] alerted = Physics.OverlapSphere(transform.position, soundRadius, allEnemies);

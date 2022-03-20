@@ -83,8 +83,6 @@ public class Builder : MonoBehaviour
             if (sectLen != 0)
                 arrMinis.Add(sectLen);
 
-            arrMinis.ForEach(n => Debug.Log("Floor " + (i + 1) + " subset: " + n));
-
             int index = 0;
             instPos.x = 0.0f;
             foreach (int sL in arrMinis)
@@ -129,6 +127,7 @@ public class Builder : MonoBehaviour
     void spawnEnemies()
     {
         // spawns 1 or 2 patrols per floor as well as a single stalker and inspector
+        /*
         for (int i = 0; i < height; i++)
         {
             randomX = ((Random.Range(1, width) *  4.0f) - 2.0f);
@@ -138,6 +137,7 @@ public class Builder : MonoBehaviour
             GameObject patrol = Instantiate(prefabsToSpawn[0]);
             patrol.transform.position = spawnLocations[i];
         }
+        */
 
         for (int i = 0; i < 2; i++)
         {
