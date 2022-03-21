@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     private Rigidbody rb;
     private float moveInput;
     private float speedMult = 1.0f;
-    private bool rightOriented = true;
+    public bool rightOriented = true;
     private Transform lowerBound;
     private Transform upperBound;
 

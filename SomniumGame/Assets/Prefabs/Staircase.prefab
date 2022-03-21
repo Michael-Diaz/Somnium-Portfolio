@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 3551816376243995059}
   - component: {fileID: 3931638916142296037}
   - component: {fileID: 1683123773524897355}
+  - component: {fileID: 3456235090705954742}
   m_Layer: 0
   m_Name: RailTop
   m_TagString: Untagged
@@ -208,6 +209,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPos: {fileID: 2259039043027167230}
+--- !u!114 &3456235090705954742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342823292250952525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aa93dfeb48ae324d937b05bb4b993fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Press W to go down stairs
 --- !u!1 &3421219476503881964
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,6 +235,7 @@ GameObject:
   - component: {fileID: 4907811842940396340}
   - component: {fileID: 637168773489675196}
   - component: {fileID: 4516577526534406918}
+  - component: {fileID: 8124783954120466594}
   m_Layer: 0
   m_Name: RailBottom
   m_TagString: Untagged
@@ -318,3 +333,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPos: {fileID: 4409374734726569832}
+--- !u!114 &8124783954120466594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3421219476503881964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aa93dfeb48ae324d937b05bb4b993fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Press W to go up stairs
