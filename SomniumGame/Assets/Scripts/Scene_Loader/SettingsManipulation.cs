@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 public class SettingsManipulation : MonoBehaviour
 {
     public GameObject MainCamera;
@@ -11,8 +10,6 @@ public class SettingsManipulation : MonoBehaviour
 
     public GameObject Level;
     public GameObject Dreamer;
-    public GameObject Spawn;
-    public GameObject Bounds;
 
     public GameObject PauseMenuCanvasCollection;
     public GameObject BackgroundCanvas;
@@ -20,7 +17,6 @@ public class SettingsManipulation : MonoBehaviour
     public GameObject SettingsCanvas;
     public GameObject GraphicsCanvas;
     public GameObject AudioCanvas;
-
 
     // Listener
     void Update()
@@ -46,8 +42,6 @@ public class SettingsManipulation : MonoBehaviour
                 // Activate level objects
                 Level.SetActive(true);
                 Dreamer.SetActive(true);
-                Spawn.SetActive(true);
-                Bounds.SetActive(true);
             }
             // If it isn't, open the settings
             else
@@ -67,8 +61,6 @@ public class SettingsManipulation : MonoBehaviour
                 // Deactivate level objects
                 Level.SetActive(false);
                 Dreamer.SetActive(false);
-                Spawn.SetActive(false);
-                Bounds.SetActive(false);
             }
         }
     }
@@ -94,8 +86,6 @@ public class SettingsManipulation : MonoBehaviour
             // Activate level objects
             Level.SetActive(true);
             Dreamer.SetActive(true);
-            Spawn.SetActive(true);
-            Bounds.SetActive(true);
         }
         // If it isn't, open the settings
         else
@@ -115,8 +105,6 @@ public class SettingsManipulation : MonoBehaviour
             // Deactivate level objects
             Level.SetActive(false);
             Dreamer.SetActive(false);
-            Spawn.SetActive(false);
-            Bounds.SetActive(false);
         }
     }
 }
