@@ -22,7 +22,7 @@ public class Staircase_Usage : MonoBehaviour
 
     void Update()
     {
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && playerBools.byStairs && thisStaircase)
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && playerBools.byInteract && thisStaircase)
             playerPos.transform.position = targetPos.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
 
         if (stalkerVars.byStairs && (stalkerVars.needStairsUp || stalkerVars.needStairsDown) && thisStaircase)
@@ -41,7 +41,7 @@ public class Staircase_Usage : MonoBehaviour
     {
         if (entry.gameObject.name == "Dreamer") 
         {
-            playerBools.byStairs = true;
+            playerBools.byInteract = true;
         }
         else if (entry.gameObject.name == "Stalker(Clone)")
         {
@@ -55,7 +55,7 @@ public class Staircase_Usage : MonoBehaviour
     {
         if (egress.gameObject.name == "Dreamer") 
         {
-            playerBools.byStairs = false;
+            playerBools.byInteract = false;
         }
         else if (egress.gameObject.name == "Stalker(Clone)")
         {

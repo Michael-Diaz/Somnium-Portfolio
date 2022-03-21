@@ -11,6 +11,8 @@ public class Builder : MonoBehaviour
     // GameObjects w/ transforms for the bounds of the map 
     public GameObject lowerBound;
     public GameObject upperBound;
+    public GameObject leftWall;
+    public GameObject rightWall;
 
     private List<Vector3> spawnLocations = new List<Vector3>();
     public List<GameObject> prefabsToSpawn = new List<GameObject>(3);
@@ -31,7 +33,9 @@ public class Builder : MonoBehaviour
     void initLevel()
     {
         lowerBound  = GameObject.FindGameObjectWithTag("lowerBound");
+        leftWall = lowerBound.transform.GetChild(0).gameObject;
         upperBound  = GameObject.FindGameObjectWithTag("upperBound");
+        rightWall = upperBound.transform.GetChild(0).gameObject;
 
         Vector3 instPos = new Vector3(0.0f, 0.0f, 0.0f);
 
@@ -120,8 +124,13 @@ public class Builder : MonoBehaviour
             instPos.y = instPos.y + 3.447346f;
         }
 
-        lowerBound.transform.position = new Vector3(-2.0f, 0.0f, -1.1f);
-        upperBound.transform.position = new Vector3( (-2.0f + (width * 4.0f) ), 0.0f, -1.1f);
+        lowerBound.transform.position = new Vector3(0.0f, 0.0f, -1.1f);
+        upperBound.transform.position = new Vector3( (-4.0f + (width * 4.0f) ), 0.0f, -1.1f);
+
+        leftWall.transform.position = new Vector3(leftWall.transform.position.x, (3.447346f * height / 2.0f), leftWall.transform.position.z);
+        rightWall.transform.position = new Vector3(rightWall.transform.position.x, (3.447346f * height / 2.0f), rightWall.transform.position.z);
+        leftWall.transform.localScale = new Vector3((height * 0.3447346f), 1, 0.375f);
+        rightWall.transform.localScale = new Vector3((height * 0.3447346f), 1, 0.375f);
     }
 
     void spawnEnemies()

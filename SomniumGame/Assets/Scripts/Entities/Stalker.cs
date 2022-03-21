@@ -81,7 +81,6 @@ public class Stalker : MonoBehaviour
     {
         if (playerFloor == 0 || (playerFloor != 0 && currentFloor != playerFloor))
         {
-            Debug.Log("HEADING TO FLOOR: " + playerFloor);
             if (playerFloor == 0)
                 playerFloor = UnityEngine.Random.Range(1, mapHeight + 1);
 
@@ -98,13 +97,11 @@ public class Stalker : MonoBehaviour
         }
         else
         {
-            Debug.Log("ON DESTINATION- FLOOR: " + playerFloor);
             needStairsUp = false;
             needStairsDown = false;
 
             if (isInPursuit)
             {
-                Debug.Log("PERSUING");
                 if (transform.position.x <= playerRoom - 0.1f)
                 {
                     rb.velocity = new Vector2(Math.Abs(rb.velocity.x), 0.0f);
@@ -119,7 +116,6 @@ public class Stalker : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("SWITCHING, SUSPICIOUS");
                     isInPursuit = false;
                     isSuspicious = true;
                     suspicionTimer = Time.time + suspicionTime;
@@ -127,7 +123,6 @@ public class Stalker : MonoBehaviour
             }
             if (isSuspicious)
             {
-                Debug.Log("SUSPICIOUS, TIME REMAINING: " + (suspicionTimer - Time.time));
                 moveSpeed = 2.0f;
 
                 if (transform.position.x <= playerRoom - 2.0f)
@@ -145,7 +140,6 @@ public class Stalker : MonoBehaviour
 
                 if (Time.time > suspicionTimer)
                 {
-                    Debug.Log("SWITCHING, WANDERING");
                     isSuspicious = false;
                     moveSpeed = 1.0f;
                 }
