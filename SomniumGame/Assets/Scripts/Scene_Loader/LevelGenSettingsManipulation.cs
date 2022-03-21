@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public class SettingsManipulation : MonoBehaviour
+public class LeveGenSettingsManipulation : MonoBehaviour
 {
     public GameObject MainCamera;
     public GameObject SettingsCamera;

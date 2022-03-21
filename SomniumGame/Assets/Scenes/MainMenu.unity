@@ -8119,7 +8119,7 @@ MonoBehaviour:
   originalCanvas: {fileID: 1949874462}
   loadingScreenCanvas: {fileID: 1682385572}
   slider: {fileID: 1596309071}
-  levelToLoad: LevelGen
+  levelToLoad: ProceduralStuff
   levelToUnload: MainMenu
   loadAsync: 0
   additive: 0
