@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bathroom_Usage : MonoBehaviour
+public class Key_Usage : MonoBehaviour
 {
     private GameObject playerPos;
-
     private Player playerBools;
-    private bool thisBathroom = false;
+
+    private bool atopKey = false;
 
     // Start is called before the first frame update
     void Start()
@@ -19,30 +19,30 @@ public class Bathroom_Usage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && playerBools.byInteract && thisBathroom)
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && playerBools.byInteract && atopKey)
         {
-            playerPos.transform.position = transform.position + new Vector3(0.4f, 1.2f, 2.2f);
-            playerBools.Hide(1, transform.position + new Vector3(0.0f, 1.5f, 0.0f));
+            playerBools.keyHeld = true;
+            Destroy(gameObject);
             playerBools.byInteract = false;
-            thisBathroom = false;
         }
     }
 
      void OnTriggerEnter(Collider entry)
     {
-        if (entry.gameObject.name == "Dreamer") 
+        if (entry.gameObject.name == "Dreamer")
         {
             playerBools.byInteract = true;
-            thisBathroom = true;
+            atopKey = true;
         }
+
     }
 
     void OnTriggerExit(Collider egress)
     { 
-        if (egress.gameObject.name == "Dreamer") 
+        if (egress.gameObject.name == "Dreamer")
         {
             playerBools.byInteract = false;
-            thisBathroom = false;
+            atopKey = false;
         }
     }
 }

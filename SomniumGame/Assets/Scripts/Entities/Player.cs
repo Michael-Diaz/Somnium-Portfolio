@@ -13,7 +13,6 @@ public class Player : MonoBehaviour
                                 soundRadius, 
                                 visibilityRadius;
 
-    
     [Header("Player Movement")]
     private Rigidbody rb;
     private Collider hurtbox;
@@ -35,6 +34,7 @@ public class Player : MonoBehaviour
     public int hiddenState = 0;
     private Vector3 returnPos;
 
+    public bool keyHeld;
     public WinGame winState;
     public LoseGame loseState;
 
@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
         GameObject states = GameObject.Find("SettingsLoader");
         winState = states.GetComponent<WinGame>();
         loseState = states.GetComponent<LoseGame>();
-
+        keyHeld = false;
     }
 
     void FixedUpdate()

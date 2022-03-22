@@ -13,6 +13,8 @@ public class Builder : MonoBehaviour
     public GameObject upperBound;
     public GameObject leftWall;
     public GameObject rightWall;
+    public GameObject exit;
+    public GameObject key;
 
     private List<Vector3> spawnLocations = new List<Vector3>();
     public List<GameObject> prefabsToSpawn = new List<GameObject>(3);
@@ -36,6 +38,8 @@ public class Builder : MonoBehaviour
         leftWall = lowerBound.transform.GetChild(0).gameObject;
         upperBound  = GameObject.FindGameObjectWithTag("upperBound");
         rightWall = upperBound.transform.GetChild(0).gameObject;
+        exit  = GameObject.Find("Escape");
+        key = GameObject.Find("GrabKey");
 
         Vector3 instPos = new Vector3(0.0f, 0.0f, 0.0f);
 
@@ -131,6 +135,10 @@ public class Builder : MonoBehaviour
         rightWall.transform.position = new Vector3(rightWall.transform.position.x, (3.447346f * height / 2.0f), rightWall.transform.position.z);
         leftWall.transform.localScale = new Vector3((height * 0.3447346f), 1, 0.375f);
         rightWall.transform.localScale = new Vector3((height * 0.3447346f), 1, 0.375f);
+        
+        exit.transform.position = rightWall.transform.position - new Vector3(0.1f, rightWall.transform.position.y, rightWall.transform.position.z + 1.1f);
+    
+        key.transform.position = new Vector3(Random.Range(0, width) * 4.0f, Random.Range(1, height) * 3.447346f, -1.1f);
     }
 
     void spawnEnemies()

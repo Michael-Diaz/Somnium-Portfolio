@@ -33,5 +33,7 @@ public class PlayerInteract : MonoBehaviour
         // }
 
         promptTextBox.text = promptText;
+        if (interactableObj == null)
+            promptTextBox.text = "";
     }
 }
