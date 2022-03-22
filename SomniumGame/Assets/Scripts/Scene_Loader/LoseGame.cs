@@ -30,7 +30,7 @@ public class LoseGame : MonoBehaviour
             // Activate canvas objects
             EndGameCanvasCollection.SetActive(true);
             BackgroundCanvas.SetActive(true);
-            LoseCanvas.SetActive(false);
+            LoseCanvas.SetActive(true);
 
             // Deactivate level objects
             Level.SetActive(false);

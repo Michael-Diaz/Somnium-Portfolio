@@ -35,6 +35,9 @@ public class Player : MonoBehaviour
     public int hiddenState = 0;
     private Vector3 returnPos;
 
+    public WinGame winState;
+    public LoseGame loseState;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +50,11 @@ public class Player : MonoBehaviour
 
         lowerBound = GameObject.FindGameObjectWithTag("lowerBound").GetComponent<Transform>();
         upperBound = GameObject.FindGameObjectWithTag("upperBound").GetComponent<Transform>();
+
+        GameObject states = GameObject.Find("SettingsLoader");
+        winState = states.GetComponent<WinGame>();
+        loseState = states.GetComponent<LoseGame>();
+
     }
 
     void FixedUpdate()
@@ -146,4 +154,11 @@ public class Player : MonoBehaviour
         returnPos = newPos;
     }
 
+    void OnCollisionEnter(Collision entity)
+    {
+        if (entity.gameObject.name == "Stalker(Clone)")
+        {
+            loseState.loseCondition = true;
+        }
+    }
 }

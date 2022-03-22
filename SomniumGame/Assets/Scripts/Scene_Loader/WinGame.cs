@@ -30,7 +30,7 @@ public class WinGame : MonoBehaviour
             // Activate canvas objects
             EndGameCanvasCollection.SetActive(true);
             BackgroundCanvas.SetActive(true);
-            WinCanvas.SetActive(false);
+            WinCanvas.SetActive(true);
 
             // Deactivate level objects
             Level.SetActive(false);
