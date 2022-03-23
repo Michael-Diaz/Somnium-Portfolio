@@ -11,6 +11,7 @@ using UnityEngine;
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
@@ -34,7 +35,12 @@ public class EmotionDetection : MonoBehaviour
     private Model _runtimeModel;
     private IWorker _engine;
 
+    
+    private HersheyFonts _hersheyfont;
+    private int _baseLine;
     private Mat _frame;
+    private OpenCvSharp.Rect[] _rects;
+    private static string[] _labelMap = {"neutral", "happiness", "surprise", "sadness", "anger", "disgust", "fear", "contempt"};
 
     // Start is called before the first frame update
     void Start()
@@ -61,12 +67,16 @@ public class EmotionDetection : MonoBehaviour
         // Emotion detection model set-up
         _runtimeModel = ModelLoader.Load(modelAsset);
         _engine = WorkerFactory.CreateWorker(_runtimeModel, WorkerFactory.Device.Auto);
+
+        // Set the font and baseline for drawing the labels
+        _hersheyfont = new HersheyFonts();
+        _baseLine = new int();
     }
 
     // Update is called once per frame
     void Update()
     {
-        UnityEngine.Debug.Log(" EmotionModel Update Called ====================================");
+        //UnityEngine.Debug.Log(" EmotionModel Update Called ====================================");
 
         // Tutorial stuff
         rawImage.texture = _webcamTexture;
@@ -74,7 +84,11 @@ public class EmotionDetection : MonoBehaviour
 
         // Load faces
         Texture2D[] faces = FindFaces();
-        UnityEngine.Debug.Log($"Found {faces.Length} Faces");
+        //UnityEngine.Debug.Log($"Found {faces.Length} Faces");
+
+        // Class ids and confidences
+        List<int> class_ids = new List<int>();
+        List<float> confidences = new List<float>();
 
         // Check to see if any faces were detected
         if (faces.Length == 0)
@@ -95,8 +109,15 @@ public class EmotionDetection : MonoBehaviour
                 preds = outPreds.AsFloats();
                 outPreds.Dispose();
 
+                // Postprocess preds
+                preds = Softmax(preds);
+
+                // Add to the confidence and class lists
+                confidences.Add(preds[prediction]);
+                class_ids.Add(prediction);
+
                 // neutral=0, happiness=1, surprise=2, sadness=3, anger=4, disgust=5, fear=6, contempt=7
-                if (prediction==0)
+                /*if (prediction==0)
                     UnityEngine.Debug.Log($"Predicted Index: {prediction} (neutral)");
                 else if (prediction==1)
                     UnityEngine.Debug.Log($"Predicted Index: {prediction} (happiness)");
@@ -112,39 +133,73 @@ public class EmotionDetection : MonoBehaviour
                     UnityEngine.Debug.Log($"Predicted Index: {prediction} (fear)");
                 else if (prediction==7)
                     UnityEngine.Debug.Log($"Predicted Index: {prediction} (contempt)");
-                UnityEngine.Debug.Log($"Prediction Confidence: {preds[prediction]}");
+                UnityEngine.Debug.Log($"Prediction Confidence: {preds[prediction]}");*/
             }
         }
+
+        // Draw out the boxes and labels
+        DrawBoundingBoxes(class_ids.ToArray(), confidences.ToArray());
 
         // Clear clear faces
         foreach (Texture2D face in faces)
             Texture2D.DestroyImmediate(face, true);
     }
 
+
+    // Don't forget to include "using System.Linq;"
+    private float[] Softmax(float[] values)
+    {
+        var maxVal = values.Max();
+        var exp = values.Select(v => Math.Exp(v - maxVal));
+        var sumExp = exp.Sum();
+
+        return exp.Select(v => (float)(v / sumExp)).ToArray();
+    }
+
     private Texture2D[] FindFaces()
     {
         // Get the face coords
         // scaleFactor = 1.15, minNeighbors = 5
-        var rects = _cascade.DetectMultiScale(_frame, 1.15, 5, HaarDetectionType.ScaleImage);
+        _rects = _cascade.DetectMultiScale(_frame, 1.15, 5, HaarDetectionType.ScaleImage);
 
         // Create the Texture2D[]
-        Texture2D[] all_faces = new Texture2D[rects.Length];
+        Texture2D[] all_faces = new Texture2D[_rects.Length];
         
         // Print the faces and show the rectangles
-        for (int i = 0; i < rects.Length; i++)
+        for (int i = 0; i < _rects.Length; i++)
         {
-            DrawBoundingBoxes(rects[i]);
-            all_faces[i] = CropFaces(rects[i]);
+            all_faces[i] = CropFaces(_rects[i]);
         }
 
         return all_faces;
     }
 
 
-    private void DrawBoundingBoxes(OpenCvSharp.Rect rect)
+    private void DrawBoundingBoxes(int[] class_ids, float[] confidences)
     {
-        // Draw the box on the Mat frame
-        _frame.Rectangle(rect, new Scalar(250, 0, 0), 2);
+        for (int i = 0; i < _rects.Length; i++)
+        {
+            // Draw the box on the Mat frame
+            _frame.Rectangle(_rects[i], new Scalar(250, 0, 0), 2);
+
+            // Get the label and labelRect (and associated top value)
+            string label = _labelMap[class_ids[i]] + ": " + confidences[i].ToString("0.000");
+            Size labelSize = Cv2.GetTextSize(label, _hersheyfont, 1, 1, out _baseLine);
+            OpenCvSharp.Rect labelRect = new OpenCvSharp.Rect(new Point(_rects[i].X, _rects[i].Y-labelSize.Height), labelSize);
+            var top = Mathf.Max((float)_rects[i].Y, (float)labelRect.Height);
+
+            // Draw label background (negative thickness fills area)
+            _frame.Rectangle(labelRect, new Scalar(250, 0, 0), -1);
+
+            // Draw label
+            _frame.PutText(
+                label,
+                new Point(_rects[i].X, top),
+                _hersheyfont,
+                1,
+                new Scalar(255, 255, 255)
+            );
+        }
 
         // Convert the Mat frame to a texture and show that texture on the rawImage
         Texture tex = OpenCvSharp.Unity.MatToTexture(_frame);
