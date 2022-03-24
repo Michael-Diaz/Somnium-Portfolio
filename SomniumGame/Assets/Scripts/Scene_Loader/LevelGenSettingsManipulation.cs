@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public class LeveGenSettingsManipulation : MonoBehaviour
+public class LevelGenSettingsManipulation : MonoBehaviour
 {
     public GameObject MainCamera;
     public GameObject SettingsCamera;
@@ -20,6 +20,7 @@ public class LeveGenSettingsManipulation : MonoBehaviour
     public GameObject SettingsCanvas;
     public GameObject GraphicsCanvas;
     public GameObject AudioCanvas;
+    public GameObject FaceDetectionCanvas;
 
 
     // Listener
@@ -42,6 +43,7 @@ public class LeveGenSettingsManipulation : MonoBehaviour
                 SettingsCanvas.SetActive(false);
                 GraphicsCanvas.SetActive(false);
                 AudioCanvas.SetActive(false);
+                FaceDetectionCanvas.SetActive(false);
 
                 // Activate level objects
                 Level.SetActive(true);
@@ -63,6 +65,7 @@ public class LeveGenSettingsManipulation : MonoBehaviour
                 SettingsCanvas.SetActive(false);
                 GraphicsCanvas.SetActive(false);
                 AudioCanvas.SetActive(false);
+                FaceDetectionCanvas.SetActive(false);
 
                 // Deactivate level objects
                 Level.SetActive(false);
@@ -90,6 +93,7 @@ public class LeveGenSettingsManipulation : MonoBehaviour
             SettingsCanvas.SetActive(false);
             GraphicsCanvas.SetActive(false);
             AudioCanvas.SetActive(false);
+            FaceDetectionCanvas.SetActive(false);
 
             // Activate level objects
             Level.SetActive(true);
@@ -111,6 +115,7 @@ public class LeveGenSettingsManipulation : MonoBehaviour
             SettingsCanvas.SetActive(false);
             GraphicsCanvas.SetActive(false);
             AudioCanvas.SetActive(false);
+            FaceDetectionCanvas.SetActive(false);
 
             // Deactivate level objects
             Level.SetActive(false);
