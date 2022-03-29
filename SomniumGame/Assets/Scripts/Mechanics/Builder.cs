@@ -17,6 +17,10 @@ public class Builder : MonoBehaviour
     public GameObject key;
 
     private List<Vector3> spawnLocations = new List<Vector3>();
+
+    private List<GameObject> enemies = new List<GameObject>();
+
+    public List<GameObject> _enemies = new List<GameObject>();
     public List<GameObject> prefabsToSpawn = new List<GameObject>(3);
     private int height;
     public int _height;
@@ -31,6 +35,7 @@ public class Builder : MonoBehaviour
     {
         initLevel();
         spawnEnemies();
+        _enemies = enemies;
     }
     void initLevel()
     {
@@ -153,6 +158,9 @@ public class Builder : MonoBehaviour
 
             GameObject patrol = Instantiate(prefabsToSpawn[0]);
             patrol.transform.position = spawnLocations[i];
+
+            // adding each patrol enemy to the list of enemies
+            enemies.Add(patrol);
         }
         */
 
@@ -169,6 +177,10 @@ public class Builder : MonoBehaviour
 
         // inspector.transform.position = spawnLocations[endMarker - 2];
         Stalker.transform.position = spawnLocations[endMarker - 1];
+        
+        // adding the stalker and inspector to the list of enemies
+        enemies.Add(Stalker);
+        // enemies.Add(Inspector);
         
     }
 }

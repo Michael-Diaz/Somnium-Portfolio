@@ -49,6 +49,7 @@ public class Player_Noise : MonoBehaviour
             foreach(Collider enemy in alerted)
 		    {
 			    enemy.transform.parent.GetComponent<Stalker>().updatePos(transform.position.x, transform.position.y);
+                enemy.transform.parent.GetComponent<Stalker>()._isInPursuit = true;
 		    }
 
             if (alerted.Length > 0)

@@ -12,9 +12,15 @@ public class Stalker : MonoBehaviour
     [Header("Enemy State Changes")]
     public int currentFloor;
     [SerializeField] private bool isInPursuit = false;
+
+    public bool _isInPursuit = false;
     private bool isSuspicious = false;
+
+    public bool _isSuspicious = false;
     private float suspicionTime = 10.0f;
     private float suspicionTimer = 0.0f;
+
+    public float _suspicionTimer = 0.0f;
 
     [Header("Enemy Attack")]
     [SerializeField] private int damage;
@@ -39,8 +45,12 @@ public class Stalker : MonoBehaviour
     public bool reachedLeft = false;
     public bool reachedRight = false;
 
+    public int emotion = -1;
+
     public int playerFloor = 0;
     public float playerRoom = 0;
+
+    public float multSpeed = 1.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -61,6 +71,7 @@ public class Stalker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        emotion = GameObject.Find("BackgroundFD").GetComponent<EmotionDetection>().prediction;
         currentFloor = (int) Math.Floor(transform.position.y / 3.447346f) + 1;
 
         if (Math.Abs(rb.velocity.x) != moveSpeed)
@@ -74,6 +85,50 @@ public class Stalker : MonoBehaviour
 
     public void init()
     {
+
+    }
+
+    public void reactToEmotion(int prediction)
+    {
+        switch(prediction)
+        {
+            case -1: // undefined
+                multSpeed = 1.0f;
+                break;
+
+            case 0: // neutral
+                multSpeed = 1.0f;
+                break;
+
+            case 1: // happiness
+                multSpeed = 1.0f;    
+                break;
+
+            case 2: // surprise
+                multSpeed = 2.0f;
+                break;
+
+            case 3: // sadness
+                multSpeed = 2.0f;
+                break;
+
+            case 4: // anger
+                multSpeed = 2.0f;
+                break;
+
+            case 5: // disgust
+                multSpeed = 2.0f;
+                break;
+
+            case 6: // fear
+                multSpeed = 2.0f;
+                break;
+                
+            case 7: // contempt
+                 multSpeed = 2.0f;
+                break;
+
+        }
 
     }
 
@@ -117,13 +172,19 @@ public class Stalker : MonoBehaviour
                 else
                 {
                     isInPursuit = false;
+                    _isInPursuit = isInPursuit;
                     isSuspicious = true;
-                    suspicionTimer = Time.time + suspicionTime;
+                    _isSuspicious = true;
+                    // // suspicionTimer = Time.time + suspicionTime;
+                    // _suspicionTimer = suspicionTimer;
                 }
+                suspicionTimer = Time.time + suspicionTime;
+                _suspicionTimer = suspicionTimer;
             }
             if (isSuspicious)
             {
-                moveSpeed = 2.0f;
+                // hasten by a factor of speed multiplier
+                moveSpeed *= multSpeed;
 
                 if (transform.position.x <= playerRoom - 2.0f)
                 {
@@ -141,7 +202,9 @@ public class Stalker : MonoBehaviour
                 if (Time.time > suspicionTimer)
                 {
                     isSuspicious = false;
-                    moveSpeed = 1.0f;
+                    _isSuspicious = false;
+                    // return to normal ms
+                    moveSpeed /= multSpeed;
                 }
             }
         }
@@ -174,6 +237,7 @@ public class Stalker : MonoBehaviour
         }
     }
 
+
     public void attack()
     {
         
@@ -183,10 +247,14 @@ public class Stalker : MonoBehaviour
     {
         playerFloor = (int) Math.Floor(playerYPos / 3.447346f) + 1;
         playerRoom = playerXPos;
-        moveSpeed = 3.0f;
 
+        moveSpeed = 3.0f;
+        
         isInPursuit = true;
+        // Debug.Log("stalker in pursuit " + isInPursuit);
+        _isInPursuit = isInPursuit;
         isSuspicious = false;
+        _isSuspicious = false;
 
         reachedRight = false;
         reachedLeft = false;

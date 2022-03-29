@@ -19,8 +19,8 @@ public class Exit_Usage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Pressing W:" + Input.GetKeyDown(KeyCode.W) + "\nbyInteract: " + playerBools.byInteract);
-        Debug.Log("keyHeld: " + playerBools.keyHeld + "\nOn Exit: " + byExit);
+        // Debug.Log("Pressing W:" + Input.GetKeyDown(KeyCode.W) + "\nbyInteract: " + playerBools.byInteract);
+        // Debug.Log("keyHeld: " + playerBools.keyHeld + "\nOn Exit: " + byExit);
         if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && playerBools.byInteract && playerBools.keyHeld && byExit)
         {
             playerBools.winState.winCondition = true;

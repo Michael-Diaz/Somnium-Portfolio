@@ -11,7 +11,9 @@ public class Patrol : MonoBehaviour
    
     [Header("Enemy State Changes")]
     [SerializeField] private int currentFloor;
-    [SerializeField] private bool isInPursuit;
+    [SerializeField] private bool isInPursuit = false;
+
+    public bool _isInPursuit = false;
 
     [Header("Enemy Attack")]
     [SerializeField] private int damage;
