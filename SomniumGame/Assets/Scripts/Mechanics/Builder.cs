@@ -112,14 +112,14 @@ public class Builder : MonoBehaviour
                     int roomType = Random.Range(0, 2);
                     if (target == 1 || roomType == 0)
                     {
-                        int roomStyle = Random.Range(1, 3);
+                        int roomStyle = Random.Range(1, 4);
                         Instantiate(rooms[roomStyle], instPos, Quaternion.Euler(-90, 0, 180));
                         target--;
                         index++;
                     }
                     else
                     {
-                        int roomStyle = Random.Range(4, 6);
+                        int roomStyle = Random.Range(4, 7);
                         Instantiate(rooms[roomStyle], instPos, Quaternion.Euler(-90, 0, 180));
                         target -= 2;
                         index += 2;
