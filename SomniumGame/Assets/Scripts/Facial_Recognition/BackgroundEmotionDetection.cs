@@ -23,28 +23,19 @@ using OpenCvSharp;
 using AmazingAssets.ResizePro;
 
 
-public class EmotionDetection : MonoBehaviour
+public class BackgroundEmotionDetection : MonoBehaviour
 {
     /* PUBLICS */
-    public RawImage rawImage;
     public NNModel modelAsset;
-
-    public Slider scaleFactorSlider;
-    public Slider minNeighborsSlider;
-    public Slider minSizeSlider;
-
-    public Text scaleFactorSliderText1;
-    public Text scaleFactorSliderText2;
-    public Text minNeighborsSliderText1;
-    public Text minNeighborsSliderText2;
-    public Text minSizeSliderText1;
-    public Text minSizeSliderText2;
     
     public int prediction; // output index
     public float[] preds; // output array
 
 
     /* PRIVATES */
+    private int updateChecker = 10;
+    private int updateCounter; // Has the model only run every updateChecker number of frames
+
     private CascadeClassifier _cascade;
     private WebCamTexture _webcamTexture;
     private Model _runtimeModel;
@@ -54,8 +45,6 @@ public class EmotionDetection : MonoBehaviour
     private int minNeighbors; // default 5
     private int minSize; // default Size(15, 15)
     
-    private HersheyFonts _hersheyfont;
-    private int _baseLine;
     private Mat _frame;
     private OpenCvSharp.Rect[] _rects;
     private static string[] _labelMap = {"neutral", "happiness", "surprise", "sadness", "anger", "disgust", "fear", "contempt"};
@@ -71,7 +60,6 @@ public class EmotionDetection : MonoBehaviour
 
         // Assuming the first available WebCam is desired
         _webcamTexture = new WebCamTexture(cam_devices[0].name);
-        rawImage.texture = _webcamTexture;
 
         if (_webcamTexture != null) {
             UnityEngine.Debug.Log($"Streaming [{cam_devices[0].name}]");
@@ -90,148 +78,68 @@ public class EmotionDetection : MonoBehaviour
         scaleFactor = Convert.ToDouble(lines[0]); // default = 1.15
         minNeighbors = Convert.ToInt32(lines[1]); // default = 5
         minSize = Convert.ToInt32(lines[2]); // default = 15
-
-        // Set values for the sliders to these newly loaded values
-        scaleFactorSlider.value = (float)scaleFactor;
-        minNeighborsSlider.value = minNeighbors;
-        minSizeSlider.value = minSize;
-
-        // Set text box values
-        UpdateScaleFactorSliderTextBox();
-        UpdateMinNeighborsSliderTextBox();
-        UpdateMinSizeSliderTextBox();
-
-        // Add listeners for when the values change
-        scaleFactorSlider.onValueChanged.AddListener(delegate {OnScaleFactorSliderValueChanged();});
-        minNeighborsSlider.onValueChanged.AddListener(delegate {OnMinNeighborsSliderValueChanged();});
-        minSizeSlider.onValueChanged.AddListener(delegate {OnMinSizeSliderValueChanged();});
         
         // Emotion detection model set-up
         _runtimeModel = ModelLoader.Load(modelAsset);
         _engine = WorkerFactory.CreateWorker(_runtimeModel, WorkerFactory.Device.Auto);
-
-        // Set the font and baseline for drawing the labels
-        _hersheyfont = new HersheyFonts();
-        _baseLine = new int();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //UnityEngine.Debug.Log(" EmotionModel Update Called ====================================");
+        // UnityEngine.Debug.Log(" EmotionModel Update Called ====================================");
+        if (updateCounter <= 0)
+        {
+            // Get the Mat frame
+            _frame = OpenCvSharp.Unity.TextureToMat(_webcamTexture);
 
-        // Show the webcam's frame in unity and get the Mat frame
-        rawImage.texture = _webcamTexture;
-        _frame = OpenCvSharp.Unity.TextureToMat(_webcamTexture);
+            // Load faces
+            Texture2D[] faces = FindFaces();
+            //UnityEngine.Debug.Log($"Found {faces.Length} Faces");
 
-        // Load faces
-        Texture2D[] faces = FindFaces();
-        //UnityEngine.Debug.Log($"Found {faces.Length} Faces");
+            // Class ids and confidences
+            List<int> class_ids = new List<int>();
+            List<float> confidences = new List<float>();
 
-        // Class ids and confidences
-        List<int> class_ids = new List<int>();
-        List<float> confidences = new List<float>();
+            // Check to see if any faces were detected
+            if (faces.Length == 0)
+                prediction = -1;
+            else
+            {
+                // Loop for detection emotions on detected faces
+                for (int i = 0; i < faces.Length; i++) {
+                    // Create input tensor from tx2d
+                    Tensor inputX = MakeInputTensor(faces[i]);
 
-        // Check to see if any faces were detected
-        if (faces.Length == 0)
-            prediction = -1;
+                    // Input the tensor and get the output
+                    Tensor outPreds = _engine.Execute(inputX).PeekOutput();
+                    inputX.Dispose();
+
+                    // Set public vars
+                    prediction = outPreds.ArgMax()[0];
+                    preds = outPreds.AsFloats();
+                    outPreds.Dispose();
+
+                    // Postprocess preds
+                    preds = Softmax(preds);
+
+                    // Add to the confidence and class lists
+                    confidences.Add(preds[prediction]);
+                    class_ids.Add(prediction);
+                }
+            }
+
+            // Clear clear faces
+            foreach (Texture2D face in faces)
+                Texture2D.DestroyImmediate(face, true);
+            
+            // Reset update counter
+            updateCounter = updateChecker;
+        }
         else
         {
-            // Loop for detection emotions on detected faces
-            for (int i = 0; i < faces.Length; i++) {
-                // Create input tensor from tx2d
-                Tensor inputX = MakeInputTensor(faces[i]);
-
-                // Input the tensor and get the output
-                Tensor outPreds = _engine.Execute(inputX).PeekOutput();
-                inputX.Dispose();
-
-                // Set public vars
-                prediction = outPreds.ArgMax()[0];
-                preds = outPreds.AsFloats();
-                outPreds.Dispose();
-
-                // Postprocess preds
-                preds = Softmax(preds);
-
-                // Add to the confidence and class lists
-                confidences.Add(preds[prediction]);
-                class_ids.Add(prediction);
-            }
+            updateCounter--;
         }
-
-        // Draw out the boxes and labels
-        DrawBoundingBoxes(class_ids.ToArray(), confidences.ToArray());
-
-        // Clear clear faces
-        foreach (Texture2D face in faces)
-            Texture2D.DestroyImmediate(face, true);
-    }
-
-    public void OnScaleFactorSliderValueChanged()
-    {
-        scaleFactor = (float)scaleFactorSlider.value;
-        UpdateScaleFactorSliderTextBox();
-    }
-
-    public void OnMinNeighborsSliderValueChanged()
-    {
-        minNeighbors = (int)minNeighborsSlider.value;
-        UpdateMinNeighborsSliderTextBox();
-    }
-
-    public void OnMinSizeSliderValueChanged()
-    {
-        minSize = (int)minSizeSlider.value;
-        UpdateMinSizeSliderTextBox();
-    }
-
-    public void UpdateScaleFactorSliderTextBox()
-    {
-        scaleFactorSliderText1.text = (Mathf.Round((float)scaleFactor * 100f) / 100f).ToString();
-        scaleFactorSliderText2.text = (Mathf.Round((float)scaleFactor * 100f) / 100f).ToString();
-    }
-
-    public void UpdateMinNeighborsSliderTextBox()
-    {
-        minNeighborsSliderText1.text = minNeighbors.ToString();
-        minNeighborsSliderText2.text = minNeighbors.ToString();
-    }
-
-    public void UpdateMinSizeSliderTextBox()
-    {
-        minSizeSliderText1.text = minSize.ToString();
-        minSizeSliderText2.text = minSize.ToString();
-    }
-
-    public void SaveSliderValues()
-    {
-        // Create string array of the slider values
-        string[] lines =
-        {
-            scaleFactor.ToString(), 
-            minNeighbors.ToString(), 
-            minSize.ToString()
-        };
-
-        // Save the slider values to their save file
-        string path = Application.dataPath + @"/Resources/Cascade_Values/CascadeValues.txt";
-        using StreamWriter file = new StreamWriter(path);
-        foreach (string line in lines)
-            file.WriteLine(line);
-    }
-
-    public void ResetSliderValues()
-    {
-        // Reset slider values to their base defaults
-        scaleFactorSlider.value = 1.15f;
-        minNeighborsSlider.value = 5;
-        minSizeSlider.value = 15;
-
-        // Reset internal values
-        scaleFactor = 1.15;
-        minNeighbors = 5;
-        minSize = 15;
     }
 
     // Don't forget to include "using System.Linq;"
@@ -260,38 +168,6 @@ public class EmotionDetection : MonoBehaviour
         }
 
         return all_faces;
-    }
-
-
-    private void DrawBoundingBoxes(int[] class_ids, float[] confidences)
-    {
-        for (int i = 0; i < _rects.Length; i++)
-        {
-            // Draw the box on the Mat frame
-            _frame.Rectangle(_rects[i], new Scalar(250, 0, 0), 2);
-
-            // Get the label and labelRect (and associated top value)
-            string label = _labelMap[class_ids[i]] + ": " + confidences[i].ToString("0.000");
-            Size labelSize = Cv2.GetTextSize(label, _hersheyfont, 1, 1, out _baseLine);
-            OpenCvSharp.Rect labelRect = new OpenCvSharp.Rect(new Point(_rects[i].X, _rects[i].Y-labelSize.Height), labelSize);
-            var top = Mathf.Max((float)_rects[i].Y, (float)labelRect.Height);
-
-            // Draw label background (negative thickness fills area)
-            _frame.Rectangle(labelRect, new Scalar(250, 0, 0), -1);
-
-            // Draw label
-            _frame.PutText(
-                label,
-                new Point(_rects[i].X, top),
-                _hersheyfont,
-                1,
-                new Scalar(255, 255, 255)
-            );
-        }
-
-        // Convert the Mat frame to a texture and show that texture on the rawImage
-        Texture tex = OpenCvSharp.Unity.MatToTexture(_frame);
-        rawImage.texture = tex;
     }
 
 

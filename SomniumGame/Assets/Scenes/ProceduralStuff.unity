@@ -2099,20 +2099,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 295552302}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92797915e6b29734784b59db122bd668, type: 3}
+  m_Script: {fileID: 11500000, guid: 7247dfb5291df2b4aa0317c03a463a60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rawImage: {fileID: 0}
-  modelAsset: {fileID: 0}
-  scaleFactorSlider: {fileID: 0}
-  minNeighborsSlider: {fileID: 0}
-  minSizeSlider: {fileID: 0}
-  scaleFactorSliderText1: {fileID: 0}
-  scaleFactorSliderText2: {fileID: 0}
-  minNeighborsSliderText1: {fileID: 0}
-  minNeighborsSliderText2: {fileID: 0}
-  minSizeSliderText1: {fileID: 0}
-  minSizeSliderText2: {fileID: 0}
+  modelAsset: {fileID: 5022602860645237092, guid: b1ef2b3c2a980054596ae9f17e42fcb0, type: 3}
   prediction: 0
   preds: []
 --- !u!4 &295552304
@@ -6377,9 +6367,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 963163323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e90ce39d5d809f49809c342bb3f13db, type: 3}
+  m_Script: {fileID: 11500000, guid: eca56f0e4b3ef1e4c8e79eea659e91b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backgroundMusicSource: {fileID: 0}
+  chaseMusicSource: {fileID: 0}
+  sfxSource: {fileID: 0}
+  bgMusic: {fileID: 0}
+  chaseMusic: {fileID: 0}
 --- !u!1 &972312409
 GameObject:
   m_ObjectHideFlags: 0
@@ -7771,9 +7766,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1207175941}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e90ce39d5d809f49809c342bb3f13db, type: 3}
+  m_Script: {fileID: 11500000, guid: eca56f0e4b3ef1e4c8e79eea659e91b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backgroundMusicSource: {fileID: 0}
+  chaseMusicSource: {fileID: 0}
+  sfxSource: {fileID: 0}
+  bgMusic: {fileID: 0}
+  chaseMusic: {fileID: 0}
 --- !u!82 &1207175944
 AudioSource:
   m_ObjectHideFlags: 0

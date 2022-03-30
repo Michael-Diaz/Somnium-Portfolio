@@ -71,7 +71,7 @@ public class Stalker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        emotion = GameObject.Find("BackgroundFD").GetComponent<EmotionDetection>().prediction;
+        emotion = GameObject.Find("BackgroundFD").GetComponent<BackgroundEmotionDetection>().prediction;
         currentFloor = (int) Math.Floor(transform.position.y / 3.447346f) + 1;
 
         if (Math.Abs(rb.velocity.x) != moveSpeed)
