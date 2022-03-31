@@ -34,6 +34,9 @@ public class Player : MonoBehaviour
     public int hiddenState = 0;
     private Vector3 returnPos;
 
+    private int invSelect = 0;
+    public GameObject[] inventory;
+
     public bool keyHeld;
     public WinGame winState;
     public LoseGame loseState;
@@ -50,6 +53,8 @@ public class Player : MonoBehaviour
 
         lowerBound = GameObject.FindGameObjectWithTag("lowerBound").GetComponent<Transform>();
         upperBound = GameObject.FindGameObjectWithTag("upperBound").GetComponent<Transform>();
+
+        inventory = new GameObject[2];
 
         GameObject states = GameObject.Find("SettingsLoader");
         winState = states.GetComponent<WinGame>();
@@ -84,18 +89,6 @@ public class Player : MonoBehaviour
                 Flip();
             }
         }
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            hiddenState = 0;
-            playerAnim.SetInteger("Hiding Type", hiddenState);
-            
-            transform.position = returnPos;
-
-            rb.useGravity = true;
-            hurtbox.enabled = true;
-
-            sight.enabled = true;
-        }
     }
 
     void Update() 
@@ -116,10 +109,27 @@ public class Player : MonoBehaviour
             playerAnim.SetBool("Sprinting", isSprinting);
             playerAnim.SetBool("Crouching", isStealthed);
 
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                UseItem(inventory, invSelect);
+            }
+
             if(Input.GetKeyDown(KeyCode.Space) && isGrounded)
             {
                 rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
             }
+        }
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            hiddenState = 0;
+            playerAnim.SetInteger("Hiding Type", hiddenState);
+            
+            transform.position = returnPos;
+
+            rb.useGravity = true;
+            hurtbox.enabled = true;
+
+            sight.enabled = true;
         }
 
         // if !isInDanger play default else play dangerMusic
@@ -152,6 +162,20 @@ public class Player : MonoBehaviour
         sight.enabled = false;
 
         returnPos = newPos;
+    }
+
+    public void UseItem(GameObject[] held, int hand)
+    {
+        if (held[hand] != null)
+        {
+            Item itemSpecs = held[hand].GetComponent<Item>();
+            held[hand] = null;
+        }
+
+        if (hand == 0 && held[1] != null)
+            invSelect = 1;
+        if (hand == 1 && held[0] != null)
+            invSelect = 0;
     }
 
     void OnCollisionEnter(Collision entity)

@@ -93,41 +93,19 @@ public class Stalker : MonoBehaviour
         switch(prediction)
         {
             case -1: // undefined
-                multSpeed = 1.0f;
-                break;
-
             case 0: // neutral
-                multSpeed = 1.0f;
-                break;
-
             case 1: // happiness
                 multSpeed = 1.0f;    
                 break;
 
             case 2: // surprise
-                multSpeed = 2.0f;
-                break;
-
             case 3: // sadness
-                multSpeed = 2.0f;
-                break;
-
             case 4: // anger
-                multSpeed = 2.0f;
-                break;
-
             case 5: // disgust
-                multSpeed = 2.0f;
-                break;
-
-            case 6: // fear
-                multSpeed = 2.0f;
-                break;
-                
+            case 6: // fear 
             case 7: // contempt
-                 multSpeed = 2.0f;
+                multSpeed = 2.0f;
                 break;
-
         }
 
     }
