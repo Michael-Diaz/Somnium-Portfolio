@@ -1284,7 +1284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 1809886963}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &189538585
@@ -10743,6 +10743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 153ddd0fcf46cfe42963ace3a4c2959d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UniversalWebcam: {fileID: 1809886963}
 --- !u!114 &2102117957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10755,6 +10756,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77157f15077aa49469cbcedd6cbe47a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UniversalWebcam: {fileID: 1809886963}
   originalCanvas: {fileID: 1949874462}
   loadingScreenCanvas: {fileID: 1682385572}
   slider: {fileID: 1596309071}

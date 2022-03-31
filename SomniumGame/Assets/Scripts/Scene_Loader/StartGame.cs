@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class StartGame : MonoBehaviour
 {
+    public GameObject UniversalWebcam;
     public GameObject originalCanvas;
     public GameObject loadingScreenCanvas;
     public Slider slider;
@@ -17,6 +18,10 @@ public class StartGame : MonoBehaviour
 
     public void LoadScene()
 	{
+        // Stop the webcam
+        if (UniversalWebcam.GetComponent<UniversalWebcam>().webcamTexture.isPlaying)
+            UniversalWebcam.GetComponent<UniversalWebcam>().webcamTexture.Stop();
+
         // Prepare to load the currently active scene if no scene was specified
 		if (levelToLoad == null)
 		{

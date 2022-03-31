@@ -2277,8 +2277,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SettingsManipulation, Assembly-CSharp
+      - m_Target: {fileID: 1479188840}
+        m_TargetAssemblyTypeName: ProGenSettingsManipulation, Assembly-CSharp
         m_MethodName: ButtonPress
         m_Mode: 1
         m_Arguments:
@@ -9473,6 +9473,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1772ab39aded984e8d9a3794efd598f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UniversalWebcam: {fileID: 2026112499}
   sceneToLoad: MainMenu
   sceneToUnload: LevelGen
   loadAsync: 0
@@ -9490,6 +9491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 153ddd0fcf46cfe42963ace3a4c2959d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UniversalWebcam: {fileID: 2026112499}
 --- !u!114 &1479188840
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ReturnToMainMenu : MonoBehaviour
 {
+	public GameObject UniversalWebcam;
     public string sceneToLoad;
     public string sceneToUnload;
     public bool loadAsync=false;
@@ -14,6 +15,10 @@ public class ReturnToMainMenu : MonoBehaviour
 
     public void LoadScene()
 	{
+		// Stop the webcam
+        if (UniversalWebcam.GetComponent<UniversalWebcam>().webcamTexture.isPlaying)
+            UniversalWebcam.GetComponent<UniversalWebcam>().webcamTexture.Stop();
+			
         // Prepare to load the currently active scene if no scene was specified
 		if (sceneToLoad == null)
 		{
