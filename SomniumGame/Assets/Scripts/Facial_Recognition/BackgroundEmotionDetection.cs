@@ -26,6 +26,7 @@ using AmazingAssets.ResizePro;
 public class BackgroundEmotionDetection : MonoBehaviour
 {
     /* PUBLICS */
+    public GameObject UniversalWebcam;
     public NNModel modelAsset;
     
     public int prediction; // output index
@@ -52,19 +53,8 @@ public class BackgroundEmotionDetection : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Use cam_devices to allow a person to select their desired camera
-        // For debugging purposes, prints available devices to the console
-        WebCamDevice[] cam_devices = WebCamTexture.devices;
-        for (int i = 0; i < cam_devices.Length; i++)
-            UnityEngine.Debug.Log($"Webcam available: {cam_devices[i].name}");
-
-        // Assuming the first available WebCam is desired
-        _webcamTexture = new WebCamTexture(cam_devices[0].name);
-
-        if (_webcamTexture != null) {
-            UnityEngine.Debug.Log($"Streaming [{cam_devices[0].name}]");
-            _webcamTexture.Play();
-        }
+        // Set the webcam texture
+        _webcamTexture = UniversalWebcam.GetComponent<UniversalWebcam>().webcamTexture;
 
         // Haar cascade set-up
         string path = Application.dataPath + @"/Resources/Haar_Cascades/haarcascade_frontalface_default.xml";
@@ -90,6 +80,9 @@ public class BackgroundEmotionDetection : MonoBehaviour
         // UnityEngine.Debug.Log(" EmotionModel Update Called ====================================");
         if (updateCounter <= 0)
         {
+            // Set the webcam texture
+            _webcamTexture = UniversalWebcam.GetComponent<UniversalWebcam>().webcamTexture;
+
             // Get the Mat frame
             _frame = OpenCvSharp.Unity.TextureToMat(_webcamTexture);
 

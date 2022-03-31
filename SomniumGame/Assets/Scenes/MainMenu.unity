@@ -2372,6 +2372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92797915e6b29734784b59db122bd668, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UniversalWebcam: {fileID: 1809886963}
   rawImage: {fileID: 512894534}
   modelAsset: {fileID: 5022602860645237092, guid: b1ef2b3c2a980054596ae9f17e42fcb0, type: 3}
   scaleFactorSlider: {fileID: 1386565081}
@@ -9374,6 +9375,50 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 28}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!1 &1809886963
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1809886965}
+  - component: {fileID: 1809886964}
+  m_Layer: 0
+  m_Name: UniversalWebcam
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1809886964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809886963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c784bb3db6c34940bcd583a8e044597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  webcamTexture: {fileID: 0}
+--- !u!4 &1809886965
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809886963}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.762554, y: 2.0113783, z: -590.94324}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1827981479
 GameObject:
   m_ObjectHideFlags: 0
