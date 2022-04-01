@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Spawn_Items : MonoBehaviour
 {
+    private GameObject interactField;
     private bool alreadySpawned = false;
     [SerializeField] private int roomType;
     [SerializeField] GameObject itemPrefab;
@@ -11,6 +12,7 @@ public class Spawn_Items : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        interactField = this.transform.GetChild(0).gameObject;
     }
 
     // Update is called once per frame
@@ -31,6 +33,7 @@ public class Spawn_Items : MonoBehaviour
                     {
                         GameObject cup = Instantiate(itemPrefab);
                         cup.transform.position = new Vector3 (transform.position.x, transform.position.y, -1.1f);
+                        cup.transform.parent = interactField.transform;
                     }
                     break;
                 case 1: // short bedroom & flashlight
@@ -38,6 +41,7 @@ public class Spawn_Items : MonoBehaviour
                     {
                         GameObject flashlight = Instantiate(itemPrefab);
                         flashlight.transform.position = new Vector3 (transform.position.x, transform.position.y, -1.1f);
+                        flashlight.transform.parent = interactField.transform;
                     }
                     break;
                 case 2: // long bedroom & music box
@@ -45,8 +49,13 @@ public class Spawn_Items : MonoBehaviour
                     {
                         GameObject music_box = Instantiate(itemPrefab);
                         music_box.transform.position = new Vector3 (transform.position.x, transform.position.y, -1.1f);    
+                        music_box.transform.parent = interactField.transform;
                     }
                     break;
+            }
+            if (spawnRate == 0)
+            {
+                Destroy(interactField);
             }
 
             alreadySpawned = true;

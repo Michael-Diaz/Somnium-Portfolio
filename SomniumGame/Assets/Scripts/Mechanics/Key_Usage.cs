@@ -27,7 +27,7 @@ public class Key_Usage : MonoBehaviour
         }
     }
 
-     void OnTriggerEnter(Collider entry)
+    void OnTriggerEnter(Collider entry)
     {
         if (entry.gameObject.name == "Dreamer")
         {

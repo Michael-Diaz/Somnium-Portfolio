@@ -169,6 +169,7 @@ public class Player : MonoBehaviour
         if (held[hand] != null)
         {
             Item itemSpecs = held[hand].GetComponent<Item>();
+            itemSpecs.ItemUsage();
             held[hand] = null;
         }
 

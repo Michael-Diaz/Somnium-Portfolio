@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
+    private GameObject playerPos;
+    private Player playerBools;
+
+    private bool thisItem = false;
     public bool isHeld = false; // in player inventory
     public bool beingUsed = false; //for the flashlight
 
@@ -19,6 +23,9 @@ public class Item : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerPos = GameObject.Find("Dreamer");
+        playerBools = playerPos.GetComponent<Player>();
+
         switch(itemType)
         {
             case 0:
@@ -48,14 +55,33 @@ public class Item : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float targetTime = 0.0f;
-
-        if (effectTimer != -1.0f)
-            targetTime = Time.time + effectTimer;
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && playerBools.byInteract && thisItem)
+        {
+            Destroy(gameObject);
+        }
     }
 
-    void ItemUsage()
+    public void ItemUsage()
     {
 
+    }
+
+    void OnTriggerEnter(Collider entry)
+    {
+        if (entry.gameObject.name == "Dreamer")
+        {
+            playerBools.byInteract = true;
+            thisItem = true;
+        }
+
+    }
+
+    void OnTriggerExit(Collider egress)
+    { 
+        if (egress.gameObject.name == "Dreamer")
+        {
+            playerBools.byInteract = false;
+            thisItem = false;
+        }
     }
 }
