@@ -7,8 +7,10 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
-    [SerializeField] private AudioSource backgroundMusicSource, chaseMusicSource, sfxSource;
+    [SerializeField] public AudioSource backgroundMusicSource, chaseMusicSource, sfxSource;
     [SerializeField] private AudioClip bgMusic, chaseMusic;
+
+    [SerializeField] private AudioClip[] sfx;
     // AudioSource chaseMusic;
     // AudioSource bgMusic;
 
@@ -31,6 +33,7 @@ public class AudioManager : MonoBehaviour
 
         // backgroundMusicSource.PlayOneShot(bgMusic);
         backgroundMusicSource.Play();
+        sfxSource.Play();
         // backgroundMusicSource.loop = true;
         // Invoke("crossfade", 2);
 
@@ -55,6 +58,11 @@ public class AudioManager : MonoBehaviour
         // if the enemy with the max suspicion timer is no longer suspicious, set anySuspicion to false
         if (Time.time > suspicionTimer)
             anySuspicion = false;
+    }
+
+    void FixedUpdate()
+    {
+        
     }
 
 
@@ -133,5 +141,10 @@ public class AudioManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void playSound(int i)
+    {
+        sfxSource.PlayOneShot(sfx[i]);
     }
 }

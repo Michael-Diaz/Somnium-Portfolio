@@ -8,6 +8,8 @@ public class Player_Noise : MonoBehaviour
         sonarSpacing = 0.95f,
         nextSonarTime = 0.0f;
 
+    public float _nextSonarTime = 0.0f;
+
     private LayerMask allEnemies;
     private ParticleSystem soundWave;
     private ParticleSystem.MainModule soundWaveSettings;
@@ -60,6 +62,7 @@ public class Player_Noise : MonoBehaviour
             soundWave.Play();
 
             nextSonarTime = Time.time + sonarSpacing;
+            _nextSonarTime = nextSonarTime;
         }
     }
 }

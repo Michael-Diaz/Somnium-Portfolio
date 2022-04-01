@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Item : MonoBehaviour
 {
     private GameObject playerPos;
     private Player playerBools;
+
+    [SerializeField] private Image[] itemIcons;
 
     private bool thisItem = false;
     public bool isHeld = false; // in player inventory
@@ -18,7 +21,7 @@ public class Item : MonoBehaviour
     private bool throwable;
     private bool thrown; // has left the player's hand/midair
 
-    public int itemType; // 0 is flashlight, 1 is music box, 2 is cup
+    public int itemType; // 0 is cup, 1 is flashlight, 2 is music box
     
     // Start is called before the first frame update
     void Start()
@@ -29,25 +32,27 @@ public class Item : MonoBehaviour
         switch(itemType)
         {
             case 0:
+                soundEmitting = true;
+                effectTimer = -1.0f;
+                throwable = true;
+
+                lightEmitting = false;
+                break;
+
+            case 1:
                 lightEmitting = true;
                 effectTimer = 10.0f;
 
                 soundEmitting = false;
                 throwable = false;
                 break;
-            case 1:
+
+            case 2:
                 soundEmitting = true;
                 effectTimer = 5.0f;
 
                 lightEmitting = false;
                 throwable = false;
-                break;
-            case 2:
-                soundEmitting = true;
-                effectTimer = -1.0f;
-                throwable = true;
-
-                lightEmitting = false;
                 break;
         }
     }
