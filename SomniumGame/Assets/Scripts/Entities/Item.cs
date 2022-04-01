@@ -8,7 +8,9 @@ public class Item : MonoBehaviour
     private GameObject playerPos;
     private Player playerBools;
 
-    [SerializeField] private Image[] itemIcons;
+    [SerializeField] public Sprite itemIcon;
+    private Image field1;
+    private Image field2;
 
     private bool thisItem = false;
     public bool isHeld = false; // in player inventory
@@ -28,6 +30,9 @@ public class Item : MonoBehaviour
     {
         playerPos = GameObject.Find("Dreamer");
         playerBools = playerPos.GetComponent<Player>();
+
+        field1 = GameObject.Find("Slot 1").transform.GetChild(0).GetComponent<Image>();
+        field2 = GameObject.Find("Slot 2").transform.GetChild(0).GetComponent<Image>();
 
         switch(itemType)
         {
@@ -60,15 +65,33 @@ public class Item : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        int slot = -1;
+
+        if (playerBools.inventory[0] == null)
+            slot = 0;
+        else if (playerBools.inventory[1] == null)
+            slot = 1;
+
         if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && playerBools.byInteract && thisItem)
         {
-            Destroy(gameObject);
+            if (slot >= 0)
+            {
+                playerBools.inventory[slot] = Instantiate(gameObject) as GameObject;
+
+                if (slot == 0)
+                    field1.sprite = itemIcon;
+                else
+                    field2.sprite = itemIcon;
+                    
+                Destroy(gameObject);
+            }
         }
     }
 
-    public void ItemUsage()
+    public void ItemUsage(int index)
     {
-
+        Debug.Log("USING " + this.name);
+        playerBools.inventory[index] = null;
     }
 
     void OnTriggerEnter(Collider entry)

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -36,6 +37,10 @@ public class Player : MonoBehaviour
 
     private int invSelect = 0;
     public GameObject[] inventory;
+    public RectTransform selectionArrows;
+    public Sprite emptyIcon;
+    private Image field1;
+    private Image field2;
 
     public bool keyHeld;
     public WinGame winState;
@@ -55,6 +60,8 @@ public class Player : MonoBehaviour
         upperBound = GameObject.FindGameObjectWithTag("upperBound").GetComponent<Transform>();
 
         inventory = new GameObject[2];
+        field1 = GameObject.Find("Slot 1").transform.GetChild(0).GetComponent<Image>();
+        field2 = GameObject.Find("Slot 2").transform.GetChild(0).GetComponent<Image>();
 
         GameObject states = GameObject.Find("SettingsLoader");
         winState = states.GetComponent<WinGame>();
@@ -132,6 +139,17 @@ public class Player : MonoBehaviour
             sight.enabled = true;
         }
 
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (invSelect == 0)
+                invSelect = 1;
+            else
+                invSelect = 0;
+
+            selectionArrows.anchoredPosition = new Vector2(-112 + (invSelect * 224), 0);
+
+        }
+
         // if !isInDanger play default else play dangerMusic
         //  player has to be safe for x amount of time before returning to default music
         
@@ -169,14 +187,20 @@ public class Player : MonoBehaviour
         if (held[hand] != null)
         {
             Item itemSpecs = held[hand].GetComponent<Item>();
-            itemSpecs.ItemUsage();
-            held[hand] = null;
+            itemSpecs.ItemUsage(hand);
+
+            if (hand == 0)
+                field1.sprite = emptyIcon;
+            else
+                field2.sprite = emptyIcon;
         }
 
         if (hand == 0 && held[1] != null)
             invSelect = 1;
         if (hand == 1 && held[0] != null)
             invSelect = 0;
+
+        selectionArrows.anchoredPosition = new Vector2(-112 + (invSelect * 224), 0);
     }
 
     void OnCollisionEnter(Collision entity)

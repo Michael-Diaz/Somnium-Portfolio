@@ -123,6 +123,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 030aef4943c7b924a8e9692695a7ff17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemIcon: {fileID: 21300000, guid: 0125d0d9b769166429f1cb437b87d22e, type: 3}
+  field1: {fileID: 0}
+  field2: {fileID: 0}
   isHeld: 0
   beingUsed: 0
   itemType: 2
