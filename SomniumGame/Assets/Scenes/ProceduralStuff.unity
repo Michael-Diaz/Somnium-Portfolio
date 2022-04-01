@@ -6241,7 +6241,6 @@ GameObject:
   m_Component:
   - component: {fileID: 963163324}
   - component: {fileID: 963163325}
-  - component: {fileID: 963163326}
   m_Layer: 0
   m_Name: Chase Music Source
   m_TagString: Untagged
@@ -6273,7 +6272,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 7952635690622259522, guid: 34621e72e9a96ca44acb68a4573637d8, type: 2}
-  m_audioClip: {fileID: 8300000, guid: a3fd9a529926ae440a91a66ee57a3fd6, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 12923b38350d90d4ca24ba08ac9ce60e, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.3
   m_Pitch: 1
@@ -6359,23 +6358,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &963163326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963163323}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eca56f0e4b3ef1e4c8e79eea659e91b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  backgroundMusicSource: {fileID: 0}
-  chaseMusicSource: {fileID: 0}
-  sfxSource: {fileID: 0}
-  bgMusic: {fileID: 0}
-  chaseMusic: {fileID: 0}
 --- !u!1 &972312409
 GameObject:
   m_ObjectHideFlags: 0
@@ -7737,7 +7719,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1207175942}
   - component: {fileID: 1207175944}
-  - component: {fileID: 1207175943}
   m_Layer: 0
   m_Name: Background Music Source
   m_TagString: Untagged
@@ -7759,23 +7740,6 @@ Transform:
   m_Father: {fileID: 1553010429}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1207175943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1207175941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eca56f0e4b3ef1e4c8e79eea659e91b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  backgroundMusicSource: {fileID: 0}
-  chaseMusicSource: {fileID: 0}
-  sfxSource: {fileID: 0}
-  bgMusic: {fileID: 0}
-  chaseMusic: {fileID: 0}
 --- !u!82 &1207175944
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7786,7 +7750,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 7952635690622259522, guid: 34621e72e9a96ca44acb68a4573637d8, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 074476bcdcf5a324a95eeb2b60890e04, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 75ef31489e4b3b34ebc848b41c1be278, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.3
   m_Pitch: 1
@@ -13886,8 +13850,8 @@ AudioSource:
   m_GameObject: {fileID: 2136306075}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 7952635690622259522, guid: 34621e72e9a96ca44acb68a4573637d8, type: 2}
-  m_audioClip: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -8436419476679449577, guid: 34621e72e9a96ca44acb68a4573637d8, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 3a86880541ffdb84394c144425940b6a, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.3
   m_Pitch: 1
