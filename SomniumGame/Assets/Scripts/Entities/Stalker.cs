@@ -72,6 +72,8 @@ public class Stalker : MonoBehaviour
     void Update()
     {
         emotion = GameObject.Find("BackgroundFD").GetComponent<BackgroundEmotionDetection>().prediction;
+        reactToEmotion(emotion);
+
         currentFloor = (int) Math.Floor(transform.position.y / 3.447346f) + 1;
 
         if (Math.Abs(rb.velocity.x) != moveSpeed)
@@ -104,7 +106,7 @@ public class Stalker : MonoBehaviour
             case 5: // disgust
             case 6: // fear 
             case 7: // contempt
-                multSpeed = 2.0f;
+                multSpeed = 1.5f;
                 break;
         }
 
@@ -162,7 +164,7 @@ public class Stalker : MonoBehaviour
             if (isSuspicious)
             {
                 // hasten by a factor of speed multiplier
-                moveSpeed *= multSpeed;
+                moveSpeed = 2.0f * multSpeed;
 
                 if (transform.position.x <= playerRoom - 2.0f)
                 {
@@ -182,9 +184,11 @@ public class Stalker : MonoBehaviour
                     isSuspicious = false;
                     _isSuspicious = false;
                     // return to normal ms
-                    moveSpeed /= multSpeed;
+                    moveSpeed = 1.0f * multSpeed;
                 }
             }
+            if (!isInPursuit && !isSuspicious)
+                moveSpeed = 1.0f * multSpeed;
         }
 
         if (transform.position.x >= upperBound.position.x)
@@ -226,7 +230,7 @@ public class Stalker : MonoBehaviour
         playerFloor = (int) Math.Floor(playerYPos / 3.447346f) + 1;
         playerRoom = playerXPos;
 
-        moveSpeed = 3.0f;
+        moveSpeed = 3.0f * multSpeed;
         
         isInPursuit = true;
         // Debug.Log("stalker in pursuit " + isInPursuit);

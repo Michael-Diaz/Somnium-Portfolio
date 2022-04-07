@@ -32,7 +32,7 @@ public class Spawn_Items : MonoBehaviour
                     if (spawnRate > 0)
                     {
                         GameObject cup = Instantiate(itemPrefab);
-                        cup.transform.position = new Vector3 (transform.position.x, transform.position.y, -1.1f);
+                        cup.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.1f, -1.2f);
                         cup.transform.parent = interactField.transform;
                     }
                     break;
@@ -40,7 +40,7 @@ public class Spawn_Items : MonoBehaviour
                     if (spawnRate > 0)
                     {
                         GameObject flashlight = Instantiate(itemPrefab);
-                        flashlight.transform.position = new Vector3 (transform.position.x, transform.position.y, -1.1f);
+                        flashlight.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.1f, -1.2f);
                         flashlight.transform.parent = interactField.transform;
                     }
                     break;
@@ -48,7 +48,7 @@ public class Spawn_Items : MonoBehaviour
                     if (spawnRate > 0)
                     {
                         GameObject music_box = Instantiate(itemPrefab);
-                        music_box.transform.position = new Vector3 (transform.position.x, transform.position.y, -1.1f);    
+                        music_box.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.1f, -1.2f);    
                         music_box.transform.parent = interactField.transform;
                     }
                     break;
