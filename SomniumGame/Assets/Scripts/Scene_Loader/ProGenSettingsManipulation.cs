@@ -10,6 +10,7 @@ public class ProGenSettingsManipulation : MonoBehaviour
 
     public GameObject Level;
     public GameObject Dreamer;
+    public GameObject HUD;
 
     public GameObject PauseMenuCanvasCollection;
     public GameObject BackgroundCanvas;
@@ -45,6 +46,7 @@ public class ProGenSettingsManipulation : MonoBehaviour
                 // Activate level objects
                 Level.SetActive(true);
                 Dreamer.SetActive(true);
+                HUD.SetActive(true);
             }
             // If it isn't, open the settings
             else
@@ -65,6 +67,7 @@ public class ProGenSettingsManipulation : MonoBehaviour
                 // Deactivate level objects
                 Level.SetActive(false);
                 Dreamer.SetActive(false);
+                HUD.SetActive(false);
             }
         }
     }
@@ -91,6 +94,7 @@ public class ProGenSettingsManipulation : MonoBehaviour
             // Activate level objects
             Level.SetActive(true);
             Dreamer.SetActive(true);
+            HUD.SetActive(true);
         }
         // If it isn't, open the settings
         else
@@ -111,6 +115,7 @@ public class ProGenSettingsManipulation : MonoBehaviour
             // Deactivate level objects
             Level.SetActive(false);
             Dreamer.SetActive(false);
+            HUD.SetActive(false);
         }
     }
 }

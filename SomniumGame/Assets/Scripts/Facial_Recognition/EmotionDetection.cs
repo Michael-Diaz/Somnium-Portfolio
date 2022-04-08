@@ -160,6 +160,22 @@ public class EmotionDetection : MonoBehaviour
             Texture2D.DestroyImmediate(face, true);
     }
 
+    public void UpdateValues()
+    {
+        // Loading values for Haar cascade
+        string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/Cascade_Values/CascadeValues.txt");
+
+        // Convert string values to actual values
+        scaleFactor = Convert.ToDouble(lines[0]); // default = 1.15
+        minNeighbors = Convert.ToInt32(lines[1]); // default = 5
+        minSize = Convert.ToInt32(lines[2]); // default = 15
+
+        // Set values for the sliders to these newly loaded values
+        scaleFactorSlider.value = (float)scaleFactor;
+        minNeighborsSlider.value = minNeighbors;
+        minSizeSlider.value = minSize;
+    }
+
     public void OnScaleFactorSliderValueChanged()
     {
         scaleFactor = (float)scaleFactorSlider.value;
@@ -216,14 +232,10 @@ public class EmotionDetection : MonoBehaviour
     public void ResetSliderValues()
     {
         // Reset slider values to their base defaults
+        // The listener will update everything else
         scaleFactorSlider.value = 1.15f;
         minNeighborsSlider.value = 5;
         minSizeSlider.value = 15;
-
-        // Reset internal values
-        scaleFactor = 1.15;
-        minNeighbors = 5;
-        minSize = 15;
     }
 
     // Don't forget to include "using System.Linq;"

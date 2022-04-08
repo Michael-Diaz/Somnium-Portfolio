@@ -1,10 +1,14 @@
+using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class Builder : MonoBehaviour
 {
-    public GameObject[] rooms = new GameObject[7];
+    public GameObject[] rooms = new GameObject[26]; // The array length is the maximum possible number of rooms on a floor
     // 2D Array in C#
     private int[,] map;
     
@@ -37,6 +41,8 @@ public class Builder : MonoBehaviour
         spawnEnemies();
         _enemies = enemies;
     }
+
+
     void initLevel()
     {
         lowerBound  = GameObject.FindGameObjectWithTag("lowerBound");
@@ -48,20 +54,33 @@ public class Builder : MonoBehaviour
 
         Vector3 instPos = new Vector3(0.0f, 0.0f, 0.0f);
 
-        height = Random.Range(3, 7);
-        width = Random.Range(7, 10);
+        // Loading values for Haar cascade
+        string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/MapGenValues/MapValues.txt");
+
+        // Number of floors
+        int h = Convert.ToInt32(lines[0]);
+        height = UnityEngine.Random.Range(h-1, h+1);
+
+        // Number of rooms in a floor
+        int w = Convert.ToInt32(lines[1]);
+        width = UnityEngine.Random.Range(w-1, w+1);
+
         _height = height;
         _width = width;
 
-        map = new int[height, width]; // 3-6 floors tall, 7-9 squares wide
+        // Set rooms array
+        //rooms = new GameObject[width];
+
+        // y floors tall, x squares wide
+        map = new int[height, width];
 
         bool[] stairsExist = new bool[width];
         for (int i = 0; i < height - 1; i++)
         {
-            int stairPos = Random.Range(0, width);
+            int stairPos = UnityEngine.Random.Range(0, width);
 
             while (stairsExist[stairPos]) // if a stair already exists in that vertical space, choose another
-                stairPos = Random.Range(0, width);
+                stairPos = UnityEngine.Random.Range(0, width);
 
             stairsExist[stairPos] = true;
 
@@ -109,17 +128,17 @@ public class Builder : MonoBehaviour
                         instPos.x = index * 4.0f;
                     }
 
-                    int roomType = Random.Range(0, 2);
+                    int roomType = UnityEngine.Random.Range(0, 2);
                     if (target == 1 || roomType == 0)
                     {
-                        int roomStyle = Random.Range(1, 4);
+                        int roomStyle = UnityEngine.Random.Range(1, 4);
                         Instantiate(rooms[roomStyle], instPos, Quaternion.Euler(-90, 0, 180));
                         target--;
                         index++;
                     }
                     else
                     {
-                        int roomStyle = Random.Range(4, 7);
+                        int roomStyle = UnityEngine.Random.Range(4, 7);
                         Instantiate(rooms[roomStyle], instPos, Quaternion.Euler(-90, 0, 180));
                         target -= 2;
                         index += 2;
@@ -143,7 +162,7 @@ public class Builder : MonoBehaviour
         
         exit.transform.position = rightWall.transform.position - new Vector3(0.1f, rightWall.transform.position.y, rightWall.transform.position.z + 1.1f);
     
-        key.transform.position = new Vector3(Random.Range(0, width) * 4.0f, Random.Range(1, height) * 3.447346f, -1.1f);
+        key.transform.position = new Vector3(UnityEngine.Random.Range(0, width) * 4.0f, UnityEngine.Random.Range(1, height) * 3.447346f, -1.1f);
     }
 
     void spawnEnemies()
@@ -152,7 +171,7 @@ public class Builder : MonoBehaviour
         /*
         for (int i = 0; i < height; i++)
         {
-            randomX = ((Random.Range(1, width) *  4.0f) - 2.0f);
+            randomX = ((UnityEngine.Random.Range(1, width) *  4.0f) - 2.0f);
             randomY = ( (i * 3.447346f) + 1.1745f);
             spawnLocations.Add( new Vector3( randomX, randomY, -1.1f) );
 
@@ -164,11 +183,12 @@ public class Builder : MonoBehaviour
         }
         */
 
+        // Generate spawn locations for enemies
         for (int i = 0; i < 2; i++)
         {
-            randomX = ((Random.Range(1, width) *  4.0f) - 2.0f);
+            randomX = ((UnityEngine.Random.Range(1, width) *  4.0f) - 2.0f);
             randomY = ( (i * 3.447346f) + 1.1745f);
-            spawnLocations.Add( new Vector3( randomX, randomY, -1.1f) );
+            spawnLocations.Add( new Vector3(randomX, randomY, -1.1f) );
         }
 
         int endMarker = spawnLocations.Count;

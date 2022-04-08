@@ -9869,6 +9869,7 @@ MonoBehaviour:
   PauseMenuCamera: {fileID: 953995517}
   Level: {fileID: 1615053935}
   Dreamer: {fileID: 606019788}
+  HUD: {fileID: 1981673633}
   PauseMenuCanvasCollection: {fileID: 294361477}
   BackgroundCanvas: {fileID: 1542180445}
   PauseMenuCanvas: {fileID: 770211748}
