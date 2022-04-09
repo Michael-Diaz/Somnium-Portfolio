@@ -314,7 +314,7 @@ public class EmotionDetection : MonoBehaviour
     private Texture2D TextureToTexture2D(Texture tex) 
     {
         // Create empty texture2D
-        Texture2D tex2D = new Texture2D(tex.width, tex.height, TextureFormat.BGRA32, false);
+        Texture2D tex2D = new Texture2D(tex.width, tex.height, TextureFormat.RGBA32, false);
 
         // Create and fill render texture to use as a converter
         RenderTexture rendTex = new RenderTexture(tex.width, tex.height, 32);
@@ -323,6 +323,11 @@ public class EmotionDetection : MonoBehaviour
         // Convert render texture into texture2D
         tex2D.ReadPixels(new UnityEngine.Rect(0, 0, rendTex.width, rendTex.height), 0, 0);
         tex2D.Apply();
+
+        // BGRA texture2d
+        //Texture2D bgraTex2D = new Texture2D(tex.width, tex.height, TextureFormat.BGRA32, false);
+        //bgraTex2D.SetPixels(tex2D.GetPixels());
+        //bgraTex2D.Apply();
         
         return tex2D;
     }
