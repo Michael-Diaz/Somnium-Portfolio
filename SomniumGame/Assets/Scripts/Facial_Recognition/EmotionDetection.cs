@@ -314,7 +314,7 @@ public class EmotionDetection : MonoBehaviour
     private Texture2D TextureToTexture2D(Texture tex) 
     {
         // Create empty texture2D
-        Texture2D tex2D = new Texture2D(tex.width, tex.height, TextureFormat.RGBA32, false);
+        Texture2D tex2D = new Texture2D(tex.width, tex.height, TextureFormat.BGRA32, false);
 
         // Create and fill render texture to use as a converter
         RenderTexture rendTex = new RenderTexture(tex.width, tex.height, 32);

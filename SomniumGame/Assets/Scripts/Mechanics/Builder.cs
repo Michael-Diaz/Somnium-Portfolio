@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
@@ -165,21 +166,66 @@ public class Builder : MonoBehaviour
         key.transform.position = new Vector3(UnityEngine.Random.Range(0, width) * 4.0f, UnityEngine.Random.Range(1, height) * 3.447346f, -1.1f);
     }
 
+    /*struct Spawn {
+        X
+        Y
+        Value // 0 player, 1 item, 2 stalker, etc...
+    }*/
+
+    private struct Spawn
+    {
+        public float x;
+        public float y;
+        public int entityValue; 
+        /*
+        Entity Values:
+        0 - stalker
+        1 - inspector
+        2 - patrol
+        */
+    };
+
+    private Spawn generateEntity(int curFloor, int entityValue, List<Spawn> spawnLocations)
+    {
+        // Loop until it finds an (x, y) pair that doesn't already exist in the list
+        bool contains = false;
+        float x;
+        float y;
+        do {
+            x = ((UnityEngine.Random.Range(1, width) *  4.0f) - 2.0f);
+            y = ((curFloor * 3.447346f) + 1.1745f);
+
+            contains = spawnLocations.Any(location => location.x == x && location.y == y); //not sure this line works...
+        } while(contains);
+
+        // Add values and return
+        Spawn newSpawn = new Spawn();
+        newSpawn.x = x;
+        newSpawn.y = y;
+        newSpawn.entityValue = entityValue;
+        return newSpawn;
+    }
+
     void spawnEnemies()
     {
         // spawns 1 or 2 patrols per floor as well as a single stalker and inspector
         /*
+        List<Spawn> spawnLocations = new List<Spawn>;
+        
+        // Exclusively for spawning patrollers
         for (int i = 0; i < height; i++)
         {
-            randomX = ((UnityEngine.Random.Range(1, width) *  4.0f) - 2.0f);
-            randomY = ( (i * 3.447346f) + 1.1745f);
-            spawnLocations.Add( new Vector3( randomX, randomY, -1.1f) );
+            for (int j = 0; j < (int)(width/2 * spawn_rate); j++)
+            {
+                //spawnLocations.Add( new Vector3( randomX, randomY, -1.1f) );
+                spawnLocations.Add(generateEntity(i, 2, spawnLocations));
 
-            GameObject patrol = Instantiate(prefabsToSpawn[0]);
-            patrol.transform.position = spawnLocations[i];
+                GameObject patrol = Instantiate(prefabsToSpawn[0]);
+                patrol.transform.position = spawnLocations[i];
 
-            // adding each patrol enemy to the list of enemies
-            enemies.Add(patrol);
+                // adding each patrol enemy to the list of enemies
+                enemies.Add(patrol);
+                }
         }
         */
 
