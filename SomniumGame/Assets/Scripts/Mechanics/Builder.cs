@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class Builder : MonoBehaviour
 {
+    public bool useRandomMapValues;
     public GameObject[] rooms = new GameObject[26]; // The array length is the maximum possible number of rooms on a floor
     // 2D Array in C#
     private int[,] map;
@@ -55,15 +56,21 @@ public class Builder : MonoBehaviour
 
         Vector3 instPos = new Vector3(0.0f, 0.0f, 0.0f);
 
-        // Loading values for Haar cascade
-        string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/MapGenValues/MapValues.txt");
+        // Loading values for the map
+        if (!useRandomMapValues)
+        {
+            string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/MapGenValues/MapValues.txt");
+            int h = Convert.ToInt32(lines[0]);
+            int w = Convert.ToInt32(lines[1]);
+        } else {
+            int h = UnityEngine.Random.Range(3, 20);
+            int w = UnityEngine.Random.Range(5, 20);
+        }
 
         // Number of floors
-        int h = Convert.ToInt32(lines[0]);
         height = UnityEngine.Random.Range(h-1, h+1);
 
         // Number of rooms in a floor
-        int w = Convert.ToInt32(lines[1]);
         width = UnityEngine.Random.Range(w-1, w+1);
 
         _height = height;
