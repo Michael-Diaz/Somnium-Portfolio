@@ -64,7 +64,7 @@ public class Builder : MonoBehaviour
             int w = Convert.ToInt32(lines[1]);
         } else {
             int h = UnityEngine.Random.Range(3, 20);
-            int w = UnityEngine.Random.Range(5, 20);
+            int w = UnityEngine.Random.Range(5, 25);
         }
 
         // Number of floors
@@ -75,9 +75,6 @@ public class Builder : MonoBehaviour
 
         _height = height;
         _width = width;
-
-        // Set rooms array
-        //rooms = new GameObject[width];
 
         // y floors tall, x squares wide
         map = new int[height, width];
