@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,9 +17,14 @@ public class Player_Noise : MonoBehaviour
     private ParticleSystem.MainModule soundWaveSettings;
     public Player dreamer;
 
+    private float hearing_sensitivity;
+
     // Start is called before the first frame update
     void Start()
     {
+        string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/MapGenValues/MapValues.txt");
+        hearing_sensitivity = (float)(Convert.ToDouble(lines[3]));
+
         allEnemies = LayerMask.GetMask("Sounds");
         soundWave = transform.parent.Find("Ripples").GetComponent<ParticleSystem>();
         soundWaveSettings = soundWave.main;
@@ -30,20 +37,20 @@ public class Player_Noise : MonoBehaviour
         {
             if (dreamer.isSprinting)
             {
-                soundRadius = 4.5f;
-                sonarSpacing = 0.5f;
+                soundRadius = 4.5f + (4.5f * (0.5f - hearing_sensitivity));
+                sonarSpacing = 0.5f + (0.5f * (0.5f - hearing_sensitivity));
                 soundWave.gameObject.transform.localScale = new Vector3(-2, -2, 1);
             }
             else if (dreamer.isStealthed)
             {
-                soundRadius = 1.5f;
-                sonarSpacing = 1.175f;
+                soundRadius = 1.5f + (1.5f * (0.5f - hearing_sensitivity));
+                sonarSpacing = 1.175f + (1.175f * (0.5f - hearing_sensitivity));
                 soundWave.gameObject.transform.localScale = new Vector3(-0.5f, -0.5f, 1);
             }
             else
             {
-                soundRadius = 2.25f;
-                sonarSpacing = 0.95f;
+                soundRadius = 2.25f + (2.25f * (0.5f - hearing_sensitivity));
+                sonarSpacing = 0.95f + (0.95f * (0.5f - hearing_sensitivity));
                 soundWave.gameObject.transform.localScale = new Vector3(-1, -1, 1);
             }
 

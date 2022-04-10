@@ -67,8 +67,8 @@ public class MapValues : MonoBehaviour
         // Convert string values to actual values
         _numFloors = Convert.ToInt32(lines[0]); // default = 4
         _numRooms = Convert.ToInt32(lines[1]); // default = 7
-        _numEnemies = (float)(Convert.ToDouble(lines[2])); // default = 0.25f
-        _enemyVision = (float)(Convert.ToDouble(lines[3])); // default = 0.25f
+        _numEnemies = (float)(Convert.ToDouble(lines[2])); // default = 0.50f
+        _enemyVision = (float)(Convert.ToDouble(lines[3])); // default = 0.50f
 
         // Set values for the sliders to these newly loaded values
         numFloorsSlider.value = _numFloors;
@@ -146,10 +146,20 @@ public class MapValues : MonoBehaviour
     public void ResetSliderValues()
     {
         // Reset slider values to their base defaults
-        // The listener will update everything else
+        // The listener will update internal values
         numFloorsSlider.value = 4;
         numRoomsPerFloorSlider.value = 7;
-        numEnemiesSlider.value = 0.25f;
-        enemyVisionSlider.value = 0.25f;
+        numEnemiesSlider.value = 0.50f;
+        enemyVisionSlider.value = 0.50f;
+    }
+
+    public void RandomizeValues()
+    {
+        // Randomize all slider values
+        // The listener will update internal values
+        numFloorsSlider.value = UnityEngine.Random.Range(2, 20);
+        numRoomsPerFloorSlider.value = UnityEngine.Random.Range(3, 25);
+        numEnemiesSlider.value = UnityEngine.Random.Range(0.0f, 1.0f);
+        enemyVisionSlider.value = UnityEngine.Random.Range(0.0f, 1.0f);
     }
 }

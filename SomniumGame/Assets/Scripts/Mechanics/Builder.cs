@@ -9,7 +9,6 @@ using UnityEngine.UI;
 
 public class Builder : MonoBehaviour
 {
-    public bool useRandomMapValues;
     public GameObject[] rooms = new GameObject[26]; // The array length is the maximum possible number of rooms on a floor
     // 2D Array in C#
     private int[,] map;
@@ -32,6 +31,7 @@ public class Builder : MonoBehaviour
     public int _height;
     private int width;
     public int _width;
+    private float spawn_rate;
 
     private float randomX;
     private float randomY;
@@ -54,23 +54,16 @@ public class Builder : MonoBehaviour
         exit  = GameObject.Find("Escape");
         key = GameObject.Find("GrabKey");
 
-        useRandomMapValues = true;
-
         Vector3 instPos = new Vector3(0.0f, 0.0f, 0.0f);
 
         int h;
         int w;
 
         // Loading values for the map
-        if (!useRandomMapValues)
-        {
-            string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/MapGenValues/MapValues.txt");
-            h = Convert.ToInt32(lines[0]);
-            w = Convert.ToInt32(lines[1]);
-        } else {
-            h = UnityEngine.Random.Range(4, 7);
-            w = UnityEngine.Random.Range(7, 13);
-        }
+        string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/MapGenValues/MapValues.txt");
+        h = Convert.ToInt32(lines[0]);
+        w = Convert.ToInt32(lines[1]);
+        spawn_rate = (float)(Convert.ToDouble(lines[2]));
 
         // Number of floors
         height = UnityEngine.Random.Range(h-1, h+1);
