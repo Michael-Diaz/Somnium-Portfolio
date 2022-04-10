@@ -30,6 +30,9 @@ public class Player : MonoBehaviour
 
     [Header("Player State Changes")]
     public bool byInteract = false;
+    public bool lightOn = false;
+    private bool usageConflict = false;
+    public bool _usageConflict = false;
     [SerializeField] private int currentFloor;
     [SerializeField] public bool isMoving = false,
                                 isStealthed = false, 
@@ -103,9 +106,10 @@ public class Player : MonoBehaviour
 
     void Update() 
     {
+        _usageConflict = usageConflict;
         if (hiddenState == 0)
         {
-            if (Input.GetKey(KeyCode.S))
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.LeftControl))
             {
                 isStealthed = true;
                 isSprinting = false;
@@ -200,14 +204,29 @@ public class Player : MonoBehaviour
             switch (itemSpecs.itemType)
             {
                 case 0: // it's a flashlight
-                    GameObject.Find("Vision").GetComponent<Light>().range = 10.6f;
-                    // GameObject.Find("Vision").GetComponent<Light>().range = 5.3f;
+                    // double light range for 5 seconds
+                    if (!lightOn)
+                    {
+                        lightOn = true;
+                        GameObject.Find("Vision").GetComponent<Light>().range = 10.6f;
+                        // revert light after duration
+                        Invoke("revertLight", 5);
+                    }
+                    else
+                    {
+                        // prevents consumption of an item that cannot be used at the moment
+                        usageConflict = true;
+                    }
+
                     break;
                 case 1: // it's a music box
+                    usageConflict = false;
 
                     break;
 
                 case 2: // it's a cup
+                    usageConflict = false;
+
                     GameObject cup = (GameObject) Instantiate(projectilePrefab, projectileLaunchOffset.position, Quaternion.identity);
                     Rigidbody cupRB = cup.GetComponent<Rigidbody>();
                     cupRB.AddForce(new Vector3(4.0f * (rightOriented ? 1 : -1), 2.0f, 0.0f), ForceMode.Impulse);
@@ -235,5 +254,11 @@ public class Player : MonoBehaviour
         {
             loseState.loseCondition = true;
         }
+    }
+
+    void revertLight()
+    {
+        lightOn = false;
+        GameObject.Find("Vision").GetComponent<Light>().range = 5.3f;
     }
 }

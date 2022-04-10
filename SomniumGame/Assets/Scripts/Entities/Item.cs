@@ -18,6 +18,8 @@ public class Item : MonoBehaviour
 
     private bool lightEmitting;
     private bool soundEmitting;
+
+    private bool usageConflict = false;
     private float effectTimer;
 
     private bool throwable;
@@ -86,12 +88,16 @@ public class Item : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+
+        usageConflict = GameObject.Find("Dreamer").GetComponent<Player>()._usageConflict;
     }
 
     public void ItemUsage(int index)
     {
         Debug.Log("USING " + this.name);
-        playerBools.inventory[index] = null;
+        // if there is a usage conflict do not destroy the item
+        if (!usageConflict)
+            playerBools.inventory[index] = null;
     }
 
     void OnTriggerEnter(Collider entry)
