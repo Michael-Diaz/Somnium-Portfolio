@@ -54,17 +54,22 @@ public class Builder : MonoBehaviour
         exit  = GameObject.Find("Escape");
         key = GameObject.Find("GrabKey");
 
+        useRandomMapValues = true;
+
         Vector3 instPos = new Vector3(0.0f, 0.0f, 0.0f);
+
+        int h;
+        int w;
 
         // Loading values for the map
         if (!useRandomMapValues)
         {
             string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/MapGenValues/MapValues.txt");
-            int h = Convert.ToInt32(lines[0]);
-            int w = Convert.ToInt32(lines[1]);
+            h = Convert.ToInt32(lines[0]);
+            w = Convert.ToInt32(lines[1]);
         } else {
-            int h = UnityEngine.Random.Range(3, 20);
-            int w = UnityEngine.Random.Range(5, 25);
+            h = UnityEngine.Random.Range(4, 7);
+            w = UnityEngine.Random.Range(7, 13);
         }
 
         // Number of floors

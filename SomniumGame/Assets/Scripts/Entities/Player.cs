@@ -23,6 +23,9 @@ public class Player : MonoBehaviour
     private Transform lowerBound;
     private Transform upperBound;
 
+    [SerializeField] private Transform projectileLaunchOffset;
+    [SerializeField] private GameObject projectilePrefab;
+
     private Light sight;
 
     [Header("Player State Changes")]
@@ -188,6 +191,13 @@ public class Player : MonoBehaviour
         {
             Item itemSpecs = held[hand].GetComponent<Item>();
             itemSpecs.ItemUsage(hand);
+
+            if (itemSpecs.itemType == 2) // it's a cup
+            {
+                GameObject cup = (GameObject) Instantiate(projectilePrefab, projectileLaunchOffset.position, Quaternion.identity);
+                Rigidbody cupRB = cup.GetComponent<Rigidbody>();
+                cupRB.AddForce(new Vector3(4.0f * (rightOriented ? 1 : -1), 2.0f, 0.0f), ForceMode.Impulse);
+            }
 
             if (hand == 0)
                 field1.sprite = emptyIcon;

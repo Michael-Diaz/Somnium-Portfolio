@@ -11201,6 +11201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaa4c78569e844c4eba4b879a5e5b100, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useRandomMapValues: 0
   rooms:
   - {fileID: 925377567932472814, guid: a90af497ea6185f4fa3b33d0dcf550d2, type: 3}
   - {fileID: 4106469349140595021, guid: 9aaef076629c5a34bb6d6d6e9de9ba16, type: 3}
@@ -14616,7 +14617,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &2139802800
 Light:
   m_ObjectHideFlags: 0

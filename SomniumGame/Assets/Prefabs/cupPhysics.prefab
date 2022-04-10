@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: -4914100221815413262}
   - component: {fileID: -5509302374167960945}
   - component: {fileID: 8696899905901058195}
-  m_Layer: 0
+  - component: {fileID: 5775364080175628384}
+  m_Layer: 10
   m_Name: cupPhysics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,3 +114,15 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.17633334
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5775364080175628384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6765564510657955249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d30a949b9b84a9242aec3bb61c9d4223, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
