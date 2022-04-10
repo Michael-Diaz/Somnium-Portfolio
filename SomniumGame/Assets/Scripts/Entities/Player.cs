@@ -124,7 +124,7 @@ public class Player : MonoBehaviour
             playerAnim.SetBool("Sprinting", isSprinting);
             playerAnim.SetBool("Crouching", isStealthed);
 
-            if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 UseItem(inventory, invSelect);
             }
@@ -147,7 +147,7 @@ public class Player : MonoBehaviour
             sight.enabled = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (invSelect == 0)
                 invSelect = 1;
@@ -197,11 +197,22 @@ public class Player : MonoBehaviour
             Item itemSpecs = held[hand].GetComponent<Item>();
             itemSpecs.ItemUsage(hand);
 
-            if (itemSpecs.itemType == 2) // it's a cup
+            switch (itemSpecs.itemType)
             {
-                GameObject cup = (GameObject) Instantiate(projectilePrefab, projectileLaunchOffset.position, Quaternion.identity);
-                Rigidbody cupRB = cup.GetComponent<Rigidbody>();
-                cupRB.AddForce(new Vector3(4.0f * (rightOriented ? 1 : -1), 2.0f, 0.0f), ForceMode.Impulse);
+                case 0: // it's a flashlight
+                    GameObject.Find("Vision").GetComponent<Light>().range = 10.6f;
+                    // GameObject.Find("Vision").GetComponent<Light>().range = 5.3f;
+                    break;
+                case 1: // it's a music box
+
+                    break;
+
+                case 2: // it's a cup
+                    GameObject cup = (GameObject) Instantiate(projectilePrefab, projectileLaunchOffset.position, Quaternion.identity);
+                    Rigidbody cupRB = cup.GetComponent<Rigidbody>();
+                    cupRB.AddForce(new Vector3(4.0f * (rightOriented ? 1 : -1), 2.0f, 0.0f), ForceMode.Impulse);
+
+                    break;
             }
 
             if (hand == 0)
