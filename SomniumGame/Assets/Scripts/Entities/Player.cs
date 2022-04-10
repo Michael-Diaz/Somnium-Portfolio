@@ -105,14 +105,19 @@ public class Player : MonoBehaviour
     {
         if (hiddenState == 0)
         {
-            if (Input.GetKeyDown(KeyCode.LeftControl))
+            if (Input.GetKey(KeyCode.S))
             {
-                isStealthed = !isStealthed;
+                isStealthed = true;
                 isSprinting = false;
             }
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            else if (Input.GetKey(KeyCode.LeftShift))
             {
-                isSprinting = !isSprinting;
+                isSprinting = true;
+                isStealthed = false;
+            }
+            else 
+            {
+                isSprinting = false;
                 isStealthed = false;
             }
 
