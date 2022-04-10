@@ -8111,7 +8111,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 7952635690622259522, guid: 34621e72e9a96ca44acb68a4573637d8, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 074476bcdcf5a324a95eeb2b60890e04, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 6535565577943d748b5330c2aa69e483, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.3
   m_Pitch: 1
@@ -10756,7 +10756,7 @@ MonoBehaviour:
   backgroundMusicSource: {fileID: 1207175944}
   chaseMusicSource: {fileID: 963163325}
   sfxSource: {fileID: 0}
-  bgMusic: {fileID: 8300000, guid: 074476bcdcf5a324a95eeb2b60890e04, type: 3}
+  bgMusic: {fileID: 8300000, guid: 6535565577943d748b5330c2aa69e483, type: 3}
   chaseMusic: {fileID: 8300000, guid: a3fd9a529926ae440a91a66ee57a3fd6, type: 3}
   sfx:
   - {fileID: 8300000, guid: 3a86880541ffdb84394c144425940b6a, type: 3}
