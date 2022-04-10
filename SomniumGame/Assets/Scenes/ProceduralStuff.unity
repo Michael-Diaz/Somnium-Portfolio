@@ -10758,6 +10758,11 @@ MonoBehaviour:
   sfxSource: {fileID: 0}
   bgMusic: {fileID: 8300000, guid: 074476bcdcf5a324a95eeb2b60890e04, type: 3}
   chaseMusic: {fileID: 8300000, guid: a3fd9a529926ae440a91a66ee57a3fd6, type: 3}
+  footsteps:
+  - {fileID: 8300000, guid: ac1678950adc92d43930f8543f95961c, type: 3}
+  - {fileID: 8300000, guid: be79c98d57e528b499f68187b0671298, type: 3}
+  - {fileID: 8300000, guid: d079a2d0455ca9c4faffe8f583f30656, type: 3}
+  - {fileID: 8300000, guid: 5648d7d3a9d35dc479161f0308498801, type: 3}
   sfx:
   - {fileID: 8300000, guid: 3a86880541ffdb84394c144425940b6a, type: 3}
   - {fileID: 8300000, guid: d24372bf01af1a54186c288af0b42efa, type: 3}
@@ -10766,6 +10771,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e56bdcd7502384b45b8010b62aa686e2, type: 3}
   - {fileID: 8300000, guid: 897009d6a6a72364bbc64ec4130a149c, type: 3}
   - {fileID: 8300000, guid: 19d35168905fa6643b661486357e87c3, type: 3}
+  - {fileID: 8300000, guid: cb2cfbf7c3ff04649816945549b9137d, type: 3}
+  - {fileID: 8300000, guid: ac1678950adc92d43930f8543f95961c, type: 3}
+  - {fileID: 8300000, guid: d079a2d0455ca9c4faffe8f583f30656, type: 3}
+  - {fileID: 8300000, guid: cb2cfbf7c3ff04649816945549b9137d, type: 3}
+  - {fileID: 8300000, guid: cb2cfbf7c3ff04649816945549b9137d, type: 3}
   - {fileID: 8300000, guid: cb2cfbf7c3ff04649816945549b9137d, type: 3}
 --- !u!4 &1553010429
 Transform:

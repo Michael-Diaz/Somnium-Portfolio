@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     public bool rightOriented = true;
     private Transform lowerBound;
     private Transform upperBound;
+    private int footstepCounter = 0;
 
     [SerializeField] private Transform projectileLaunchOffset;
     [SerializeField] private GameObject projectilePrefab;
@@ -260,5 +261,11 @@ public class Player : MonoBehaviour
     {
         lightOn = false;
         GameObject.Find("Vision").GetComponent<Light>().range = 5.3f;
+    }
+
+    public void callPlayFootstep(int footstepCounter)
+    {
+        GameObject.Find("SFX Source").GetComponent<SoundFX>().playFootstep(footstepCounter);
+        footstepCounter++;
     }
 }

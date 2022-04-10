@@ -9,7 +9,7 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField] public AudioSource backgroundMusicSource, chaseMusicSource, sfxSource;
     [SerializeField] private AudioClip bgMusic, chaseMusic;
-
+    
     [SerializeField] private AudioClip[] sfx;
     // AudioSource chaseMusic;
     // AudioSource bgMusic;
@@ -22,6 +22,8 @@ public class AudioManager : MonoBehaviour
 
     private float suspicionTimer = 0.0f;
     private float currentEnemySusTimer = 0.0f;
+
+    private int footstepCounter = 0;
 
     private List<GameObject> enemies = new List<GameObject>();
 
@@ -39,6 +41,10 @@ public class AudioManager : MonoBehaviour
 
         isPlayingBGMusic = true;
         isPlayingChaseMusic = false;
+        
+        backgroundMusicSource.PlayOneShot(chaseMusic);
+
+
     }
 
     // Update is called once per frame
@@ -146,5 +152,11 @@ public class AudioManager : MonoBehaviour
     public void playSound(int i)
     {
         sfxSource.PlayOneShot(sfx[i]);
+    }
+
+    public void playFootstep()
+    {
+        // sfxSource.PlayOneShot(footsteps[footstepCounter % 4]);
+        footstepCounter++;
     }
 }
