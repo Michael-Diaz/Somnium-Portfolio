@@ -21,6 +21,7 @@ using Unity.Barracuda;
 
 using OpenCvSharp;
 using AmazingAssets.ResizePro;
+using TFClassify;
 
 
 public class EmotionDetection : MonoBehaviour
@@ -58,6 +59,8 @@ public class EmotionDetection : MonoBehaviour
     private HersheyFonts _hersheyfont;
     private int _baseLine;
     private Mat _frame;
+    private Texture _tex;
+    private RenderTexture _rendTex;
     private OpenCvSharp.Rect[] _rects;
     private static string[] _labelMap = {"neutral", "happiness", "surprise", "sadness", "anger", "disgust", "fear", "contempt"};
 
@@ -294,21 +297,22 @@ public class EmotionDetection : MonoBehaviour
         }
 
         // Convert the Mat frame to a texture and show that texture on the rawImage
-        Texture tex = OpenCvSharp.Unity.MatToTexture(_frame);
-        rawImage.texture = tex;
+        _tex = OpenCvSharp.Unity.MatToTexture(_frame);
+        rawImage.texture = _tex;
     }
 
 
     private Texture2D CropFaces(OpenCvSharp.Rect rect)
     {
         // Get the face
-        Mat mat_face = new Mat (_frame, rect);
+        Mat mat_face = new Mat(_frame, rect);
+
         Texture tex_face = OpenCvSharp.Unity.MatToTexture(mat_face);
         Texture2D face = TextureToTexture2D(tex_face);
+        Destroy(tex_face);
 
         // Resize texture
-        face.ResizePro(64, 64, false, false, false);
-        return face;
+        return TextureTools.scaled(face, 64, 64, FilterMode.Bilinear);;
     }
 
     private Texture2D TextureToTexture2D(Texture tex) 
@@ -317,17 +321,12 @@ public class EmotionDetection : MonoBehaviour
         Texture2D tex2D = new Texture2D(tex.width, tex.height, TextureFormat.RGBA32, false);
 
         // Create and fill render texture to use as a converter
-        RenderTexture rendTex = new RenderTexture(tex.width, tex.height, 32);
-        Graphics.Blit(tex, rendTex);
+        _rendTex = new RenderTexture(tex.width, tex.height, 32);
+        Graphics.Blit(tex, _rendTex);
 
         // Convert render texture into texture2D
-        tex2D.ReadPixels(new UnityEngine.Rect(0, 0, rendTex.width, rendTex.height), 0, 0);
+        tex2D.ReadPixels(new UnityEngine.Rect(0, 0, _rendTex.width, _rendTex.height), 0, 0);
         tex2D.Apply();
-
-        // BGRA texture2d
-        //Texture2D bgraTex2D = new Texture2D(tex.width, tex.height, TextureFormat.BGRA32, false);
-        //bgraTex2D.SetPixels(tex2D.GetPixels());
-        //bgraTex2D.Apply();
         
         return tex2D;
     }
@@ -339,7 +338,10 @@ public class EmotionDetection : MonoBehaviour
         //Color32[] pixels = face.GetPixels32();
 
         // (0, 1) pixel values
+        // This mess is for the sake of being able to use grayscale input to the model
+        face.SetPixels32(TextureTools.FlipXImageMatrix(face.GetPixels32(), 64, 64));
         Color[] pixels = face.GetPixels();
+        Destroy(face);
 
         // Create empty float array of the needed length
         int inputHeight = 64;
