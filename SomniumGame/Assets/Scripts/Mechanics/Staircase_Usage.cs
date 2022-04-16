@@ -13,6 +13,8 @@ public class Staircase_Usage : MonoBehaviour
     private bool thisStaircase_Player = false;
     private bool thisStaircase_Stalker = false;
 
+    public bool stair_lock = false;
+
     void Start()
     {
         playerPos = GameObject.Find("Dreamer");
@@ -23,16 +25,19 @@ public class Staircase_Usage : MonoBehaviour
 
     void Update()
     {
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && playerBools.byInteract && thisStaircase_Player)
-            playerPos.transform.position = targetPos.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
-
-        if (stalkerVars.byStairs && (stalkerVars.needStairsUp || stalkerVars.needStairsDown) && thisStaircase_Stalker)
+        if (!stair_lock)
         {
-            if ((gameObject.name == "RailBottom" && stalkerVars.needStairsUp) || (gameObject.name == "RailTop" && stalkerVars.needStairsDown))
+            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && playerBools.byInteract && thisStaircase_Player)
+                playerPos.transform.position = targetPos.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
+
+            if (stalkerVars.byStairs && (stalkerVars.needStairsUp || stalkerVars.needStairsDown) && thisStaircase_Stalker)
             {
-                stalkerPos.transform.position = targetPos.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
-                stalkerVars.reachedLeft = false;
-                stalkerVars.reachedRight = false;
+                if ((gameObject.name == "RailBottom" && stalkerVars.needStairsUp) || (gameObject.name == "RailTop" && stalkerVars.needStairsDown))
+                {
+                    stalkerPos.transform.position = targetPos.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
+                    stalkerVars.reachedLeft = false;
+                    stalkerVars.reachedRight = false;
+                }
             }
         }
 
@@ -63,6 +68,6 @@ public class Staircase_Usage : MonoBehaviour
         {
             stalkerVars.byStairs = false;
             thisStaircase_Stalker = false;
-        } 
+        }
     }
 }

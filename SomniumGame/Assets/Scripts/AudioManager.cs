@@ -35,7 +35,7 @@ public class AudioManager : MonoBehaviour
 
         // backgroundMusicSource.PlayOneShot(bgMusic);
         backgroundMusicSource.Play();
-        sfxSource.Play();
+        // NOTE: THIS LINE NEEDS TO BE FIXED IF IMPLEMENTATION IS DESIRED -> sfxSource.Play();
         // backgroundMusicSource.loop = true;
         // Invoke("crossfade", 2);
 

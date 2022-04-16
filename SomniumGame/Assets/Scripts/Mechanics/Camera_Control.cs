@@ -19,6 +19,6 @@ public class Camera_Control : MonoBehaviour
         if (GameObject.Find("Dreamer") == null) return;
 
         Vector3 playerTracker = GameObject.Find("Dreamer").transform.position;
-        this.transform.position = new Vector3(playerTracker.x, playerTracker.y + camConstantY - p1ContantY, -10);
+        this.transform.position = new Vector3(playerTracker.x, playerTracker.y + camConstantY - p1ContantY + 1.0f, -10);
     }
 }

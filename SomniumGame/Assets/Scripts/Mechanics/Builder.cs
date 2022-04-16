@@ -155,8 +155,8 @@ public class Builder : MonoBehaviour
             instPos.y = instPos.y + 3.447346f;
         }
 
-        lowerBound.transform.position = new Vector3(0.0f, 0.0f, -1.1f);
-        upperBound.transform.position = new Vector3( (-4.0f + (width * 4.0f) ), 0.0f, -1.1f);
+        lowerBound.transform.position = new Vector3(0.0f, 0.0f, 1.1f);
+        upperBound.transform.position = new Vector3( (-4.0f + (width * 4.0f) ), 0.0f, 1.1f);
 
         leftWall.transform.position = new Vector3(leftWall.transform.position.x, (3.447346f * height / 2.0f), leftWall.transform.position.z);
         rightWall.transform.position = new Vector3(rightWall.transform.position.x, (3.447346f * height / 2.0f), rightWall.transform.position.z);
