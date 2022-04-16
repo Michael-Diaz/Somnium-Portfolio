@@ -23,18 +23,26 @@ public class LoseGame : MonoBehaviour
     {
         if (loseCondition)
         {
-            // Switch cameras
-            MainCamera.SetActive(false);
-            PauseMenuCamera.SetActive(true);
-
-            // Activate canvas objects
-            EndGameCanvasCollection.SetActive(true);
-            BackgroundCanvas.SetActive(true);
-            LoseCanvas.SetActive(true);
-
-            // Deactivate level objects
-            Level.SetActive(false);
-            Dreamer.SetActive(false);
+            StartCoroutine(LoseGameRoutine());
         }
+    }
+
+    IEnumerator LoseGameRoutine()
+    {
+        // Wait a bit so you can see what kills you
+        yield return new WaitForSeconds(1.0f);
+
+        // Switch cameras
+        MainCamera.SetActive(false);
+        PauseMenuCamera.SetActive(true);
+
+        // Activate canvas objects
+        EndGameCanvasCollection.SetActive(true);
+        BackgroundCanvas.SetActive(true);
+        LoseCanvas.SetActive(true);
+
+        // Deactivate level objects
+        Level.SetActive(false);
+        Dreamer.SetActive(false);
     }
 }

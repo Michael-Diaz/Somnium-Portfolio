@@ -1,22 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DisplayWebCam : MonoBehaviour
+public class DisplayWebcam : MonoBehaviour
 {
-    public RawImage footageImage;
-    public AspectRatioFitter footageDimensions;
+    /* PUBLICS */
+    public GameObject UniversalWebcam;
+    public RawImage rawImage;
 
-    // Start is called before the first frame update
-    void Start()
+
+    /* PRIVATES */
+    private WebCamTexture _webcamTexture;
+
+    
+    void Update()
     {
-        WebCamTexture webCam = new WebCamTexture();
-        footageImage.texture = webCam;
-        footageImage.material.mainTexture = webCam;
-        webCam.Play();
-
-        float videoRatio = (float)webCam.width / (float)webCam.height;
-        footageDimensions.aspectRatio = videoRatio;
+        _webcamTexture = UniversalWebcam.GetComponent<UniversalWebcam>().webcamTexture;
+        rawImage.texture = _webcamTexture;
     }
 }

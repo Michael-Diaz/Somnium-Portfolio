@@ -5,6 +5,8 @@ and feeds it into the emotion recognition model.
 Note: Need to add the option to select your desired camera device.
 */
 
+using Convert = System.Convert;
+using File = System.IO.File;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,17 +19,37 @@ public class UniversalWebcam : MonoBehaviour
 
     void Start()
     {
-        // Use cam_devices to allow a person to select their desired camera
-        // For debugging purposes, prints available devices to the console
+        // Load value for camera element
+        string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/Camera_Selection/CameraSelection.txt");
+        int cameraSelection = Convert.ToInt32(lines[0]); // default = 0
+
+        // Select desired camera
         WebCamDevice[] cam_devices = WebCamTexture.devices;
-        for (int i = 0; i < cam_devices.Length; i++)
-            UnityEngine.Debug.Log($"Webcam available: {cam_devices[i].name}");
+        webcamTexture = new WebCamTexture(cam_devices[cameraSelection].name);
 
-        // Assuming the first available WebCam is desired
-        webcamTexture = new WebCamTexture(cam_devices[0].name);
-
+        // Start selected camera
         if (webcamTexture != null) {
-            UnityEngine.Debug.Log($"Streaming [{cam_devices[0].name}]");
+            UnityEngine.Debug.Log($"Streaming [{cam_devices[cameraSelection].name}]");
+            webcamTexture.Play();
+        }
+    }
+
+    public void SwitchCamera()
+    {
+        // Stop current camera
+        webcamTexture.Stop();
+
+        // Load value for camera element
+        string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/Camera_Selection/CameraSelection.txt");
+        int cameraSelection = Convert.ToInt32(lines[0]); // default = 0
+
+        // Select desired camera
+        WebCamDevice[] cam_devices = WebCamTexture.devices;
+        webcamTexture = new WebCamTexture(cam_devices[cameraSelection].name);
+
+        // Start selected camera
+        if (webcamTexture != null) {
+            UnityEngine.Debug.Log($"Streaming [{cam_devices[cameraSelection].name}]");
             webcamTexture.Play();
         }
     }

@@ -21,6 +21,7 @@ using Unity.Barracuda;
 
 using OpenCvSharp;
 using AmazingAssets.ResizePro;
+using TFClassify;
 
 
 public class BackgroundEmotionDetection : MonoBehaviour
@@ -141,7 +142,6 @@ public class BackgroundEmotionDetection : MonoBehaviour
         var maxVal = values.Max();
         var exp = values.Select(v => Math.Exp(v - maxVal));
         var sumExp = exp.Sum();
-
         return exp.Select(v => (float)(v / sumExp)).ToArray();
     }
 
@@ -167,14 +167,16 @@ public class BackgroundEmotionDetection : MonoBehaviour
     private Texture2D CropFaces(OpenCvSharp.Rect rect)
     {
         // Get the face
-        Mat mat_face = new Mat (_frame, rect);
+        Mat mat_face = new Mat(_frame, rect);
+
         Texture tex_face = OpenCvSharp.Unity.MatToTexture(mat_face);
         Texture2D face = TextureToTexture2D(tex_face);
+        Destroy(tex_face);
 
         // Resize texture
-        face.ResizePro(64, 64, false, false, false);
-        return face;
+        return TextureTools.scaled(face, 64, 64, FilterMode.Bilinear);;
     }
+
 
     private Texture2D TextureToTexture2D(Texture tex) 
     {
@@ -199,7 +201,10 @@ public class BackgroundEmotionDetection : MonoBehaviour
         //Color32[] pixels = face.GetPixels32();
 
         // (0, 1) pixel values
+        // This mess is for the sake of being able to use grayscale input to the model
+        face.SetPixels32(TextureTools.FlipXImageMatrix(face.GetPixels32(), 64, 64));
         Color[] pixels = face.GetPixels();
+        Destroy(face);
 
         // Create empty float array of the needed length
         int inputHeight = 64;

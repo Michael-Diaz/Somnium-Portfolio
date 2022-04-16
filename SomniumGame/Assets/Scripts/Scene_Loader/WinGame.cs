@@ -23,18 +23,26 @@ public class WinGame : MonoBehaviour
     {
         if (winCondition)
         {
-            // Switch cameras
-            MainCamera.SetActive(false);
-            PauseMenuCamera.SetActive(true);
-
-            // Activate canvas objects
-            EndGameCanvasCollection.SetActive(true);
-            BackgroundCanvas.SetActive(true);
-            WinCanvas.SetActive(true);
-
-            // Deactivate level objects
-            Level.SetActive(false);
-            Dreamer.SetActive(false);
+            StartCoroutine(WinGameRoutine());
         }
+    }
+
+    IEnumerator WinGameRoutine()
+    {
+        // Wait half a second so it isn't totally abrupt
+        yield return new WaitForSeconds(0.25f);
+
+        // Switch cameras
+        MainCamera.SetActive(false);
+        PauseMenuCamera.SetActive(true);
+
+        // Activate canvas objects
+        EndGameCanvasCollection.SetActive(true);
+        BackgroundCanvas.SetActive(true);
+        WinCanvas.SetActive(true);
+
+        // Deactivate level objects
+        Level.SetActive(false);
+        Dreamer.SetActive(false);
     }
 }
