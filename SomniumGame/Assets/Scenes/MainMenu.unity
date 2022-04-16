@@ -2770,7 +2770,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &429783096
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12008,8 +12008,9 @@ GameObject:
   - component: {fileID: 1542922259}
   - component: {fileID: 1542922261}
   - component: {fileID: 1542922260}
+  - component: {fileID: 1542922262}
   m_Layer: 5
-  m_Name: FaceDisplay
+  m_Name: WebcamDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12032,7 +12033,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 415, y: 350}
-  m_SizeDelta: {x: 500, y: 500}
+  m_SizeDelta: {x: 620, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1542922260
 MonoBehaviour:
@@ -12047,7 +12048,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -12069,6 +12070,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1542922258}
   m_CullTransparentMesh: 1
+--- !u!114 &1542922262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542922258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38e2ddb00d86ede4b8b95cda0c59502d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UniversalWebcam: {fileID: 1809886963}
+  rawImage: {fileID: 1542922260}
 --- !u!1 &1559628126
 GameObject:
   m_ObjectHideFlags: 0
