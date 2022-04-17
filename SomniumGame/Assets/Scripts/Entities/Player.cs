@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
     private int footstepCounter = 0;
 
     [SerializeField] private Transform projectileLaunchOffset;
-    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private GameObject[] itemPrefabs;
 
     private Light sight;
 
@@ -217,18 +217,23 @@ public class Player : MonoBehaviour
                     {
                         // prevents consumption of an item that cannot be used at the moment
                         usageConflict = true;
+                        
                     }
 
                     break;
-                case 1: // it's a music box
+                case 1: // it's a music box, subtract 1 from case # for prefab index
+
                     usageConflict = false;
+
+                    GameObject musicBox = (GameObject) Instantiate(itemPrefabs[0], projectileLaunchOffset.position, Quaternion.identity);
+                    Rigidbody musicBoxRB = musicBox.GetComponent<Rigidbody>();
 
                     break;
 
-                case 2: // it's a cup
+                case 2: // it's a cup, subtract 1 from case # for prefab index
                     usageConflict = false;
 
-                    GameObject cup = (GameObject) Instantiate(projectilePrefab, projectileLaunchOffset.position, Quaternion.identity);
+                    GameObject cup = (GameObject) Instantiate(itemPrefabs[1], projectileLaunchOffset.position, Quaternion.identity);
                     Rigidbody cupRB = cup.GetComponent<Rigidbody>();
                     cupRB.AddForce(new Vector3(4.0f * (rightOriented ? 1 : -1), 2.0f, 0.0f), ForceMode.Impulse);
 

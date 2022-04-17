@@ -2,11 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CupItem_Usage : MonoBehaviour
+public class audibleItemUsage : MonoBehaviour
 {
+    [SerializeField] private int itemType; // 1 is music box, 2 is cup
+    [SerializeField] private AudioSource sfxSource;
+
+    [SerializeField] private AudioClip itemSound;
+ 
     private LayerMask allEnemies;
     private ParticleSystem soundWave;
     private ParticleSystem.MainModule soundWaveSettings;
+
 
     private Rigidbody rb;
     private Collider sc;
@@ -44,6 +50,27 @@ public class CupItem_Usage : MonoBehaviour
 
         soundWave.Play();
 
-        Destroy(gameObject, 0.66f);
+        // if using PlayClipAtLocation
+        Vector3 itemPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+
+        switch (itemType)
+        {
+            case 1: // music box
+                playItemSound(itemPos);
+                Destroy(gameObject, 5.0f);
+            break;
+
+            case 2: // cup
+                playItemSound(itemPos);
+                Destroy(gameObject, 0.66f);
+            break;
+        }
+    }
+
+    private void playItemSound(Vector3 pos)
+    {
+        // GameObject.Find("Audio Manager").GetComponent<AudioManager>().playSound(clipNum);
+        sfxSource.PlayOneShot(itemSound);
+        AudioSource.PlayClipAtPoint(itemSound, pos); 
     }
 }

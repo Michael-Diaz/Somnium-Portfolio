@@ -7,10 +7,11 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
+    
     [SerializeField] public AudioSource backgroundMusicSource, chaseMusicSource, sfxSource;
     [SerializeField] private AudioClip bgMusic, chaseMusic;
     
-    [SerializeField] private AudioClip[] sfx;
+    [SerializeField] public AudioClip[] sfx;
     // AudioSource chaseMusic;
     // AudioSource bgMusic;
 
@@ -41,10 +42,6 @@ public class AudioManager : MonoBehaviour
 
         isPlayingBGMusic = true;
         isPlayingChaseMusic = false;
-        
-        backgroundMusicSource.PlayOneShot(chaseMusic);
-
-
     }
 
     // Update is called once per frame
@@ -151,6 +148,7 @@ public class AudioManager : MonoBehaviour
 
     public void playSound(int i)
     {
+        // AudioSource.PlayClipAtPoint(sfx[i], pos);    
         sfxSource.PlayOneShot(sfx[i]);
     }
 
