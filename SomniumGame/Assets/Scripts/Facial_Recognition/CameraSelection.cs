@@ -34,7 +34,7 @@ public class CameraSelection : MonoBehaviour
         _camDevices = WebCamTexture.devices;
 
         // Get the dropdown itself and clear all existing options
-        var dropdown = transform.GetComponent<Dropdown>();
+        Dropdown dropdown = transform.GetComponent<Dropdown>();
         dropdown.options.Clear();
 
         // Add the cameras to the dropdown

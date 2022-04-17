@@ -27,8 +27,12 @@ public class UniversalWebcam : MonoBehaviour
         WebCamDevice[] cam_devices = WebCamTexture.devices;
         webcamTexture = new WebCamTexture(cam_devices[cameraSelection].name);
 
-        // Start selected camera
-        if (webcamTexture != null) {
+        // If the camera is null, reset to using the 0th camera in hopes of getting a working camera
+        if (webcamTexture == null) {
+            UnityEngine.Debug.Log($"Streaming [{cam_devices[0].name}]");
+            webcamTexture.Play();
+        // If the camera isn't null, use the selected camera
+        } else {
             UnityEngine.Debug.Log($"Streaming [{cam_devices[cameraSelection].name}]");
             webcamTexture.Play();
         }
@@ -47,8 +51,12 @@ public class UniversalWebcam : MonoBehaviour
         WebCamDevice[] cam_devices = WebCamTexture.devices;
         webcamTexture = new WebCamTexture(cam_devices[cameraSelection].name);
 
-        // Start selected camera
-        if (webcamTexture != null) {
+        // If the camera is null, reset to using the 0th camera in hopes of getting a working camera
+        if (webcamTexture == null) {
+            UnityEngine.Debug.Log($"Streaming [{cam_devices[0].name}]");
+            webcamTexture.Play();
+        // If the camera isn't null, use the selected camera
+        } else {
             UnityEngine.Debug.Log($"Streaming [{cam_devices[cameraSelection].name}]");
             webcamTexture.Play();
         }
