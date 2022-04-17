@@ -15,6 +15,8 @@ public class StartGame : MonoBehaviour
     public bool additive=false;
     public bool setActive=false;
 
+    public Image black;
+    public Animator anim;
 
     public void LoadScene()
 	{
@@ -33,11 +35,15 @@ public class StartGame : MonoBehaviour
         // Otherwise, you only need to care about the additive variable
         if (loadAsync)
         {
+            StartCoroutine(Fading());
+            Debug.Log("fading async");
             StartCoroutine(LoadAsynchronously());
         }
         else
 		{
-		    SceneManager.LoadScene(levelToLoad, additive ? LoadSceneMode.Additive : 0);
+            StartCoroutine(Fading());
+            Debug.Log("fading normal");
+            SceneManager.LoadScene(levelToLoad, additive ? LoadSceneMode.Additive : 0);
 		}
 
 
@@ -59,6 +65,7 @@ public class StartGame : MonoBehaviour
 
     IEnumerator LoadAsynchronously()
     {
+        StartCoroutine(Fading());
         // Set the loading of the level as an async operation
         AsyncOperation operation = SceneManager.LoadSceneAsync(levelToLoad, additive ? LoadSceneMode.Additive : 0);
 
@@ -85,5 +92,11 @@ public class StartGame : MonoBehaviour
 	public void UnloadScene()
 	{
 		SceneManager.UnloadSceneAsync(levelToUnload);
+    }
+
+    IEnumerator Fading()
+    {
+        anim.SetBool("Fade", true);
+        yield return new WaitUntil(() => black.color.a == 1);
     }
 }

@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
-public class MainMenuController : MonoBehaviour
+public class PauseMenuController : MonoBehaviour
 {
     [Header("Graphics Settings")]
     [SerializeField] private Dropdown resolutionDropdown;
@@ -12,14 +11,9 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private Dropdown qualityDropdown;
     [SerializeField] private Slider brightnessSlider;
 
-    //private int _brightnessLevel;
-
-
+    // Start is called before the first frame update
     void Start()
     {
-        //musicSlider.value = PlayerPrefs.GetFloat("music", 0.75f);
-        //sfxSlider.value = PlayerPrefs.GetFloat("sfx", 0.75f);
-
         resolutions = Screen.resolutions;
         resolutionDropdown.ClearOptions();
         List<string> choices = new List<string>();
@@ -29,37 +23,27 @@ public class MainMenuController : MonoBehaviour
             string choice = resolutions[i].width + "x" + resolutions[i].height;
             choices.Add(choice);
 
-            if ((resolutions[i].width == Screen.width) && (resolutions[i].height == Screen.height))
+            if ((resolutions[i].width == Screen.currentResolution.width) && (resolutions[i].height == Screen.currentResolution.height))
             {
                 currentResolutionIndex = i;
             }
         }
+
 
         resolutionDropdown.AddOptions(choices);
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
     }
 
-    public void SetResolution(int resolutionIndex)
-    {
-        Resolution resolution = resolutions[resolutionIndex];
-        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
-    }
-    
-    public void SetBrightness(int brightness)
-    {
-        PlayerPrefs.SetInt("brightnessLevel", brightness);
-    }
 
-    public void SetQuality(int quality)
-    {
-        PlayerPrefs.SetInt("qualityLevel", quality);
-    }
-
-    public void SetFullscreen(bool isFullscreen)
+    public void setFullscreen (bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
     }
 
-
+    public void setResolution (int resolutionIndex)
+    {
+        Resolution resolution = resolutions[resolutionIndex];
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+    }
 }
