@@ -23,6 +23,7 @@ public class CameraSelection : MonoBehaviour
     /* PRIVATES */
     private WebCamDevice[] _camDevices;
     private int _cameraSelection;
+    private bool _firstRun=true;
 
     void Start()
     {
@@ -57,12 +58,17 @@ public class CameraSelection : MonoBehaviour
         int index = dropdown.value;
         textBox.text = dropdown.options[index].text;
 
-        // Update saved value in CameraSelection
-        using (StreamWriter file = new StreamWriter(Application.dataPath + @"/Resources/Camera_Selection/CameraSelection.txt")) {
-            file.WriteLine(index);
-        }
+        // So it doesn't reset the camera for no reason upon starting up
+        if (_firstRun) {
+            _firstRun = false;
+        } else {
+            // Update saved value in CameraSelection
+            using (StreamWriter file = new StreamWriter(Application.dataPath + @"/Resources/Camera_Selection/CameraSelection.txt")) {
+                file.WriteLine(index);
+            }
 
-        // Update webcamTexture
-        UW.GetComponent<UniversalWebcam>().SwitchCamera();
+            // Update webcamTexture
+            UW.GetComponent<UniversalWebcam>().SwitchCamera();
+        }
     }
 }
