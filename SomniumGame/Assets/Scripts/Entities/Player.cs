@@ -12,7 +12,10 @@ public class Player : MonoBehaviour
                                 sightRange, 
                                 hearingRange, 
                                 soundRadius, 
-                                visibilityRadius;
+                                visibilityRadius,
+                                visionRotation = 7.0f;
+
+    [SerializeField] private GameObject Illumination;
 
     [Header("Player Movement")]
     private Rigidbody rb;
@@ -172,6 +175,7 @@ public class Player : MonoBehaviour
     {
         rightOriented = !rightOriented;
         transform.localScale = new Vector3(transform.localScale.x * -1, 1.5f, 1.0f);
+        GameObject.Find("Illumination").GetComponent<flipLight>().FlipLight();
     }
 
     public void Hide(int stateChange, Vector3 newPos)
