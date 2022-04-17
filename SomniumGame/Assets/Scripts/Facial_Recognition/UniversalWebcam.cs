@@ -1,10 +1,3 @@
-/*
-A script that takes input from the webcam (or any attached camera)
-and feeds it into the emotion recognition model.
-
-Note: Need to add the option to select your desired camera device.
-*/
-
 using Convert = System.Convert;
 using File = System.IO.File;
 using System.Collections;

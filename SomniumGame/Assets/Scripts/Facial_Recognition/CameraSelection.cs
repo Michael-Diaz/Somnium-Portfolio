@@ -1,10 +1,3 @@
-/*
-A script that takes input from the webcam (or any attached camera)
-and feeds it into the emotion recognition model.
-
-Note: Need to add the option to select your desired camera device.
-*/
-
 using Convert = System.Convert;
 using File = System.IO.File;
 using StreamWriter = System.IO.StreamWriter;
@@ -23,7 +16,6 @@ public class CameraSelection : MonoBehaviour
     /* PRIVATES */
     private WebCamDevice[] _camDevices;
     private int _cameraSelection;
-    private bool _firstRun=true;
 
     void Start()
     {
@@ -58,17 +50,17 @@ public class CameraSelection : MonoBehaviour
         int index = dropdown.value;
         textBox.text = dropdown.options[index].text;
 
-        // So it doesn't reset the camera for no reason upon starting up
-        if (_firstRun) {
-            _firstRun = false;
-        } else {
-            // Update saved value in CameraSelection
-            using (StreamWriter file = new StreamWriter(Application.dataPath + @"/Resources/Camera_Selection/CameraSelection.txt")) {
-                file.WriteLine(index);
-            }
-
-            // Update webcamTexture
-            UW.GetComponent<UniversalWebcam>().SwitchCamera();
+        // Update saved value in CameraSelection
+        using (StreamWriter file = new StreamWriter(Application.dataPath + @"/Resources/Camera_Selection/CameraSelection.txt")) {
+            file.WriteLine(index);
         }
+
+        // Update saved name in CameraName
+        using (StreamWriter file = new StreamWriter(Application.dataPath + @"/Resources/Camera_Selection/CameraName.txt")) {
+            file.WriteLine(dropdown.options[index].text);
+        }
+
+        // Update webcamTexture
+        UW.GetComponent<UniversalWebcam>().SwitchCamera();
     }
 }
