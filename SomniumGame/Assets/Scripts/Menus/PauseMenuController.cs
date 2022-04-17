@@ -8,7 +8,7 @@ public class PauseMenuController : MonoBehaviour
     [Header("Graphics Settings")]
     [SerializeField] private Dropdown resolutionDropdown;
     [SerializeField] private Resolution[] resolutions;
-    [SerializeField] private Dropdown qualityDropdown;
+    //[SerializeField] private Dropdown qualityDropdown;
     [SerializeField] private Slider brightnessSlider;
 
     // Start is called before the first frame update
@@ -45,5 +45,10 @@ public class PauseMenuController : MonoBehaviour
     {
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+    }
+
+    public void SetBrightness(int brightness)
+    {
+        PlayerPrefs.SetInt("brightnessLevel", brightness);
     }
 }
