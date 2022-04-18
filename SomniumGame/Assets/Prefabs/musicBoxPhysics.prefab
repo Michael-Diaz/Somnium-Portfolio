@@ -5146,4 +5146,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 1
   sfxSource: {fileID: 7448952528265710759}
-  itemSound: {fileID: 8300000, guid: 897009d6a6a72364bbc64ec4130a149c, type: 3}
+  itemSound: {fileID: 8300000, guid: db939067713c860448e60580b903fe03, type: 3}

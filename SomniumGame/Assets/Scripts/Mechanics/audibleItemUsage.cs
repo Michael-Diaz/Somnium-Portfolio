@@ -57,7 +57,7 @@ public class audibleItemUsage : MonoBehaviour
         {
             case 1: // music box
                 playItemSound(itemPos);
-                Destroy(gameObject, 5.0f);
+                Destroy(gameObject, 10.0f);
             break;
 
             case 2: // cup
