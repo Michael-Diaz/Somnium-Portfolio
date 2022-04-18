@@ -35,33 +35,6 @@ public class Item : MonoBehaviour
 
         field1 = GameObject.Find("Slot 1").transform.GetChild(0).GetComponent<Image>();
         field2 = GameObject.Find("Slot 2").transform.GetChild(0).GetComponent<Image>();
-
-        switch(itemType)
-        {
-            case 0:
-                soundEmitting = true;
-                effectTimer = -1.0f;
-                throwable = true;
-
-                lightEmitting = false;
-                break;
-
-            case 1:
-                lightEmitting = true;
-                effectTimer = 10.0f;
-
-                soundEmitting = false;
-                throwable = false;
-                break;
-
-            case 2:
-                soundEmitting = true;
-                effectTimer = 5.0f;
-
-                lightEmitting = false;
-                throwable = false;
-                break;
-        }
     }
 
     // Update is called once per frame

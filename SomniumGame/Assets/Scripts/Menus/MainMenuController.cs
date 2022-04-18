@@ -9,7 +9,7 @@ public class MainMenuController : MonoBehaviour
     [Header("Graphics Settings")]
     [SerializeField] private Dropdown resolutionDropdown;
     [SerializeField] private Resolution[] resolutions;
-    [SerializeField] private Dropdown qualityDropdown;
+    //[SerializeField] private Dropdown qualityDropdown;
     [SerializeField] private Slider brightnessSlider;
 
     //private int _brightnessLevel;
