@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
@@ -10,7 +9,7 @@ public class MainMenuController : MonoBehaviour
     [Header("Graphics Settings")]
     [SerializeField] private Dropdown resolutionDropdown;
     [SerializeField] private Resolution[] resolutions;
-    [SerializeField] private Dropdown qualityDropdown;
+    //[SerializeField] private Dropdown qualityDropdown;
     [SerializeField] private Slider brightnessSlider;
 
     //private int _brightnessLevel;
@@ -61,4 +60,6 @@ public class MainMenuController : MonoBehaviour
     {
         Screen.fullScreen = isFullscreen;
     }
+
+
 }

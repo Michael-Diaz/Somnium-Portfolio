@@ -12,6 +12,8 @@ public class ReturnToMainMenu : MonoBehaviour
     public bool additive=false;
     public bool setActive=false;
 
+    public Image black;
+    public Animator anim;
 
     public void LoadScene()
 	{
@@ -24,6 +26,9 @@ public class ReturnToMainMenu : MonoBehaviour
 		{
 			sceneToLoad = SceneManager.GetActiveScene().name;
 		}
+
+		// Fade Out
+		StartCoroutine(Fading());
 
         // Load the scene
         SceneManager.LoadScene(sceneToLoad, additive ? LoadSceneMode.Additive : 0);
@@ -47,5 +52,12 @@ public class ReturnToMainMenu : MonoBehaviour
 	public void UnloadScene()
 	{
 		SceneManager.UnloadSceneAsync(sceneToUnload);
+    }
+
+	
+    IEnumerator Fading()
+    {
+        anim.SetBool("Fade", true);
+        yield return new WaitUntil(() => black.color.a == 1);
     }
 }

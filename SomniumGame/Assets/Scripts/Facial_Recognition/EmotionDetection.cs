@@ -1,8 +1,6 @@
 /*
 A script that takes input from the webcam (or any attached camera)
 and feeds it into the emotion recognition model.
-
-Note: Need to add the option to select your desired camera device.
 */
 
 using System.Collections;
@@ -71,17 +69,24 @@ public class EmotionDetection : MonoBehaviour
         _webcamTexture = UniversalWebcam.GetComponent<UniversalWebcam>().webcamTexture;
 
         // Haar cascade set-up
-        string path = Application.dataPath + @"/Resources/Haar_Cascades/haarcascade_frontalface_default.xml";
+        string path = Application.dataPath + @"/Models/haarcascade_frontalface_default.xml";
         _cascade = new CascadeClassifier(path);
 
-        // Loading values for Haar cascade
-        path = Application.dataPath + @"/Resources/Cascade_Values/CascadeValues.txt";
-        string[] lines = File.ReadAllLines(path);
+        try {
+            // Loading values for Haar cascade
+            path = Application.dataPath + @"/Resources/CascadeValues.txt";
+            string[] lines = File.ReadAllLines(path);
 
-        // Convert string values to actual values
-        scaleFactor = Convert.ToDouble(lines[0]); // default = 1.15
-        minNeighbors = Convert.ToInt32(lines[1]); // default = 5
-        minSize = Convert.ToInt32(lines[2]); // default = 15
+            // Convert string values to actual values
+            scaleFactor = Convert.ToDouble(lines[0]);
+            minNeighbors = Convert.ToInt32(lines[1]);
+            minSize = Convert.ToInt32(lines[2]);
+        } catch {
+            // Defaults
+            scaleFactor = 1.15;
+            minNeighbors = 5;
+            minSize = 15;
+        }
 
         // Set values for the sliders to these newly loaded values
         scaleFactorSlider.value = (float)scaleFactor;
@@ -165,13 +170,20 @@ public class EmotionDetection : MonoBehaviour
 
     public void UpdateValues()
     {
-        // Loading values for Haar cascade
-        string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/Cascade_Values/CascadeValues.txt");
+        try {
+            // Loading values for Haar cascade
+            string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/CascadeValues.txt");
 
-        // Convert string values to actual values
-        scaleFactor = Convert.ToDouble(lines[0]); // default = 1.15
-        minNeighbors = Convert.ToInt32(lines[1]); // default = 5
-        minSize = Convert.ToInt32(lines[2]); // default = 15
+            // Convert string values to actual values
+            scaleFactor = Convert.ToDouble(lines[0]);
+            minNeighbors = Convert.ToInt32(lines[1]);
+            minSize = Convert.ToInt32(lines[2]);
+        } catch {
+            // Defaults
+            scaleFactor = 1.15;
+            minNeighbors = 5;
+            minSize = 15;
+        }
 
         // Set values for the sliders to these newly loaded values
         scaleFactorSlider.value = (float)scaleFactor;
@@ -226,7 +238,7 @@ public class EmotionDetection : MonoBehaviour
         };
 
         // Save the slider values to their save file
-        string path = Application.dataPath + @"/Resources/Cascade_Values/CascadeValues.txt";
+        string path = Application.dataPath + @"/Resources/CascadeValues.txt";
         using StreamWriter file = new StreamWriter(path);
         foreach (string line in lines)
             file.WriteLine(line);

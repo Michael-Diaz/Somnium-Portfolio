@@ -60,10 +60,16 @@ public class Builder : MonoBehaviour
         int w;
 
         // Loading values for the map
-        string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/MapGenValues/MapValues.txt");
-        h = Convert.ToInt32(lines[0]);
-        w = Convert.ToInt32(lines[1]);
-        spawn_rate = (float)(Convert.ToDouble(lines[2]));
+        try {
+            string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/MapValues.txt");
+            h = Convert.ToInt32(lines[0]);
+            w = Convert.ToInt32(lines[1]);
+            spawn_rate = (float)(Convert.ToDouble(lines[2]));
+        } catch {
+            h = 4;
+            w = 7;
+            spawn_rate = 0.50f;
+        }
 
         // Number of floors
         height = UnityEngine.Random.Range(h-1, h+1);

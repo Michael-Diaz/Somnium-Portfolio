@@ -1,10 +1,3 @@
-/*
-A script that takes input from the webcam (or any attached camera)
-and feeds it into the emotion recognition model.
-
-Note: Need to add the option to select your desired camera device.
-*/
-
 using Convert = System.Convert;
 using File = System.IO.File;
 using StreamWriter = System.IO.StreamWriter;
@@ -27,14 +20,19 @@ public class CameraSelection : MonoBehaviour
     void Start()
     {
         // Load value for camera to load
-        string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/Camera_Selection/CameraSelection.txt");
-        _cameraSelection = Convert.ToInt32(lines[0]); // default = 0
+        try {
+            string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/CameraSelection.txt");
+            _cameraSelection = Convert.ToInt32(lines[0]);
+        } catch {
+            // Default
+            _cameraSelection = 0;
+        }
 
         // Use cam_devices to allow a person to select their desired camera
         _camDevices = WebCamTexture.devices;
 
         // Get the dropdown itself and clear all existing options
-        var dropdown = transform.GetComponent<Dropdown>();
+        Dropdown dropdown = transform.GetComponent<Dropdown>();
         dropdown.options.Clear();
 
         // Add the cameras to the dropdown
@@ -44,7 +42,7 @@ public class CameraSelection : MonoBehaviour
         }
 
         // Start by calling it so the text is initially displayed
-        DropdownItemSelected(dropdown);
+        textBox.text = dropdown.options[_cameraSelection].text;
 
         // Listener to check for item being selected
         dropdown.onValueChanged.AddListener(delegate { DropdownItemSelected(dropdown); });
@@ -58,8 +56,13 @@ public class CameraSelection : MonoBehaviour
         textBox.text = dropdown.options[index].text;
 
         // Update saved value in CameraSelection
-        using (StreamWriter file = new StreamWriter(Application.dataPath + @"/Resources/Camera_Selection/CameraSelection.txt")) {
+        using (StreamWriter file = new StreamWriter(Application.dataPath + @"/Resources/CameraSelection.txt")) {
             file.WriteLine(index);
+        }
+
+        // Update saved name in CameraName
+        using (StreamWriter file = new StreamWriter(Application.dataPath + @"/Resources/CameraName.txt")) {
+            file.WriteLine(dropdown.options[index].text);
         }
 
         // Update webcamTexture
