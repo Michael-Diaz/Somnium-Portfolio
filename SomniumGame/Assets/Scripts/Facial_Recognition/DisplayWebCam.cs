@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DisplayWebcam : MonoBehaviour
+public class DisplayWebCam : MonoBehaviour
 {
     /* PUBLICS */
     public GameObject UniversalWebcam;
