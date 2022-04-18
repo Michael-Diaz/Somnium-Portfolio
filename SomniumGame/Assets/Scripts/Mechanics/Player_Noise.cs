@@ -22,8 +22,12 @@ public class Player_Noise : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/MapGenValues/MapValues.txt");
-        hearing_sensitivity = (float)(Convert.ToDouble(lines[3]));
+        try {
+            string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/MapValues.txt");
+            hearing_sensitivity = (float)(Convert.ToDouble(lines[3]));
+        } catch {
+            hearing_sensitivity = 0.50f;
+        }
 
         allEnemies = LayerMask.GetMask("Sounds");
         soundWave = transform.parent.Find("Ripples").GetComponent<ParticleSystem>();

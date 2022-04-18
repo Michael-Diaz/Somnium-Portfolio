@@ -31,14 +31,22 @@ public class MapValues : MonoBehaviour
 
     void Start()
     {
-        // Loading values for Haar cascade
-        string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/MapGenValues/MapValues.txt");
+        try {
+            // Loading values for Haar cascade
+            string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/MapValues.txt");
 
-        // Convert string values to actual values
-        _numFloors = Convert.ToInt32(lines[0]); // default = 4
-        _numRooms = Convert.ToInt32(lines[1]); // default = 7
-        _numEnemies = (float)(Convert.ToDouble(lines[2])); // default = 0.25f
-        _enemyVision = (float)(Convert.ToDouble(lines[3])); // default = 0.25f
+            // Convert string values to actual values
+            _numFloors = Convert.ToInt32(lines[0]);
+            _numRooms = Convert.ToInt32(lines[1]);
+            _numEnemies = (float)(Convert.ToDouble(lines[2]));
+            _enemyVision = (float)(Convert.ToDouble(lines[3]));
+        } catch {
+            // Defaults
+            _numFloors = 4;
+            _numRooms = 7;
+            _numEnemies = 0.50f;
+            _enemyVision = 0.50f;
+        }
 
         // Set values for the sliders to these newly loaded values
         numFloorsSlider.value = _numFloors;
@@ -61,14 +69,22 @@ public class MapValues : MonoBehaviour
 
     public void UpdateValues()
     {
-        // Loading values for Haar cascade
-        string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/MapGenValues/MapValues.txt");
+        try {
+            // Loading values for Haar cascade
+            string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/MapValues.txt");
 
-        // Convert string values to actual values
-        _numFloors = Convert.ToInt32(lines[0]); // default = 4
-        _numRooms = Convert.ToInt32(lines[1]); // default = 7
-        _numEnemies = (float)(Convert.ToDouble(lines[2])); // default = 0.50f
-        _enemyVision = (float)(Convert.ToDouble(lines[3])); // default = 0.50f
+            // Convert string values to actual values
+            _numFloors = Convert.ToInt32(lines[0]);
+            _numRooms = Convert.ToInt32(lines[1]);
+            _numEnemies = (float)(Convert.ToDouble(lines[2]));
+            _enemyVision = (float)(Convert.ToDouble(lines[3]));
+        } catch {
+            // Defaults
+            _numFloors = 4;
+            _numRooms = 7;
+            _numEnemies = 0.25f;
+            _enemyVision = 0.25f;
+        }
 
         // Set values for the sliders to these newly loaded values
         numFloorsSlider.value = _numFloors;
@@ -138,7 +154,7 @@ public class MapValues : MonoBehaviour
         };
 
         // Save the slider values to their save file
-        using StreamWriter file = new StreamWriter(Application.dataPath + @"/Resources/MapGenValues/MapValues.txt");
+        using StreamWriter file = new StreamWriter(Application.dataPath + @"/Resources/MapValues.txt");
         foreach (string line in lines)
             file.WriteLine(line);
     }
