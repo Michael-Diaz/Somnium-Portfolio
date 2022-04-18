@@ -58,7 +58,7 @@ public class BackgroundEmotionDetection : MonoBehaviour
         _webcamTexture = UniversalWebcam.GetComponent<UniversalWebcam>().webcamTexture;
 
         // Haar cascade set-up
-        string path = Application.dataPath + @"/Models/haarcascade_frontalface_default.xml";
+        string path = Application.dataPath + @"/Resources/haarcascade_frontalface_default.xml";
         _cascade = new CascadeClassifier(path);
 
         try {

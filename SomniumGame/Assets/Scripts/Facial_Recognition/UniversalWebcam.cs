@@ -1,7 +1,9 @@
 using Convert = System.Convert;
 using File = System.IO.File;
+using Exception = System.Exception;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 
 
@@ -15,6 +17,19 @@ public class UniversalWebcam : MonoBehaviour
 
     void Start()
     {
+        // Check to see if the haar cascade already exists. If it does, download it. If it doesn't, then skip
+        if (!File.Exists(Application.dataPath + @"/Resources/haarcascade_frontalface_default.xml")) {
+            using (WebClient wc = new WebClient()) {
+                wc.Headers.Add("a", "a");
+                try {
+                    System.IO.Directory.CreateDirectory(Application.dataPath + @"/Resources/");
+                    wc.DownloadFile("https://github.com/opencv/opencv/tree/master/data/haarcascades/haarcascade_frontalface_default.xml", Application.dataPath + @"/Resources/haarcascade_frontalface_default.xml");
+                } catch (Exception ex) {
+                    UnityEngine.Debug.Log(ex.ToString());
+                }
+            }
+        }
+
         // Load value for camera element
         try {
             string[] lines = File.ReadAllLines(Application.dataPath + @"/Resources/CameraSelection.txt");
