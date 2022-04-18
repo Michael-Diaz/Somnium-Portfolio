@@ -19,6 +19,8 @@ public class Patrol : MonoBehaviour
     [SerializeField] private int damage;
     [SerializeField] private float attackRange;
 
+    private Transform sprite;
+
     private Rigidbody rb;
     private Transform lowerBound;
     private Transform upperBound;
@@ -28,11 +30,14 @@ public class Patrol : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        sprite = this.gameObject.transform.GetChild(1);
+
         rb = GetComponent<Rigidbody>(); 
         rb.velocity = new Vector2(moveSpeed, 0.0f);   
         lowerBound = GameObject.FindGameObjectWithTag("lowerBound").GetComponent<Transform>();
         upperBound = GameObject.FindGameObjectWithTag("upperBound").GetComponent<Transform>();
         
+        sprite.localScale = new Vector3(Math.Abs(sprite.localScale.x) * -1, sprite.localScale.y, sprite.localScale.z);
     }
 
     // Update is called once per frame
@@ -72,11 +77,13 @@ public class Patrol : MonoBehaviour
             if (transform.position.x >= upperBound.position.x)
             {
                 rb.velocity = new Vector2(Math.Abs(rb.velocity.x) * -1.0f, 0.0f);
+                sprite.localScale = new Vector3(Math.Abs(sprite.localScale.x), sprite.localScale.y, sprite.localScale.z);
                 rightOriented = false;
             }
             if (transform.position.x <= lowerBound.position.x)
             {
                 rb.velocity = new Vector2(Math.Abs(rb.velocity.x), 0.0f);
+                sprite.localScale = new Vector3(Math.Abs(sprite.localScale.x) * -1, sprite.localScale.y, sprite.localScale.z);
                 rightOriented = true;
             }
     }

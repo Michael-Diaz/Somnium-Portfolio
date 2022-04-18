@@ -22,8 +22,6 @@ public class Staircase_Lock : MonoBehaviour
             bottomStair.stair_lock = false;
             topStair.stair_lock = false;
         }
-
-        Debug.Log("FLR= " + this.gameObject.transform.position + ", enemy?: " + enemyPresent + " player?: " + playerPresent);
     }
 
     void OnTriggerEnter(Collider entry)
