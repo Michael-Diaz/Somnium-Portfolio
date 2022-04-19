@@ -18,12 +18,14 @@ public class UniversalWebcam : MonoBehaviour
     void Start()
     {
         // Check to see if the haar cascade already exists. If it does, download it. If it doesn't, then skip
-        if (!File.Exists(Application.dataPath + @"/Resources/haarcascade_frontalface_default.xml")) {
+        if (!File.Exists(Application.dataPath + @"/Resources/haarcascade_frontalface.xml")) {
             using (WebClient wc = new WebClient()) {
                 wc.Headers.Add("a", "a");
                 try {
-                    System.IO.Directory.CreateDirectory(Application.dataPath + @"/Resources/");
-                    wc.DownloadFile("https://github.com/opencv/opencv/tree/master/data/haarcascades/haarcascade_frontalface_default.xml", Application.dataPath + @"/Resources/haarcascade_frontalface_default.xml");
+                    if (!File.Exists(Application.dataPath + @"/Resources/"))
+                        System.IO.Directory.CreateDirectory(Application.dataPath + @"/Resources/");
+
+                    wc.DownloadFile("https://raw.githubusercontent.com/opencv/opencv/master/data/haarcascades/haarcascade_frontalface_default.xml", Application.dataPath + @"/Resources/haarcascade_frontalface.xml");
                 } catch (Exception ex) {
                     UnityEngine.Debug.Log(ex.ToString());
                 }
