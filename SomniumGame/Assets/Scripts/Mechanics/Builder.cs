@@ -219,6 +219,7 @@ public class Builder : MonoBehaviour
                 spawnLocations.Add(generateEntity(i, spawnLocations));
 
                 GameObject patrol = Instantiate(prefabsToSpawn[0]);
+                patrol.transform.parent = GameObject.Find("Enemies").transform;
                 patrol.transform.position = spawnLocations[i];
 
                 // adding each patrol enemy to the list of enemies
@@ -239,6 +240,7 @@ public class Builder : MonoBehaviour
         GameObject Stalker = Instantiate(prefabsToSpawn[2]);
 
         // inspector.transform.position = spawnLocations[endMarker - 2];
+        Stalker.transform.parent = GameObject.Find("Enemies").transform;
         Stalker.transform.position = spawnLocations[endMarker - 1];
         
         // adding the stalker and inspector to the list of enemies
