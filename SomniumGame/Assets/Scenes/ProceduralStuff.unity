@@ -3377,6 +3377,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -19.959
       objectReference: {fileID: 0}
+    - target: {fileID: 8057275414862096400, guid: 0a6ca5f992ae35b40a3bc0a84b580e9f, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 8057768387710884464, guid: 0a6ca5f992ae35b40a3bc0a84b580e9f, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
@@ -7985,7 +7989,6 @@ MonoBehaviour:
   BackgroundCanvas: {fileID: 1542180445}
   PauseMenuCanvas: {fileID: 770211748}
   SettingsCanvas: {fileID: 1795961737}
-  GraphicsCanvas: {fileID: 0}
   AudioCanvas: {fileID: 1671067741}
   FaceDetectionCanvas: {fileID: 45526182}
 --- !u!4 &1479188841

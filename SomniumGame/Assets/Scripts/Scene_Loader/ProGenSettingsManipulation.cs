@@ -16,7 +16,6 @@ public class ProGenSettingsManipulation : MonoBehaviour
     public GameObject BackgroundCanvas;
     public GameObject PauseMenuCanvas;
     public GameObject SettingsCanvas;
-    public GameObject GraphicsCanvas;
     public GameObject AudioCanvas;
     public GameObject FaceDetectionCanvas;
 
@@ -39,7 +38,6 @@ public class ProGenSettingsManipulation : MonoBehaviour
                 BackgroundCanvas.SetActive(false);
                 PauseMenuCanvas.SetActive(false);
                 SettingsCanvas.SetActive(false);
-                GraphicsCanvas.SetActive(false);
                 AudioCanvas.SetActive(false);
                 FaceDetectionCanvas.SetActive(false);
 
@@ -47,6 +45,7 @@ public class ProGenSettingsManipulation : MonoBehaviour
                 Level.SetActive(true);
                 Dreamer.SetActive(true);
                 HUD.SetActive(true);
+                Dreamer.transform.GetChild(4).gameObject.SetActive(true);
             }
             // If it isn't, open the settings
             else
@@ -60,7 +59,6 @@ public class ProGenSettingsManipulation : MonoBehaviour
                 BackgroundCanvas.SetActive(true);
                 PauseMenuCanvas.SetActive(true);
                 SettingsCanvas.SetActive(false);
-                GraphicsCanvas.SetActive(false);
                 AudioCanvas.SetActive(false);
                 FaceDetectionCanvas.SetActive(false);
 
@@ -68,6 +66,7 @@ public class ProGenSettingsManipulation : MonoBehaviour
                 Level.SetActive(false);
                 Dreamer.SetActive(false);
                 HUD.SetActive(false);
+                Dreamer.transform.GetChild(4).gameObject.SetActive(false);
             }
         }
     }
@@ -87,7 +86,6 @@ public class ProGenSettingsManipulation : MonoBehaviour
             BackgroundCanvas.SetActive(false);
             PauseMenuCanvas.SetActive(false);
             SettingsCanvas.SetActive(false);
-            GraphicsCanvas.SetActive(false);
             AudioCanvas.SetActive(false);
             FaceDetectionCanvas.SetActive(false);
 
@@ -95,6 +93,7 @@ public class ProGenSettingsManipulation : MonoBehaviour
             Level.SetActive(true);
             Dreamer.SetActive(true);
             HUD.SetActive(true);
+            Dreamer.transform.GetChild(4).gameObject.SetActive(true);
         }
         // If it isn't, open the settings
         else
@@ -108,7 +107,6 @@ public class ProGenSettingsManipulation : MonoBehaviour
             BackgroundCanvas.SetActive(true);
             PauseMenuCanvas.SetActive(true);
             SettingsCanvas.SetActive(false);
-            GraphicsCanvas.SetActive(false);
             AudioCanvas.SetActive(false);
             FaceDetectionCanvas.SetActive(false);
 
@@ -116,6 +114,7 @@ public class ProGenSettingsManipulation : MonoBehaviour
             Level.SetActive(false);
             Dreamer.SetActive(false);
             HUD.SetActive(false);
+            Dreamer.transform.GetChild(4).gameObject.SetActive(false);
         }
     }
 }

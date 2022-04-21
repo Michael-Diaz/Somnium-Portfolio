@@ -46,5 +46,6 @@ public class WinGame : MonoBehaviour
         Level.SetActive(false);
         Dreamer.SetActive(false);
         HUD.SetActive(false);
+        Dreamer.transform.GetChild(4).gameObject.SetActive(false);
     }
 }
