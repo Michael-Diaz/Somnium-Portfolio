@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +29,10 @@ public class Inspector : MonoBehaviour
     private float randomX;
     private float randomY;
 
+    private int destinationFloor;
+    private int playerFloor;
+    private float playerYPos;
+
 
     // Start is called before the first frame update
     void Start()
@@ -39,12 +44,15 @@ public class Inspector : MonoBehaviour
 
         lowerBound = GameObject.FindGameObjectWithTag("lowerBound").GetComponent<Transform>();
         upperBound = GameObject.FindGameObjectWithTag("upperBound").GetComponent<Transform>();
+
+        InvokeRepeating("path", 3, 3);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        playerYPos = GameObject.Find("Dreamer").GetComponent<Player>().transform.position.y;
+        playerFloor = (int) Math.Floor(playerYPos / 3.447346f) + 1;
     }
 
     public void init()
@@ -54,18 +62,16 @@ public class Inspector : MonoBehaviour
 
     public void path()
     {
-        int i = 0;
-        while (i == 0)
-            Invoke("teleport", 3);
-    }
-
-    public void teleport()
-    {
+        // sets the destination floor of the inspector; it'll teleport withing a floor of the player
+        // if the player is on the bottom or top floor it will stay within the bounds [0, mapHeight]
+        destinationFloor = UnityEngine.Random.Range(Math.Max(playerFloor - 1, 0), Math.Min(playerFloor + 1, mapHeight));
+        Debug.Log("player floor" + playerFloor);
+        
         randomX = ((UnityEngine.Random.Range(1, mapWidth) *  4.0f) - 2.0f);
-        randomY = ( (mapHeight * 3.447346f) + 1.1745f);
-
+        randomY = ((destinationFloor * 3.447346f) + 1.0f);
 
         transform.position = new Vector3(randomX, randomY, -1.1f);
+
     }
 
     public void attack()
