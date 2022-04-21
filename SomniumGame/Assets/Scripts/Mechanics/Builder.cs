@@ -236,10 +236,12 @@ public class Builder : MonoBehaviour
         }
 
         int endMarker = spawnLocations.Count;
-        // GameObject inspector = Instantiate(prefabsToSpawn[1]);
+        GameObject inspector = Instantiate(prefabsToSpawn[1]);
         GameObject Stalker = Instantiate(prefabsToSpawn[2]);
 
-        // inspector.transform.position = spawnLocations[endMarker - 2];
+        inspector.transform.parent = GameObject.Find("Enemies").transform;
+        inspector.transform.position = spawnLocations[endMarker - 2];
+
         Stalker.transform.parent = GameObject.Find("Enemies").transform;
         Stalker.transform.position = spawnLocations[endMarker - 1];
         
