@@ -115,14 +115,31 @@ public class AudioManager : MonoBehaviour
         // Once we find an instance where isInPursuit is true stop loop
         foreach (GameObject enemy in enemies)
         {
-            if (enemy.GetComponent<Stalker>()._isInPursuit  == true)
+            if (enemy.GetComponent<Stalker>() != null)
             {
-                anySuspicion = true;
-                float currentEnemySusTimer = enemy.GetComponent<Stalker>()._suspicionTimer;
+                if (enemy.GetComponent<Stalker>()._isInPursuit  == true)
+                {
+                    anySuspicion = true;
+                    float currentEnemySusTimer = enemy.GetComponent<Stalker>()._suspicionTimer;
 
-                // sets the suspicion timer to that of the enemy with the highest suspicion timer
-                if (suspicionTimer < currentEnemySusTimer)
-                    suspicionTimer = currentEnemySusTimer;
+                    // sets the suspicion timer to that of the enemy with the highest suspicion timer
+                    if (suspicionTimer < currentEnemySusTimer)
+                        suspicionTimer = currentEnemySusTimer;
+                }
+            }
+
+            if (enemy.GetComponent<Patrol>() != null)
+            {
+                if (enemy.GetComponent<Patrol>()._isInPursuit  == true)
+                {
+                    // anySuspicion = true;
+                    // float currentEnemySusTimer = enemy.GetComponent<Patrol>()._suspicionTimer;
+
+                    // sets the suspicion timer to that of the enemy with the highest suspicion timer
+                    // if (suspicionTimer < currentEnemySusTimer)
+                        // suspicionTimer = currentEnemySusTimer;
+                }
+
             }
         }
     }
