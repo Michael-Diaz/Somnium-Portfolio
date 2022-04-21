@@ -292,8 +292,8 @@ public class EmotionDetection : MonoBehaviour
             // Get the label and labelRect (and associated top value)
             string label = _labelMap[class_ids[i]] + ": " + confidences[i].ToString("0.000");
             Size labelSize = Cv2.GetTextSize(label, _hersheyfont, 1, 1, out _baseLine);
-            OpenCvSharp.Rect labelRect = new OpenCvSharp.Rect(new Point(_rects[i].X-1, _rects[i].Y-labelSize.Height), labelSize);
-            var top = Mathf.Max((float)_rects[i].Y, (float)labelRect.Height);
+            OpenCvSharp.Rect labelRect = new OpenCvSharp.Rect(new Point(_rects[i].X-1, _rects[i].Y-labelSize.Height - 1), labelSize);
+            var top = Mathf.Max((float)_rects[i].Y + 1, (float)labelRect.Height);
 
             // Draw label background (negative thickness fills area)
             _frame.Rectangle(labelRect, new Scalar(0, 0, 0), -1);
@@ -301,7 +301,7 @@ public class EmotionDetection : MonoBehaviour
             // Draw label
             _frame.PutText(
                 label,
-                new Point(_rects[i].X, top),
+                new Point(_rects[i].X, top-1),
                 _hersheyfont,
                 1,
                 new Scalar(255, 255, 255)
