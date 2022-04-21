@@ -82,8 +82,8 @@ public class AudioManager : MonoBehaviour
 
             StartCoroutine(FadeSrc.StartFade(backgroundMusicSource, timeToFade, 0f));
             StartCoroutine(FadeSrc.StartFade(chaseMusicSource, timeToFade, 0.3f));
-            isPlayingBGMusic = !isPlayingBGMusic;
-            isPlayingChaseMusic = !isPlayingChaseMusic;
+            isPlayingBGMusic = false;
+            isPlayingChaseMusic = true;
         }
         else if (anySuspicion == false && isPlayingChaseMusic)
         {
@@ -91,8 +91,8 @@ public class AudioManager : MonoBehaviour
 
             StartCoroutine(FadeSrc.StartFade(backgroundMusicSource, timeToFade, 0.3f));
             StartCoroutine(FadeSrc.StartFade(chaseMusicSource, timeToFade, 0f));
-            isPlayingBGMusic = !isPlayingBGMusic;
-            isPlayingChaseMusic = !isPlayingChaseMusic;
+            isPlayingBGMusic = true;
+            isPlayingChaseMusic = false;
         }
      }
     
@@ -154,13 +154,16 @@ public class AudioManager : MonoBehaviour
             if (anySuspicion)
             {
                 // checks current enemy inPursuit
-                if (enemy.GetComponent<Stalker>()._isInPursuit  == true)
+                if (enemy.GetComponent<Stalker>() != null)
                 {
-                    currentEnemySusTimer = enemy.GetComponent<Stalker>()._suspicionTimer;
+                    if (enemy.GetComponent<Stalker>()._isInPursuit  == true)
+                    {
+                        currentEnemySusTimer = enemy.GetComponent<Stalker>()._suspicionTimer;
 
-                    // sets the suspicion timer to that of the enemy with the highest suspicion timer
-                    if (suspicionTimer < currentEnemySusTimer)
-                        suspicionTimer = currentEnemySusTimer;
+                        // sets the suspicion timer to that of the enemy with the highest suspicion timer
+                        if (suspicionTimer < currentEnemySusTimer)
+                            suspicionTimer = currentEnemySusTimer;
+                    }
                 }
             }
         }
