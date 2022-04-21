@@ -72,10 +72,12 @@ public class Builder : MonoBehaviour
         }
 
         // Number of floors
-        height = UnityEngine.Random.Range(h-1, h+1);
+        //height = UnityEngine.Random.Range(h-1, h+1);
+        height = h;
 
         // Number of rooms in a floor
-        width = UnityEngine.Random.Range(w-1, w+1);
+        //width = UnityEngine.Random.Range(w-1, w+1);
+        width = w;
 
         _height = height;
         _width = width;

@@ -12,6 +12,7 @@ public class WinGame : MonoBehaviour
 
     public GameObject Level;
     public GameObject Dreamer;
+    public GameObject HUD;
 
     public GameObject EndGameCanvasCollection;
     public GameObject BackgroundCanvas;
@@ -44,5 +45,6 @@ public class WinGame : MonoBehaviour
         // Deactivate level objects
         Level.SetActive(false);
         Dreamer.SetActive(false);
+        HUD.SetActive(false);
     }
 }

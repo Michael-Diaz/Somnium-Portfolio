@@ -8019,6 +8019,7 @@ MonoBehaviour:
   PauseMenuCamera: {fileID: 953995517}
   Level: {fileID: 1615053935}
   Dreamer: {fileID: 606019788}
+  HUD: {fileID: 1981673633}
   EndGameCanvasCollection: {fileID: 779624007}
   BackgroundCanvas: {fileID: 1894983330}
   LoseCanvas: {fileID: 507146782}
@@ -8039,6 +8040,7 @@ MonoBehaviour:
   PauseMenuCamera: {fileID: 953995517}
   Level: {fileID: 1615053935}
   Dreamer: {fileID: 606019788}
+  HUD: {fileID: 1981673633}
   EndGameCanvasCollection: {fileID: 779624007}
   BackgroundCanvas: {fileID: 1894983330}
   WinCanvas: {fileID: 1846826952}
