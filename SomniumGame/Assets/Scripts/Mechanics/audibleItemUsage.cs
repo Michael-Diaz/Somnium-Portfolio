@@ -37,9 +37,12 @@ public class audibleItemUsage : MonoBehaviour
         Collider[] alerted = Physics.OverlapSphere(transform.position, 5.0f, allEnemies);
         foreach(Collider enemy in alerted)
 		{
-		    enemy.transform.parent.GetComponent<Stalker>().updatePos(transform.position.x, transform.position.y);
-            enemy.transform.parent.GetComponent<Stalker>()._isInPursuit = true;
-		}
+            if (enemy.transform.parent.name == "Stalker(Clone)")
+            {
+		        enemy.transform.parent.GetComponent<Stalker>().updatePos(transform.position.x, transform.position.y);
+                enemy.transform.parent.GetComponent<Stalker>()._isInPursuit = true;
+            }
+        }
 
         sc.enabled = false;
 

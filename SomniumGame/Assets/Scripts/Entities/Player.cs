@@ -256,7 +256,7 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter(Collision entity)
     {
-        if (entity.gameObject.name == "Stalker(Clone)")
+        if (entity.gameObject.tag == "Enemy")
         {
             loseState.loseCondition = true;
         }
