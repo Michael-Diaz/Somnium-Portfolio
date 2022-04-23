@@ -11053,8 +11053,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e2ddb00d86ede4b8b95cda0c59502d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UniversalWebcam: {fileID: 0}
-  rawImage: {fileID: 0}
+  UniversalWebcam: {fileID: 1809886963}
+  rawImage: {fileID: 1542922260}
 --- !u!1 &1559628126
 GameObject:
   m_ObjectHideFlags: 0
