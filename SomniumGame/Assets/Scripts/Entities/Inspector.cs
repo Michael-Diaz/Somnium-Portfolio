@@ -35,6 +35,7 @@ public class Inspector : MonoBehaviour
     private float playerXPos;
 
     private bool playerSeen = false;
+    private Vector3 nextPos;
     private Vector3 playerPos;
     private Vector3 stalkerPos;
     public Vector3 playerLastSeen;
@@ -82,24 +83,47 @@ public class Inspector : MonoBehaviour
             randomX = ((UnityEngine.Random.Range(1, mapWidth) *  4.0f) - 1.5f);
             randomY = ((destinationFloor * 3.447346f) + 1.0f);
 
-            transform.position = new Vector3(randomX, randomY, 0f);
-            currentFloor = (int) Math.Floor(transform.position.y / 3.447346f) + 1;
+            nextPos = new Vector3(randomX, randomY, 0f);
+            currentFloor = (int) Math.Floor(nextPos.y / 3.447346f) + 1;
 
             if ( (currentFloor == playerFloor) && (Math.Abs(transform.position.x - playerXPos) <= 4))
             {
                 Debug.Log("seen");
                 playerSeen = true;
                 playerLastSeen = GameObject.Find("Dreamer").GetComponent<Player>().transform.position;
+                alertFar();
+                // Invoke("delay", 1);
+                teleport();
             }
         } 
         else if (playerSeen)
         {
             playerSeen = false;
-            transform.position = new Vector3(stalkerPos.x, stalkerPos.y, 0f);
-            // Invoke("snitch", 1);
+            nextPos = new Vector3(stalkerPos.x, stalkerPos.y, 0f);
+            alertClose();
+            // Invoke("delay", 1);
             snitch();
+            teleport();
         }
 
+    }
+
+    public void teleport()
+    {
+        Debug.Log("teleporting");
+        transform.position = nextPos;
+    }
+
+    public void alertClose() 
+    {
+        // play alert sound or animation
+        GameObject.Find("SFX Source").GetComponent<SoundFX>().playAlertClose();
+    }
+
+    public void alertFar() 
+    {
+        // play alert sound or animation
+        GameObject.Find("SFX Source").GetComponent<SoundFX>().playAlertFar();
     }
 
     public void snitch()
@@ -111,5 +135,10 @@ public class Inspector : MonoBehaviour
     public void attack()
     {
         
+    }
+
+    public void delay()
+    {
+        // for waiting with invoke since it doesn't like to work with a function inside while already in InvokeRepeating
     }
 }
