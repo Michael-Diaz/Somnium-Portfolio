@@ -47,7 +47,7 @@ public class Item : MonoBehaviour
         else if (playerBools.inventory[1] == null)
             slot = 1;
 
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && playerBools.byInteract && thisItem)
+        if (Input.GetKeyDown(KeyCode.I) && playerBools.byInteract && thisItem)
         {
             if (slot >= 0)
             {

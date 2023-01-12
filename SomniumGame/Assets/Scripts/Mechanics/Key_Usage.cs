@@ -19,7 +19,7 @@ public class Key_Usage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && playerBools.byInteract && atopKey)
+        if (Input.GetKeyDown(KeyCode.I) && playerBools.byInteract && atopKey)
         {
             playerBools.keyHeld = true;
             Destroy(gameObject);

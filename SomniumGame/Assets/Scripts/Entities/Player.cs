@@ -38,7 +38,8 @@ public class Player : MonoBehaviour
     [SerializeField] public bool isMoving = false,
                                 isStealthed = false, 
                                 isSprinting = false,
-                                isGrounded = true;
+                                isGrounded = true,
+                                miniAnim = false;
     public int hiddenState = 0;
     private Vector3 returnPos;
 
@@ -87,7 +88,9 @@ public class Player : MonoBehaviour
                 isMoving = true;
             else
                 isMoving = false;
-            playerAnim.SetBool("Moving", isMoving);
+
+            if (!miniAnim)    
+                playerAnim.SetBool("Moving", isMoving);
 
             if (isStealthed)
                 speedMult = 0.5f;
@@ -139,7 +142,7 @@ public class Player : MonoBehaviour
                 rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
             }
         }
-        else if (Input.GetKeyDown(KeyCode.W))
+        else if ((Input.GetKeyDown(KeyCode.I) && hiddenState == 1) || (Input.GetKeyDown(KeyCode.K) && (hiddenState == 2 || hiddenState == 3)))
         {
             hiddenState = 0;
             playerAnim.SetInteger("Hiding Type", hiddenState);
@@ -168,7 +171,7 @@ public class Player : MonoBehaviour
         
     }
 
-    void Flip()
+    public void Flip()
     {
         rightOriented = !rightOriented;
         transform.localScale = new Vector3(transform.localScale.x * -1, 1.5f, 1.0f);
@@ -193,6 +196,16 @@ public class Player : MonoBehaviour
         sight.enabled = false;
 
         returnPos = newPos;
+    }
+
+    public void TempStairsFunc(bool active)
+    {
+        rb.useGravity = !active;
+        hurtbox.enabled = !active;
+        sight.enabled = !active;
+
+        miniAnim = active;
+        playerAnim.SetBool("Moving", active);
     }
 
     public void UseItem(GameObject[] held, int hand)

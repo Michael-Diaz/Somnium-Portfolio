@@ -10,10 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5771288523943678870}
   - component: {fileID: 659364749515812135}
-  - component: {fileID: 7337785939413650784}
   - component: {fileID: 8774514265211447542}
-  - component: {fileID: 8411861230914899083}
-  - component: {fileID: 4864900720966155783}
+  - component: {fileID: 6745608465224753270}
+  - component: {fileID: 8312530116586057468}
   m_Layer: 0
   m_Name: EnterShower
   m_TagString: Untagged
@@ -43,47 +42,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4723921944852799154}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &7337785939413650784
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4723921944852799154}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a969ffa6d0a93d243bffd70734b0babb, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!64 &8774514265211447542
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -98,7 +56,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &8411861230914899083
+--- !u!114 &6745608465224753270
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,10 +65,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4723921944852799154}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50c8b12ee0812964382ca77ca7153b56, type: 3}
+  m_Script: {fileID: 11500000, guid: 4cc180221dddb404ba6647952f692159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4864900720966155783
+  hidingType: 1
+--- !u!114 &8312530116586057468
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,7 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa93dfeb48ae324d937b05bb4b993fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Press W to Hide
+  description: Press I to Hide/Unhide in Shower
 --- !u!1 &8704248546181087453
 GameObject:
   m_ObjectHideFlags: 0

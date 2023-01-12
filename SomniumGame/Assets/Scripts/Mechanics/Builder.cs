@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class Builder : MonoBehaviour
 {
-    public GameObject[] rooms = new GameObject[26]; // The array length is the maximum possible number of rooms on a floor
+    public GameObject[] rooms = new GameObject[8]; // The array length is the maximum possible number of rooms on a floor
     // 2D Array in C#
     private int[,] map;
     
@@ -72,11 +72,11 @@ public class Builder : MonoBehaviour
         }
 
         // Number of floors
-        //height = UnityEngine.Random.Range(h-1, h+1);
+        // height = UnityEngine.Random.Range(h-1, h+1);
         height = h;
 
         // Number of rooms in a floor
-        //width = UnityEngine.Random.Range(w-1, w+1);
+        // width = UnityEngine.Random.Range(w-1, w+1);
         width = w;
 
         _height = height;
@@ -85,22 +85,33 @@ public class Builder : MonoBehaviour
         // y floors tall, x squares wide
         map = new int[height, width];
 
+        // To check if there's stairs between each floor
         bool[] stairsExist = new bool[width];
         for (int i = 0; i < height - 1; i++)
         {
             int stairPos = UnityEngine.Random.Range(0, width);
 
-            while (stairsExist[stairPos]) // if a stair already exists in that vertical space, choose another
+            // if a stair already exists in that vertical space, choose another
+            while (stairsExist[stairPos])
                 stairPos = UnityEngine.Random.Range(0, width);
 
             stairsExist[stairPos] = true;
 
+            // keeps the stair's instantiation x-position within the grid of roooms
             instPos.x = 4.0f * stairPos;
 
+            // notes the position of the stairs as filled in the map grid
             map[i, stairPos] = 1;
             map[i + 1, stairPos] = 1;
-            Instantiate(rooms[0], instPos, Quaternion.Euler(-90, 0, 180));
+            Instantiate(rooms[0], instPos + new Vector3(0.0f, 0.0f, 0.05f), Quaternion.Euler(-90, 0, 180));
 
+            if (stairPos != width - 1)
+            {
+                Instantiate(rooms[7], instPos + new Vector3(2.0f, 0.1f, -1.05f), Quaternion.identity);
+                Instantiate(rooms[7], instPos + new Vector3(2.0f, 3.447346f + 0.1f, -1.05f), Quaternion.identity);
+            }
+
+            // move up a floor
             instPos.y = instPos.y + 3.447346f;
         }
 
@@ -109,50 +120,58 @@ public class Builder : MonoBehaviour
 
         for (int i = 0; i < height; i++)
         {
+            // contains sections of consecutive rooms on a floor, seperated by stairs
             List<int> arrMinis = new List<int>();
 
             int sectLen = 0;
             for (int j = 0; j < width; j++)
             {
-                if (map[i, j] == 0)
+                if (map[i, j] == 0) // non-stair
                     sectLen++;
                 else
                 {
-                    if (sectLen != 0)
+                    if (sectLen != 0) // stair
                         arrMinis.Add(sectLen);
                     sectLen = 0;
                 }
             }
-            if (sectLen != 0)
+            if (sectLen != 0) // adds section length to array if a stair is found on the floor
                 arrMinis.Add(sectLen);
 
             int index = 0;
             instPos.x = 0.0f;
             foreach (int sL in arrMinis)
             {
-                int target = sL;
+                int target = sL; // the amount of rooms in a section in a specific floor
                 while(target != 0)
                 {
-                    while (map[i, index] == 1)
-                    {
+                    while (map[i, index] == 1) // skips the stairs
                         index++;
-                        instPos.x = index * 4.0f;
-                    }
+                    instPos.x = index * 4.0f;
 
                     int roomType = UnityEngine.Random.Range(0, 2);
-                    if (target == 1 || roomType == 0)
+                    if (target == 1 || roomType == 0) // small rooms
                     {
                         int roomStyle = UnityEngine.Random.Range(1, 4);
                         Instantiate(rooms[roomStyle], instPos, Quaternion.Euler(-90, 0, 180));
                         target--;
                         index++;
+                        if (index != width) // spawns a door at the right side of a room (unless it is next to the right edge)
+                            Instantiate(rooms[7], instPos + new Vector3(2.0f, 0.1f, -1.05f), Quaternion.identity);
                     }
-                    else
+                    else // long rooms
                     {
                         int roomStyle = UnityEngine.Random.Range(4, 7);
-                        Instantiate(rooms[roomStyle], instPos, Quaternion.Euler(-90, 0, 180));
+
+                        Vector3 adjustment = new Vector3(0.0f, 0.0f, 0.0f);
+                        if (roomStyle == 4)
+                            adjustment = new Vector3(0.0f, 0.0f, 0.03f);
+
+                        Instantiate(rooms[roomStyle], instPos + adjustment, Quaternion.Euler(-90, 0, 180));
                         target -= 2;
                         index += 2;
+                        if (index != width)
+                            Instantiate(rooms[7], instPos + new Vector3(6.0f, 0.1f, -1.05f), Quaternion.identity);
                     }
 
                     instPos.x = index * 4.0f;
@@ -218,12 +237,12 @@ public class Builder : MonoBehaviour
                 //spawnLocations.Add( new Vector3( randomX, randomY, -1.1f) );
                 spawnLocations.Add(generateEntity(i, spawnLocations));
 
-                GameObject patrol = Instantiate(prefabsToSpawn[0]);
-                patrol.transform.parent = GameObject.Find("Enemies").transform;
-                patrol.transform.position = spawnLocations[i];
+                ////GameObject patrol = Instantiate(prefabsToSpawn[0]);
+                ////patrol.transform.parent = GameObject.Find("Enemies").transform;
+                ////patrol.transform.position = spawnLocations[i];
 
                 // adding each patrol enemy to the list of enemies
-                enemies.Add(patrol);
+                ////enemies.Add(patrol);
         }
         
 
@@ -236,17 +255,17 @@ public class Builder : MonoBehaviour
         }
 
         int endMarker = spawnLocations.Count;
-        GameObject inspector = Instantiate(prefabsToSpawn[1]);
-        GameObject Stalker = Instantiate(prefabsToSpawn[2]);
+        ////GameObject inspector = Instantiate(prefabsToSpawn[1]);
+        ////GameObject Stalker = Instantiate(prefabsToSpawn[2]);
 
-        inspector.transform.parent = GameObject.Find("Enemies").transform;
-        inspector.transform.position = spawnLocations[endMarker - 2];
+        ////inspector.transform.parent = GameObject.Find("Enemies").transform;
+        ////inspector.transform.position = spawnLocations[endMarker - 2];
 
-        Stalker.transform.parent = GameObject.Find("Enemies").transform;
-        Stalker.transform.position = spawnLocations[endMarker - 1];
+        ////Stalker.transform.parent = GameObject.Find("Enemies").transform;
+        ////Stalker.transform.position = spawnLocations[endMarker - 1];
         
         // adding the stalker and inspector to the list of enemies
-        enemies.Add(Stalker);
+        ////enemies.Add(Stalker);
         // enemies.Add(Inspector);
         
     }

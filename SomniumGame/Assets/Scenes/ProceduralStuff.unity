@@ -3730,8 +3730,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 645476023}
-  - component: {fileID: 645476028}
-  - component: {fileID: 645476027}
   - component: {fileID: 645476026}
   - component: {fileID: 645476025}
   - component: {fileID: 645476024}
@@ -3768,7 +3766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa93dfeb48ae324d937b05bb4b993fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Press W to Escape (Key Needed)
+  description: Press L to Escape (Key Needed)
 --- !u!114 &645476025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3794,55 +3792,6 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &645476027
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 645476022}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a969ffa6d0a93d243bffd70734b0babb, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &645476028
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 645476022}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &669011312
 GameObject:
@@ -9264,6 +9213,7 @@ MonoBehaviour:
   - {fileID: 3620982701134061708, guid: cdbe8df307590744fa720898b04fa435, type: 3}
   - {fileID: 8596428663636702324, guid: 3bd59b809142d0544a3a1a2f3f3d008e, type: 3}
   - {fileID: 4888684850716947256, guid: c0f03308410b560449b06873bb1427cc, type: 3}
+  - {fileID: 3900655687764116252, guid: 2ec8baebe84fa314fa361eac43bb90cd, type: 3}
   lowerBound: {fileID: 0}
   upperBound: {fileID: 0}
   leftWall: {fileID: 0}
@@ -9696,7 +9646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa93dfeb48ae324d937b05bb4b993fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Press W to Grab Key
+  description: Press I to Grab Key
 --- !u!114 &1701953536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12341,7 +12291,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.08235294, g: 0.08627451, b: 0.15294118, a: 1}
   m_Intensity: 0.4
   m_Range: 10
   m_SpotAngle: 30

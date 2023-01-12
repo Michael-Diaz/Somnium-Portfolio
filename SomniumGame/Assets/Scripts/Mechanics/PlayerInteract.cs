@@ -23,15 +23,6 @@ public class PlayerInteract : MonoBehaviour
     
     void Update()
     {
-        // if (dreamer.rightOriented)
-        // {
-        //     prompt.localScale = new Vector3(Math.Abs(prompt.localScale.x), prompt.localScale.y, prompt.localScale.z);
-        // }
-        // else
-        // {
-        //     prompt.localScale = new Vector3(Math.Abs(prompt.localScale.x)*-1, prompt.localScale.y, prompt.localScale.z);
-        // }
-
         promptTextBox.text = promptText;
         if (interactableObj == null)
             promptTextBox.text = "";
