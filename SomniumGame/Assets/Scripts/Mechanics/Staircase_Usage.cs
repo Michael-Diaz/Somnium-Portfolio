@@ -27,7 +27,7 @@ public class Staircase_Usage : MonoBehaviour
         playerPos = GameObject.Find("Dreamer");
         stalkerPos = GameObject.Find("Stalker(Clone)");
         playerBools = playerPos.GetComponent<Player>();
-        //stalkerVars = stalkerPos.GetComponent<Stalker>();
+        stalkerVars = stalkerPos.GetComponent<Stalker>();
 
         useAnimPos = new Vector3[5];
         int mod = (this.name == "RailBottom") ? 1 : -1;
@@ -49,6 +49,10 @@ public class Staircase_Usage : MonoBehaviour
                 && playerBools.byInteract && thisStaircase_Player && !playAnim)
                 {
                     thisStaircase_Player = false;
+                    if (gameObject.name == "RailTop")
+                        transform.parent.gameObject.transform.GetChild(2).GetComponent<Staircase_Lock>().playerPresentTop = false;
+                    else
+                        transform.parent.gameObject.transform.GetChild(2).GetComponent<Staircase_Lock>().playerPresentBottom = false;
 
                     playAnim = true;
                     posNum = 1;
@@ -89,15 +93,11 @@ public class Staircase_Usage : MonoBehaviour
                 }
             }
 
-            /*if (stalkerVars.byStairs && (stalkerVars.needStairsUp || stalkerVars.needStairsDown) && thisStaircase_Stalker)
+            if (stalkerVars.byStairs && (stalkerVars.needStairsUp || stalkerVars.needStairsDown) && thisStaircase_Stalker)
             {
                 if ((gameObject.name == "RailBottom" && stalkerVars.needStairsUp) || (gameObject.name == "RailTop" && stalkerVars.needStairsDown))
-                {
                     stalkerPos.transform.position = targetPos.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
-                    stalkerVars.reachedLeft = false;
-                    stalkerVars.reachedRight = false;
-                }
-            }*/
+            }
         }
 
     }
@@ -122,6 +122,7 @@ public class Staircase_Usage : MonoBehaviour
         {
             playerBools.byInteract = false;
             thisStaircase_Player = false;
+
         }
         else if (egress.gameObject.name == "Stalker(Clone)")
         {

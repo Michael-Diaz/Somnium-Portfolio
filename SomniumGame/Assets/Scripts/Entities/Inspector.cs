@@ -7,15 +7,10 @@ public class Inspector : MonoBehaviour
 {
     [Header("Enemy Initializers")]
     [SerializeField] private float moveSpeed, sightRange, hearingRange, visibilityRadius, soundRadius;
-    [SerializeField] private bool canDetectInBlankey;
    
     [Header("Enemy State Changes")]
-    [SerializeField] private int currentFloor;
-    [SerializeField] private bool isInPursuit;
-
-    [Header("Enemy Attack")]
-    [SerializeField] private int damage;
-    [SerializeField] private float attackRange;
+    [SerializeField] private Vector2Int currentLocation;
+    private Vector2Int newLocation;
 
     private Rigidbody rb;
 
@@ -26,19 +21,19 @@ public class Inspector : MonoBehaviour
    // Height and width of the map as generated in Builder.cs
     public int mapHeight;
     private int mapWidth;
-    private float randomX;
-    private float randomY;
 
-    private int destinationFloor;
-    private int playerFloor;
-    private float playerYPos;
-    private float playerXPos;
+    private GameObject stalkerPos;
+    private Vector2Int stalkerLocation;
+    private GameObject playerPos;
+    private Vector2Int playerLocation;
 
-    private bool playerSeen = false;
+    private float snitchMeter = 0.0f;
+    private float snitchThreshhold = 5.0f;
     private Vector3 nextPos;
-    private Vector3 playerPos;
-    private Vector3 stalkerPos;
     public Vector3 playerLastSeen;
+
+    private float newCycle = 7.0f;
+    private float cycleLen = 7.0f;
 
 
     // Start is called before the first frame update
@@ -52,66 +47,99 @@ public class Inspector : MonoBehaviour
         lowerBound = GameObject.FindGameObjectWithTag("lowerBound").GetComponent<Transform>();
         upperBound = GameObject.FindGameObjectWithTag("upperBound").GetComponent<Transform>();
 
-        InvokeRepeating("path", 7, 7);
+        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, 0.0f);
+        currentLocation = new Vector2Int((int) Math.Floor(this.transform.position.y / 3.447346f), (int) Math.Floor((this.transform.position.x + 2.0f) / 4.0));
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        stalkerPos = GameObject.Find("Stalker(Clone)").GetComponent<Stalker>().transform.position;
-        playerPos = GameObject.Find("Dreamer").GetComponent<Player>().transform.position;
-        playerYPos = playerPos.y;
-        playerXPos = playerPos.x;
+        bool pauseTimer = false;
 
-        playerFloor = (int) Math.Floor(playerYPos / 3.447346f) + 1;
-    }
+        stalkerPos = GameObject.Find("Stalker(Clone)");
+        playerPos = GameObject.Find("Dreamer");
+        
+        stalkerLocation = new Vector2Int((int) Math.Floor(stalkerPos.transform.position.y / 3.447346f), (int) Math.Floor((stalkerPos.transform.position.x + 2.0f) / 4.0));
+        playerLocation = new Vector2Int((int) Math.Floor(playerPos.transform.position.y / 3.447346f), (int) Math.Floor((playerPos.transform.position.x + 2.0f) / 4.0));
 
-    public void init()
-    {
+        if (playerLocation == currentLocation)
+        {
+            snitchMeter += Time.deltaTime;
+            pauseTimer = true;
+        }
 
+        if (snitchMeter > snitchThreshhold)
+        {
+            playerLastSeen = new Vector3(playerPos.transform.position.x, playerPos.transform.position.y,-1.1f);
+            snitchMeter = 0.0f;
+            snitch();
+        }
+
+        if (!pauseTimer)
+            newCycle -= Time.deltaTime;
+        if (newCycle < 0.0f)
+        {
+            path();
+            newCycle = cycleLen;
+        }
     }
 
     public void path()
     {
-        // sets the destination floor of the inspector; it'll teleport withing a floor of the player
-        // if the player is on the bottom or top floor it will stay within the bounds [0, mapHeight]
-        if (!playerSeen)
+        float floorCalc = ((stalkerLocation.x - playerLocation.x) / (mapHeight * 1.0f));
+        float roomCalc = ((stalkerLocation.y - playerLocation.y) / (mapWidth * 1.0f));
+
+        bool fullLoop = true;
+        int floorDist = 0;
+        int roomDist = 0;
+        for (int i = 0; i < mapHeight; i++)
         {
-            destinationFloor = UnityEngine.Random.Range(Math.Max(playerFloor - 1, 0), Math.Min(playerFloor + 1, mapHeight));
-            // Debug.Log("player floor" + playerFloor);
-            
-            randomX = ((UnityEngine.Random.Range(1, mapWidth) *  4.0f) - 1.5f);
-            randomY = ((destinationFloor * 3.447346f) + 1.0f);
-
-            nextPos = new Vector3(randomX, randomY, 0f);
-            currentFloor = (int) Math.Floor(nextPos.y / 3.447346f) + 1;
-
-            if ( (currentFloor == playerFloor) && (Math.Abs(transform.position.x - playerXPos) <= 4))
+            float probabilityF = UnityEngine.Random.Range(0.0f, 1.0f);
+            if ((probabilityF) < floorCalc)
             {
-                Debug.Log("seen");
-                playerSeen = true;
-                playerLastSeen = GameObject.Find("Dreamer").GetComponent<Player>().transform.position;
-                alertFar();
-                // Invoke("delay", 1);
-                teleport();
+                floorDist = i;
+                i = mapHeight;
+                fullLoop = false;
             }
-        } 
-        else if (playerSeen)
-        {
-            playerSeen = false;
-            nextPos = new Vector3(stalkerPos.x, stalkerPos.y, 0f);
-            alertClose();
-            // Invoke("delay", 1);
-            snitch();
-            teleport();
         }
+        if (fullLoop)
+            floorDist = mapHeight - 1;
 
-    }
+        fullLoop = true;
+        for (int i = 0; i < mapWidth; i++)
+        {
+            float probabilityR = UnityEngine.Random.Range(0.0f, 1.0f);
+            if ((probabilityR) < roomCalc)
+            {
+                roomDist = i;
+                i = mapWidth;
+                fullLoop= false;
+            }
+        }
+        if (fullLoop)
+            roomDist = mapWidth - 1;
 
-    public void teleport()
-    {
-        Debug.Log("teleporting");
-        transform.position = nextPos;
+        // player on boundry? go in only direction
+        int floorSign = Math.Sign(playerLocation.x - stalkerLocation.x);
+        int roomSign = Math.Sign(playerLocation.y - stalkerLocation.y);
+
+        if (playerLocation.x == 0)
+            floorSign = 1;
+        else if (playerLocation.x == mapHeight - 1)
+            floorSign = -1;
+
+        if (playerLocation.y == 0)
+            roomSign = 1;
+        else if (playerLocation.y == mapWidth - 1)
+            roomSign = -1;
+
+        currentLocation = new Vector2Int(Mathf.Clamp((floorSign * floorDist) + playerLocation.x, 0, mapHeight - 1), 
+                                         Mathf.Clamp((roomSign * roomDist) + playerLocation.y, 0, mapWidth - 1));
+        this.transform.position = new Vector3(currentLocation.y * 4.0f, (currentLocation.x * 3.447346f) + 1.1745f, 0.0f);
+
+        snitchMeter = 0.0f;
+
     }
 
     public void alertClose() 
@@ -128,17 +156,10 @@ public class Inspector : MonoBehaviour
 
     public void snitch()
     {
+        path();
+        newCycle = 0.0f;
         GameObject.Find("Stalker(Clone)").GetComponent<Stalker>().updatePos(playerLastSeen.x, playerLastSeen.y);
         GameObject.Find("Stalker(Clone)").GetComponent<Stalker>()._isInPursuit = true;
     }
 
-    public void attack()
-    {
-        
-    }
-
-    public void delay()
-    {
-        // for waiting with invoke since it doesn't like to work with a function inside while already in InvokeRepeating
-    }
 }

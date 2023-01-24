@@ -21,7 +21,7 @@ public class Exit_Usage : MonoBehaviour
     {
         // Debug.Log("Pressing W:" + Input.GetKeyDown(KeyCode.W) + "\nbyInteract: " + playerBools.byInteract);
         // Debug.Log("keyHeld: " + playerBools.keyHeld + "\nOn Exit: " + byExit);
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && playerBools.byInteract && playerBools.keyHeld && byExit)
+        if (Input.GetKeyDown(KeyCode.L) && playerBools.byInteract && playerBools.keyHeld && byExit)
         {
             playerBools.winState.winCondition = true;
         }

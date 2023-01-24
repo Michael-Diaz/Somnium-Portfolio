@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Door_Usage : MonoBehaviour
 {
-    private float openState;
+    public float openState;
     private float targetYAngle;
 
     private Transform doorHinge;
@@ -17,11 +17,13 @@ public class Door_Usage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        openState = 0.0f;
-        targetYAngle = 0.0f;
+        openState = (float) UnityEngine.Random.Range(-1, 2);
+        targetYAngle = (openState >= 0.0f) ? (openState * 90.0f) : ((openState * 90.0f) + 360.0f);
 
         doorHinge = gameObject.transform.parent.GetComponent<Transform>();
         doorCollider = gameObject.GetComponent<MeshCollider>();
+
+        doorHinge.rotation = Quaternion.Euler(0.0f, targetYAngle, 0.0f);
 
         timer = 0.0f;
         moveDoorAnim = false;

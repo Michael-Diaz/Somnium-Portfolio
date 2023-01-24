@@ -61,8 +61,11 @@ public class Player_Noise : MonoBehaviour
             Collider[] alerted = Physics.OverlapSphere(transform.position, soundRadius, allEnemies);
             foreach(Collider enemy in alerted)
 		    {
-			    enemy.transform.parent.GetComponent<Stalker>().updatePos(transform.position.x, transform.position.y);
-                enemy.transform.parent.GetComponent<Stalker>()._isInPursuit = true;
+                if (enemy.transform.parent.GetComponent<Stalker>() != null)
+                {
+                    enemy.transform.parent.GetComponent<Stalker>().updatePos(transform.position.x, transform.position.y);
+                    enemy.transform.parent.GetComponent<Stalker>()._isInPursuit = true;
+                }
 		    }
 
             if (alerted.Length > 0)

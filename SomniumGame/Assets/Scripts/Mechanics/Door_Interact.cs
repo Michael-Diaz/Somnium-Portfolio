@@ -23,10 +23,7 @@ public class Door_Interact : MonoBehaviour
     {
         if (((Input.GetKeyDown(KeyCode.L) && doorSide == -1.0f) || (Input.GetKeyDown(KeyCode.J) && doorSide == 1.0f)) 
             && playerBools.byInteract && nextToDoor)
-        {
             doorControls.alterDoor(doorSide);
-            Debug.Log("Interacted with door, SIDE: " + doorSide);
-        }
     }
 
     void OnTriggerEnter(Collider entry)
@@ -36,6 +33,31 @@ public class Door_Interact : MonoBehaviour
             playerBools.byInteract = true;
             nextToDoor = true;
         }
+    }
+
+    void OnTriggerStay(Collider guest)
+    {
+        if (guest.gameObject.name == "Stalker(Clone)" && doorControls.openState == 0.0f)
+        {
+            bool destroyDoor = guest.gameObject.GetComponent<Stalker>().doorDemoTrigger;
+
+            if (!destroyDoor)
+            {
+                StartCoroutine(StalkerDoorDelay(2));
+                doorControls.alterDoor(doorSide);
+            }
+            else
+            {
+                StartCoroutine(StalkerDoorDelay(3));
+                Destroy(transform.parent.gameObject);
+            }
+
+        }
+    }
+
+    IEnumerator StalkerDoorDelay(int delaySec)
+    {
+        yield return new WaitForSecondsRealtime(delaySec);
     }
 
     void OnTriggerExit(Collider egress)

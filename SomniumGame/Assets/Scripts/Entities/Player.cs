@@ -1,5 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
+
+using System.Linq;
 
 public class Player : MonoBehaviour
 {
@@ -13,6 +16,9 @@ public class Player : MonoBehaviour
                                 hearingRange, 
                                 soundRadius, 
                                 visibilityRadius;
+    private float[,] trackMap;
+    private int playerRoom = 0;
+    private int playerFloor = 0;
 
     [Header("Player Movement")]
     private Rigidbody rb;
@@ -66,6 +72,7 @@ public class Player : MonoBehaviour
 
         lowerBound = GameObject.FindGameObjectWithTag("lowerBound").GetComponent<Transform>();
         upperBound = GameObject.FindGameObjectWithTag("upperBound").GetComponent<Transform>();
+        trackMap = GameObject.Find("Level Builder").GetComponent<Builder>().emotionIndex;
 
         inventory = new GameObject[2];
         field1 = GameObject.Find("Slot 1").transform.GetChild(0).GetComponent<Image>();
@@ -110,6 +117,35 @@ public class Player : MonoBehaviour
 
     void Update() 
     {
+        playerRoom = (int) Math.Floor((transform.position.x + 2.0f) / 4.0);
+        playerFloor = (int) Math.Floor(transform.position.y / 3.447346f);
+
+        if (trackMap == null)
+        {
+            trackMap = GameObject.Find("Level Builder").GetComponent<Builder>().emotionIndex;
+        }
+
+        int minHoriz = Mathf.Max(0, playerRoom - 1);
+        int maxHoriz = Mathf.Min(playerRoom + 1, trackMap.GetLength(1) - 1);
+        int minVert = Mathf.Max(0, playerFloor - 1);
+        int maxVert = Mathf.Min(playerFloor + 1, trackMap.GetLength(0) - 1);
+
+        if (!isStealthed && (hiddenState == 0))
+        {
+            for (int i = minVert; i < maxVert + 1; i++)
+            {
+                for (int j = minHoriz; j < maxHoriz + 1; j++)
+                {
+                    if (i == playerFloor && j == playerRoom)
+                        trackMap[i, j] += Time.deltaTime * 2.5f;
+                    else if (i != playerFloor && j != playerFloor)
+                        trackMap[i, j] += Time.deltaTime * 1.5f;
+                    else
+                        trackMap[i, j] += Time.deltaTime * 2;
+                }
+            }
+        }
+
         _usageConflict = usageConflict;
         if (hiddenState == 0)
         {
@@ -162,7 +198,7 @@ public class Player : MonoBehaviour
             else
                 invSelect = 0;
 
-            selectionArrows.anchoredPosition = new Vector2(-112 + (invSelect * 224), 0);
+            selectionArrows.anchoredPosition = new Vector2(-56 + (invSelect * 112), 0);
 
         }
 
@@ -218,11 +254,12 @@ public class Player : MonoBehaviour
             switch (itemSpecs.itemType)
             {
                 case 0: // it's a flashlight
-                    // double light range for 5 seconds
+                    // increase light range for 5 seconds
                     if (!lightOn)
                     {
                         lightOn = true;
-                        GameObject.Find("Vision").GetComponent<Light>().range = 10.6f;
+                        GameObject.Find("Spot Light").GetComponent<Light>().innerSpotAngle = 30.0f;
+                        GameObject.Find("Spot Light").GetComponent<Light>().spotAngle = 75.0f;
                         // revert light after duration
                         Invoke("revertLight", 5);
                     }
@@ -264,7 +301,7 @@ public class Player : MonoBehaviour
         if (hand == 1 && held[0] != null)
             invSelect = 0;
 
-        selectionArrows.anchoredPosition = new Vector2(-112 + (invSelect * 224), 0);
+        selectionArrows.anchoredPosition = new Vector2(-56 + (invSelect * 112), 0);
     }
 
     void OnCollisionEnter(Collision entity)
@@ -278,7 +315,8 @@ public class Player : MonoBehaviour
     void revertLight()
     {
         lightOn = false;
-        GameObject.Find("Vision").GetComponent<Light>().range = 5.3f;
+        GameObject.Find("Spot Light").GetComponent<Light>().innerSpotAngle = 5.0f;
+        GameObject.Find("Spot Light").GetComponent<Light>().spotAngle = 50.0f;
     }
 
     public void callPlayFootstep(int footstepCounter)

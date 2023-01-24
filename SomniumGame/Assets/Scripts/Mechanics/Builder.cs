@@ -11,11 +11,14 @@ public class Builder : MonoBehaviour
 {
     public GameObject[] rooms = new GameObject[8]; // The array length is the maximum possible number of rooms on a floor
     // 2D Array in C#
-    private int[,] map;
-    
+    public int[,] map;
+    public float[,] emotionIndex;
+
+    private bool beginDecay = false;
+
     // GameObjects w/ transforms for the bounds of the map 
     public GameObject lowerBound;
-    public GameObject upperBound;
+    public GameObject upperBound; 
     public GameObject leftWall;
     public GameObject rightWall;
     public GameObject exit;
@@ -44,6 +47,22 @@ public class Builder : MonoBehaviour
         _enemies = enemies;
     }
 
+    void Update()
+    {   
+        if (beginDecay)
+        {
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    if (emotionIndex[i, j] > 0.0f)
+                        emotionIndex[i, j] -= Time.deltaTime;
+                    else
+                        emotionIndex[i, j] = 0.0f;
+                }
+            }
+        }
+    }
 
     void initLevel()
     {
@@ -84,6 +103,7 @@ public class Builder : MonoBehaviour
 
         // y floors tall, x squares wide
         map = new int[height, width];
+        emotionIndex = new float[height, width];
 
         // To check if there's stairs between each floor
         bool[] stairsExist = new bool[width];
@@ -126,6 +146,8 @@ public class Builder : MonoBehaviour
             int sectLen = 0;
             for (int j = 0; j < width; j++)
             {
+                emotionIndex[i, j] = 0.0f;
+
                 if (map[i, j] == 0) // non-stair
                     sectLen++;
                 else
@@ -182,6 +204,8 @@ public class Builder : MonoBehaviour
             instPos.y = instPos.y + 3.447346f;
         }
 
+        beginDecay = true;
+
         lowerBound.transform.position = new Vector3(0.0f, 0.0f, 1.1f);
         upperBound.transform.position = new Vector3( (-4.0f + (width * 4.0f) ), 0.0f, 1.1f);
 
@@ -195,17 +219,12 @@ public class Builder : MonoBehaviour
         key.transform.position = new Vector3(UnityEngine.Random.Range(0, width) * 4.0f, UnityEngine.Random.Range(1, height) * 3.447346f, -1.1f);
     }
 
-    /*struct Spawn {
-        X
-        Y
-        Value // 0 player, 1 item, 2 stalker, etc...
-    }*/
-
     private struct Spawn
     {
         public float x;
         public float y;
         public int entityValue; 
+
         /*
         Entity Values:
         0 - stalker
@@ -228,45 +247,42 @@ public class Builder : MonoBehaviour
     void spawnEnemies()
     {
         // spawns 1 or 2 patrols per floor as well as a single stalker and inspector
-        /*
-        List<Spawn> spawnLocations = new List<Spawn>;
-        */
         // Exclusively for spawning patrollers
+
         for (int i = 0; i < height; i++)
         {
                 //spawnLocations.Add( new Vector3( randomX, randomY, -1.1f) );
                 spawnLocations.Add(generateEntity(i, spawnLocations));
 
-                ////GameObject patrol = Instantiate(prefabsToSpawn[0]);
-                ////patrol.transform.parent = GameObject.Find("Enemies").transform;
-                ////patrol.transform.position = spawnLocations[i];
+                GameObject patrol = Instantiate(prefabsToSpawn[0]);
+                patrol.transform.parent = GameObject.Find("Enemies").transform;
+                patrol.transform.position = spawnLocations[i];
 
                 // adding each patrol enemy to the list of enemies
-                ////enemies.Add(patrol);
+                enemies.Add(patrol);
         }
-        
 
         // Generate spawn locations for enemies
         for (int i = 0; i < 2; i++)
         {
-            randomX = ((UnityEngine.Random.Range(1, width) *  4.0f) - 2.0f);
-            randomY = ( (i * 3.447346f) + 1.1745f);
+            randomX = ((UnityEngine.Random.Range(1, width) *  4.0f));
+            randomY = ((UnityEngine.Random.Range(1, height) * 3.447346f) + 1.1745f);
             spawnLocations.Add( new Vector3(randomX, randomY, -1.1f) );
         }
 
         int endMarker = spawnLocations.Count;
-        ////GameObject inspector = Instantiate(prefabsToSpawn[1]);
-        ////GameObject Stalker = Instantiate(prefabsToSpawn[2]);
+        GameObject inspector = Instantiate(prefabsToSpawn[1]);
+        GameObject Stalker = Instantiate(prefabsToSpawn[2]);
 
-        ////inspector.transform.parent = GameObject.Find("Enemies").transform;
-        ////inspector.transform.position = spawnLocations[endMarker - 2];
+        inspector.transform.parent = GameObject.Find("Enemies").transform;
+        inspector.transform.position = spawnLocations[endMarker - 2];
 
-        ////Stalker.transform.parent = GameObject.Find("Enemies").transform;
-        ////Stalker.transform.position = spawnLocations[endMarker - 1];
+        Stalker.transform.parent = GameObject.Find("Enemies").transform;
+        Stalker.transform.position = spawnLocations[endMarker - 1];
         
         // adding the stalker and inspector to the list of enemies
-        ////enemies.Add(Stalker);
-        // enemies.Add(Inspector);
+        enemies.Add(Stalker);
+        enemies.Add(inspector);
         
     }
 }

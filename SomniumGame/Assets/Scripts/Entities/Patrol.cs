@@ -7,17 +7,11 @@ public class Patrol : MonoBehaviour
 {
     [Header("Enemy Initializers")]
     [SerializeField] private float moveSpeed, sightRange, hearingRange, visibilityRadius, soundRadius;
-    [SerializeField] private bool canDetectInBlankey;
-   
+
     [Header("Enemy State Changes")]
     [SerializeField] private int currentFloor;
     [SerializeField] private bool isInPursuit = false;
-
     public bool _isInPursuit = false;
-
-    [Header("Enemy Attack")]
-    [SerializeField] private int damage;
-    [SerializeField] private float attackRange;
 
     private Transform sprite;
 
@@ -43,12 +37,6 @@ public class Patrol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("Patrol:" + transform.position);
-        //Debug.Log("Bound:" + upperBound.transform.position);
-        // while (transform.position.x < upperBound.transform.position.x)
-            // transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
-        //     rb.velocity = new Vector2(moveSpeed, 0.0f);
-
         if (Math.Abs(rb.velocity.x) != moveSpeed)
             if (rightOriented)
                 rb.velocity = new Vector2(moveSpeed, 0.0f);
@@ -56,20 +44,6 @@ public class Patrol : MonoBehaviour
                 rb.velocity = new Vector2(-1.0f * moveSpeed, 0.0f);
 
         path();
-    }
-
-    void FixedUpdate()
-    {
-        // for (int i = 0; i < 3; i++)
-        // {
-        //     moveRight();
-        //     moveLeft();
-        // }
-    }
-
-    public void init()
-    {
-
     }
 
     public void path()
@@ -88,19 +62,4 @@ public class Patrol : MonoBehaviour
             }
     }
 
-    public void moveRight()
-    {
-        // transform.position = Vector2.MoveTowards(transform.position, upperBound.position, moveSpeed * Time.deltaTime);
-        // rb.velocity = new Vector2(moveSpeed, 0.0f);
-    }
-
-    public void moveLeft()
-    {
-        transform.position = Vector2.MoveTowards(transform.position, lowerBound.position, moveSpeed * Time.deltaTime);
-    }
-
-    public void attack()
-    {
-        
-    }
 }
